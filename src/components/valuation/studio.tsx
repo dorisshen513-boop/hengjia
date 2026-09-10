@@ -1,4 +1,4 @@
-import { useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Loader2, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,6 +49,14 @@ export function Studio() {
     startRun,
   } = useValuation();
   const runId = useRef(0);
+
+  useEffect(() => {
+    const s = useValuation.getState();
+    if (s.loading) {
+      s.setLoading(false);
+      s.setProgress(null);
+    }
+  }, []);
 
   async function run(ticker?: string) {
     const q = (ticker ?? tickerInput).trim();
@@ -161,7 +169,6 @@ export function Studio() {
                 size="lg"
                 className="flex-1 sm:min-w-36"
                 aria-busy={loading}
-                disabled={loading}
               >
                 {loading ? (
                   <span className="inline-flex items-center gap-2">
