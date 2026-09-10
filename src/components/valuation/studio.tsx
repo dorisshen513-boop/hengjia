@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MethodNote, NumberField, Stat } from "@/components/valuation/field";
 import { HistoryButton, HistoryStrip } from "@/components/valuation/history-pad";
-import { ScanPanel } from "@/components/valuation/scan-panel";
 import { ZoneBar, ZoneBoard } from "@/components/valuation/zone-bar";
 import { fetchQuoteData } from "@/lib/valuation/fetch-quote";
 import { GUIDE } from "@/lib/valuation/guide";
@@ -175,7 +174,6 @@ export function Studio() {
             </Button>
           </form>
           <HistoryStrip current={tickerInput} onRestore={restoreRow} />
-          <ScanPanel onOpen={(t) => void run(t)} />
           {loading ? (
             <div
               role="status"
@@ -297,7 +295,7 @@ function EmptyState() {
       {[
         ["輸入代號", "美股直接填 AAPL；台股四碼會自動加上 .TW。"],
         ["新聞進假設", "同步抓公司、母公司與產業新聞，改 g1、EBIT、特定風險與倍數，不另設新聞權重。"],
-        ["隨機抽樣", "上面可一次抽台股 50 檔與美股 50 檔，先看魚帶與安全邊際再點進完整計算。"],
+        ["魚帶與歷史", "算出後看魚頭到魚尾五個價位帶；左側可重開最近算過的代號。"],
       ].map(([t, b]) => (
         <div key={t} className="rounded-xl border border-line bg-surface p-5">
           <h2 className="font-display text-xl">{t}</h2>
