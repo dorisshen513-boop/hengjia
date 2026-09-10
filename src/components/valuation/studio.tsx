@@ -65,20 +65,23 @@ export function Studio() {
     if (runId.current !== id) return;
     const timers = [
       window.setTimeout(() => {
-        if (runId.current === id) setProgress("Yahoo 若卡住，會改走 Nasdaq 或 Grok 搜尋…");
-      }, 3500),
+        if (runId.current === id) setProgress("正在抓 Yahoo 行情與財報…");
+      }, 1200),
+      window.setTimeout(() => {
+        if (runId.current === id) setProgress("公開站會走代理，Yahoo 若卡住會改走 Nasdaq…");
+      }, 5000),
       window.setTimeout(() => {
         if (runId.current === id) setProgress("正在抓公司、母公司與產業新聞…");
-      }, 8000),
+      }, 12000),
       window.setTimeout(() => {
         if (runId.current === id) setProgress("還在計算，請稍候…");
-      }, 15000),
+      }, 20000),
     ];
     try {
       const data = await Promise.race([
         fetchQuoteData(q),
         new Promise<never>((_, reject) => {
-          window.setTimeout(() => reject(new Error("計算逾時，請再試一次")), 28000);
+          window.setTimeout(() => reject(new Error("計算逾時，請再試一次")), 45000);
         }),
       ]);
       if (runId.current !== id) return;
@@ -253,7 +256,9 @@ function friendlyError(err: unknown, ticker: string): string {
   ) {
     return `找不到股票：${ticker.toUpperCase()}`;
   }
-  if (/timeout|timed out|abort|逾時/.test(lower)) return "計算逾時，請再試一次";
+  if (/timeout|timed out|abort|逾時|failed to fetch|networkerror|網路請求/.test(lower)) {
+    return "抓不到財報（網路或來源被擋），請再試一次";
+  }
   return msg.replace(/^.*?Error:\s*/i, "") || "計算失敗，請再試一次";
 }
 
