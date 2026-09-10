@@ -352,7 +352,7 @@ function Hero({
           hint={
             r.blended != null
               ? `${r.status} · 由納入的模型加權`
-              : "DCF 與相對估值都算不出每股時才會空白"
+              : r.blendSkip || "沒有模型能投票時才會空白"
           }
           tone={tone}
         />

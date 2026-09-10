@@ -26,9 +26,9 @@ export function scaleCnbcMoney(raw: unknown, view?: unknown): number {
   const suffix = (vs.match(/([TBM])\s*$/i)?.[1] ?? "").toUpperCase();
   const viewNum = n(vs.replace(/[TBM]\s*$/i, ""));
   const abs = Math.abs(v);
-  if (viewNum > 0 && suffix) {
+  if (viewNum !== 0 && suffix) {
     const factor = suffix === "T" ? 1e12 : suffix === "B" ? 1e9 : 1e6;
-    if (abs / viewNum > 50) return v;
+    if (abs / Math.abs(viewNum) > 50) return v;
     return v * factor;
   }
   if (suffix === "T") return abs >= 1e11 ? v : v * 1e12;
@@ -129,7 +129,12 @@ export async function fetchCnbc(ticker: string): Promise<Partial<Fundamentals> |
     const eps = epsReported || (sharesOut > 0 && netIncome ? netIncome / sharesOut : 0);
     const dps = n(fd.dividend);
     const pe = n(fd.pe);
-    const ebit = ebitda > 0 ? ebitda * 0.82 : netIncome;
+    const ebit =
+      ebitda !== 0
+        ? ebitda > 0
+          ? ebitda * 0.82
+          : ebitda
+        : netIncome;
     const op = revenue > 0 && ebit ? ebit / revenue : netMargin || null;
     const notes = ["美股行情取自 CNBC 公開報價（不經 Yahoo 代理）。"];
     if (sharesRaw > 0 && Math.abs(sharesOut / sharesRaw - 1) > 0.2) {

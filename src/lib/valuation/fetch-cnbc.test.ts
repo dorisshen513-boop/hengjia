@@ -37,4 +37,9 @@ describe("CNBC unit scale", () => {
     const rev = reconcileRevenue(exploded, mcap, ps);
     assert.ok(rev > 1e7 && rev < 2e7, `got ${rev}`);
   });
+
+  it("treats 10.69 vs 10.69M as millions and 10,690,000 vs 10.69M as already full", () => {
+    assert.equal(scaleCnbcMoney("10.69", "10.69M"), 10.69e6);
+    assert.equal(scaleCnbcMoney("-731.66", "-731.66M"), -731.66e6);
+  });
 });

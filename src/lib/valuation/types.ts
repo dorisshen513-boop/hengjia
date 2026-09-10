@@ -140,6 +140,7 @@ export type ValuationResult = {
   rimReason: string;
   rimYears: RimYear[];
   blended: number | null;
+  blendSkip: string;
   upside: number | null;
   status: string;
   years: YearRow[];

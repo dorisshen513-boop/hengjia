@@ -304,7 +304,6 @@ export function classifyRegime(f: Fundamentals): CompanyRegime {
         : 0;
   const scale = f.revenue >= 5e9 || f.marketCap >= 8e10;
   const pe = f.trailingPE ?? (f.eps > 0 && f.price > 0 ? f.price / f.eps : 0);
-  const expensive = ps >= 12 || pe > 50;
   if (f.revenue <= 0) {
     if (f.eps > 0 || (f.trailingPE != null && f.trailingPE > 0) || (f.priceToBook != null && f.priceToBook > 0)) {
       if (highRoe && dy < 0.035) return "compounder";
@@ -312,9 +311,11 @@ export function classifyRegime(f: Fundamentals): CompanyRegime {
     }
     return "preProfit";
   }
-  const theme =
-    expensive && !highRoe && dy < 0.02 && (scale || ps >= 15 || pe > 80);
-  if (theme) return "optionality";
+  const salesRich = ps >= 12;
+  const peAndSalesRich = ps >= 8 && pe > 50;
+  if ((salesRich || peAndSalesRich) && !highRoe && dy < 0.02) {
+    if (scale || ps >= 15) return "optionality";
+  }
   if (!(profitable && op >= 0.15) && scale && g >= 0.2 && ps >= 12) {
     return "optionality";
   }
@@ -326,6 +327,34 @@ export function classifyRegime(f: Fundamentals): CompanyRegime {
     return "dividend";
   }
   return "compounder";
+}
+
+/** 營收相對市值過薄：P/S 地板會變成看起來像「算出來的合理價」。 */
+export function booksTooThin(f: Fundamentals): boolean {
+  if (!(f.marketCap > 0)) return false;
+  if (!(f.revenue > 0)) return f.marketCap >= 2e8;
+  return f.marketCap / f.revenue >= 40 && f.revenue < 1e9;
+}
+
+/** 股數／營收與市值對不上＝來源單位錯，不該產出合理價。 */
+export function fundamentalsSane(f: Fundamentals): { ok: boolean; reason: string } {
+  if (!(f.price > 0)) return { ok: false, reason: "沒有市價。" };
+  if (f.marketCap > 0 && f.sharesOut > 0) {
+    const implied = f.marketCap / f.price;
+    if (implied > 1e5 && (f.sharesOut / implied > 8 || implied / f.sharesOut > 8)) {
+      return { ok: false, reason: "股數與市值對不上，來源單位可能錯，不給合理價。" };
+    }
+  }
+  if (f.priceToSales && f.priceToSales > 0 && f.marketCap > 0 && f.revenue > 0) {
+    const impliedRev = f.marketCap / f.priceToSales;
+    if (impliedRev > 0 && (f.revenue / impliedRev > 8 || impliedRev / f.revenue > 8)) {
+      return { ok: false, reason: "營收與本益銷售比對不上，來源單位可能錯，不給合理價。" };
+    }
+  }
+  if (f.marketCap > 0 && f.revenue > f.marketCap * 20) {
+    return { ok: false, reason: "營收遠大於市值，多半是單位錯誤，不給合理價。" };
+  }
+  return { ok: true, reason: "" };
 }
 
 function yearGrowth(a: Assumptions, t: number, n: number): number {
@@ -582,6 +611,14 @@ export function valueStock(
   const warnings: string[] = [...f.notes];
   const regime = a.regime ?? classifyRegime(f);
   warnings.push(`公司類型：${REGIME_META[regime].label}。${REGIME_META[regime].why}`);
+  const sane = fundamentalsSane(f);
+  const thin = booksTooThin(f);
+  if (!sane.ok) warnings.push(sane.reason);
+  if (thin) {
+    warnings.push(
+      "現有營收相對市值過薄（本益銷售過高），財報加權不適用。這不是算出來的便宜或昂貴，差額看選擇權分頁。",
+    );
+  }
   const path = runDcf(f, a);
   const n = path.n;
   const {
@@ -608,13 +645,18 @@ export function valueStock(
     dcf > 0 &&
     f.sharesOut > 0 &&
     f.revenue > 0 &&
+    sane.ok &&
+    !thin &&
     !dcfTurnaround &&
     !dcfLow &&
     !dcfHigh;
   const dcfFragile = dcfOk && tvShare != null && tvShare > 0.7;
   let dcfSkip = "";
   if (!dcfOk) {
-    if (!(f.sharesOut > 0 && f.revenue > 0)) {
+    if (!sane.ok) dcfSkip = sane.reason;
+    else if (thin) {
+      dcfSkip = "現有營收相對市值過薄，DCF 不納入加權。";
+    } else if (!(f.sharesOut > 0 && f.revenue > 0)) {
       dcfSkip = "缺少營收或股數，DCF 無解。權重已併入相對估值。";
     } else if (dcf == null || !finite(dcf) || dcf <= 0) {
       dcfSkip = "DCF 為負或無解，現有現金流養不活估值。權重已併入相對估值。";
@@ -662,7 +704,9 @@ export function valueStock(
   const skipEve = regime === "optionality" || eveDistorted;
   const peMarket = f.trailingPE ?? (peOk && eps > 0 ? f.price / eps : 0);
   const peDistorted = peOk && peMarket > Math.max(a.peBase * 2, 60);
-  const skipPe = regime === "optionality" || peDistorted;
+  const earningsYield = peOk && f.price > 0 ? eps / f.price : 0;
+  const peJunk = peOk && peMarket > 0 && peMarket < 6 && earningsYield > 0.15;
+  const skipPe = regime === "optionality" || peDistorted || peJunk;
   const pbJ = justifiedPb(roe, ke, a.g2);
   const impliedPe = peOk ? a.peBase * eps : null;
   const impliedPb = bps > 0 ? a.pbBase * bps : null;
@@ -671,6 +715,8 @@ export function valueStock(
 
   const rim = runRim(f, a, ke);
   const rimOk =
+    sane.ok &&
+    !thin &&
     rimUsable(f, regime, roe) &&
     rim.applicable &&
     !rim.distorted &&
@@ -703,16 +749,26 @@ export function valueStock(
   const relativeBase = relParts(a.peBase, a.pbBase, a.psBase, a.evEbitdaBase);
   const relativeLow = relParts(a.peLow, a.pbLow, a.psLow, a.evEbitdaLow);
   const relativeHigh = relParts(a.peHigh, a.pbHigh, a.psHigh, a.evEbitdaHigh);
+  const relHigh =
+    relativeBase != null && f.price > 0 && relativeBase > f.price * 8;
+  const relOk =
+    sane.ok &&
+    !thin &&
+    relativeBase != null &&
+    finite(relativeBase) &&
+    relativeBase > 0 &&
+    !relHigh;
 
   const w = normalizeWeights({
     ...a,
-    weightGordon: ddmApplicable ? a.weightGordon * ddmScale : 0,
-    weightTwoStage: ddmApplicable ? a.weightTwoStage * ddmScale : 0,
+    weightGordon: ddmApplicable && sane.ok && !thin ? a.weightGordon * ddmScale : 0,
+    weightTwoStage: ddmApplicable && sane.ok && !thin ? a.weightTwoStage * ddmScale : 0,
     weightDcf: dcfOk ? (dcfFragile ? a.weightDcf * 0.5 : a.weightDcf) : 0,
-    weightRelative:
-      (Number.isFinite(a.weightRelative) ? a.weightRelative : 0.35) +
-      (dcfOk ? 0 : Math.max(0, a.weightDcf)) +
-      (rimOk ? 0 : Math.max(0, a.weightRim ?? 0)),
+    weightRelative: relOk
+      ? (Number.isFinite(a.weightRelative) ? a.weightRelative : 0.35) +
+        (dcfOk ? 0 : Math.max(0, a.weightDcf)) +
+        (rimOk ? 0 : Math.max(0, a.weightRim ?? 0))
+      : 0,
     weightRim: rimOk ? Math.max(0, a.weightRim ?? 0) : 0,
   });
 
@@ -721,7 +777,7 @@ export function valueStock(
     {
       id: "gordon",
       label: "Gordon 股利折現",
-      price: ddmApplicable ? gordon : null,
+      price: ddmApplicable && sane.ok && !thin ? gordon : null,
       weight: w.g,
       used: false,
       formula: "P = D1 / (Ke − g2)",
@@ -734,7 +790,7 @@ export function valueStock(
     {
       id: "twoStage",
       label: "兩階段股利折現",
-      price: ddmApplicable ? twoStage : null,
+      price: ddmApplicable && sane.ok && !thin ? twoStage : null,
       weight: w.t,
       used: false,
       formula: "P = Σ Dt/(1+Ke)^t + 終端股利現值",
@@ -771,13 +827,19 @@ export function valueStock(
     {
       id: "relative",
       label: "相對估值",
-      price: relativeBase,
+      price: relOk ? relativeBase : null,
       weight: w.r,
       used: false,
       formula: "可用倍數隱含價的平均",
-      calc: `P/S ${a.psBase.toFixed(1)}× × ${spsTxt}；P/B ${a.pbBase.toFixed(1)}×${
-        pbJ != null ? `（合理 P/B ${pbJ.toFixed(1)}×）` : ""
-      }；P/E ${peOk ? a.peBase.toFixed(1) + "×" : "n.m."}；EV/EBITDA ${a.evEbitdaBase.toFixed(1)}×`,
+      calc: !sane.ok
+        ? sane.reason
+        : thin
+          ? "現有營收相對市值過薄，P/S 地板不是合理價。"
+          : relHigh
+            ? "相對估值遠高於市價，可能被一次性格外收益或錯單位拉爆，不納入加權。"
+            : `P/S ${a.psBase.toFixed(1)}× × ${spsTxt}；P/B ${a.pbBase.toFixed(1)}×${
+                pbJ != null ? `（合理 P/B ${pbJ.toFixed(1)}×）` : ""
+              }；P/E ${peOk && !skipPe ? a.peBase.toFixed(1) + "×" : "n.m."}；EV/EBITDA ${a.evEbitdaBase.toFixed(1)}×`,
     },
   ];
 
@@ -800,9 +862,8 @@ export function valueStock(
   const usable = models.filter(
     (m) => m.price != null && finite(m.price) && m.price > 0 && m.weight > 0,
   );
-  const fallback = models.filter((m) => m.price != null && finite(m.price!) && m.price! > 0);
-  const pool = usable.length ? usable : fallback;
-  const rawW = pool.map((m) => (usable.length ? m.weight : 1));
+  const pool = usable;
+  const rawW = pool.map((m) => m.weight);
   const wSum = rawW.reduce((s, x) => s + x, 0);
   let acc = 0;
   pool.forEach((m, i) => {
@@ -814,6 +875,13 @@ export function valueStock(
     m.weight = i >= 0 && wSum > 0 ? rawW[i] / wSum : 0;
   }
   const blended = wSum > 0 ? acc / wSum : null;
+  const blendSkip = blended != null
+    ? ""
+    : !sane.ok
+      ? sane.reason
+      : thin
+        ? "現有營收相對市值過薄，財報加權不適用。"
+        : "沒有模型能投票，不給合理價。";
   const upside =
     blended != null && f.price > 0 ? blended / f.price - 1 : null;
 
@@ -948,6 +1016,7 @@ export function valueStock(
     rimReason,
     rimYears: rim.years,
     blended,
+    blendSkip,
     upside,
     status,
     years,

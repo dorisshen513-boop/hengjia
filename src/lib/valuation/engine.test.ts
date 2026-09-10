@@ -1,7 +1,9 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import {
+  booksTooThin,
   classifyRegime,
+  fundamentalsSane,
   justifiedPb,
   rimDistorted,
   rimUsable,
@@ -311,8 +313,8 @@ describe("RIM / ROE", () => {
     const dcf = r.models.find((m) => m.id === "dcf");
     const rel = r.models.find((m) => m.id === "relative");
     assert.equal(dcf?.used, false);
-    assert.equal(rel?.used, true);
-    assert.ok(r.blended != null && r.blended < 30, `blended ${r.blended}`);
+    assert.equal(rel?.used, false);
+    assert.equal(r.blended, null);
   });
 
   it("high-PE commodity name is optionality so RIM cannot crush the blend", () => {
@@ -345,34 +347,26 @@ describe("RIM / ROE", () => {
     assert.ok(r.blended != null && r.blended < 160, `blended ${r.blended}`);
   });
 
-  it("DCF below 20% of price does not vote; weight goes to relative", () => {
+  it("optionality DCF far below price does not vote; relative still can", () => {
     const f = base({
-      price: 100,
-      sharesOut: 1e9,
-      marketCap: 1e11,
-      revenue: 2e10,
-      ebit: 5e8,
-      ebitda: 8e8,
-      netIncome: 3e8,
-      bookEquity: 3e10,
-      eps: 0.3,
-      fcf: 2e8,
-      operatingMargin: 0.025,
-      revenueGrowth: 0.02,
-      trailingPE: 333,
-      priceToBook: 3.3,
-      priceToSales: 5,
+      price: 150,
+      sharesOut: 1.36e10,
+      marketCap: 2e12,
+      revenue: 2.3e10,
+      ebit: 4.8e9,
+      ebitda: 5.8e9,
+      netIncome: -8e9,
+      eps: -0.6,
+      operatingMargin: 0.21,
+      priceToSales: 87,
     });
-    const a = suggestAssumptions(f, 0.043);
-    const r = valueStock(f, a, { lite: true });
-    if (r.dcf != null && r.dcf < f.price * 0.2) {
-      const dcf = r.models.find((m) => m.id === "dcf");
-      const rel = r.models.find((m) => m.id === "relative");
-      assert.equal(dcf?.used, false);
-      assert.equal(dcf?.price, null);
-      assert.equal(rel?.used, true);
-      assert.ok((rel?.weight ?? 0) > 0.5);
-    }
+    assert.equal(classifyRegime(f), "optionality");
+    const r = valueStock(f, suggestAssumptions(f, 0.043), { lite: true });
+    const dcf = r.models.find((m) => m.id === "dcf");
+    const rel = r.models.find((m) => m.id === "relative");
+    assert.equal(dcf?.used, false);
+    assert.equal(rel?.used, true);
+    assert.ok(r.blended != null && r.blended > 10);
   });
 
   it("optionality skips stretched P/E so Tesla-like relative is not crushed by the 45x cap", () => {
@@ -397,5 +391,80 @@ describe("RIM / ROE", () => {
     const r = valueStock(f, a, { lite: true });
     assert.ok(r.relativeBase != null && r.relativeBase > 250, `rel ${r.relativeBase}`);
     assert.ok(r.blended != null && r.blended > 200, `blend ${r.blended}`);
+  });
+
+  it("Boeing-like high PE with cheap P/S is not optionality", () => {
+    const f = base({
+      price: 200,
+      sharesOut: 8e8,
+      marketCap: 1.6e11,
+      revenue: 9e10,
+      ebit: -3e9,
+      ebitda: -3e9,
+      netIncome: 2e9,
+      bookEquity: 1e9,
+      eps: 2.5,
+      operatingMargin: -0.03,
+      trailingPE: 80,
+      priceToSales: 1.7,
+    });
+    assert.notEqual(classifyRegime(f), "optionality");
+  });
+
+  it("one-time EPS with negative EBITDA does not explode relative", () => {
+    const f = base({
+      ticker: "WOLF",
+      price: 27,
+      sharesOut: 5.3e7,
+      marketCap: 1.45e9,
+      revenue: 6.65e8,
+      ebit: -2.6e8,
+      ebitda: -2.6e8,
+      netIncome: 1.3e9,
+      bookEquity: 7e8,
+      eps: 25,
+      operatingMargin: -0.39,
+      trailingPE: 1.07,
+      priceToSales: 2.17,
+      priceToBook: 2,
+    });
+    const a = suggestAssumptions(f, 0.043);
+    const r = valueStock(f, a, { lite: true });
+    assert.ok(r.blended == null || r.blended < 80, `blend ${r.blended}`);
+  });
+
+  it("tiny-revenue developer does not get a fake blended price", () => {
+    const f = base({
+      ticker: "OKLO",
+      price: 42,
+      sharesOut: 1.86e8,
+      marketCap: 7.9e9,
+      revenue: 1.2e6,
+      ebit: -2e8,
+      ebitda: -2e8,
+      netIncome: -1.7e8,
+      eps: -0.93,
+      operatingMargin: -140,
+      priceToSales: 6500,
+    });
+    assert.equal(booksTooThin(f), true);
+    const a = suggestAssumptions(f, 0.043);
+    const r = valueStock(f, a, { lite: true });
+    assert.equal(r.blended, null);
+    assert.match(r.blendSkip, /過薄|不適用|不給/);
+  });
+
+  it("exploded revenue vs P/S is not sane", () => {
+    const f = base({
+      price: 10,
+      sharesOut: 4e8,
+      marketCap: 4e9,
+      revenue: 1e13,
+      priceToSales: 430,
+    });
+    const s = fundamentalsSane(f);
+    assert.equal(s.ok, false);
+    const r = valueStock(f, suggestAssumptions(f, 0.043), { lite: true });
+    assert.equal(r.blended, null);
   });
 });
