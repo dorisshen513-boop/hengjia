@@ -312,9 +312,9 @@ export function classifyRegime(f: Fundamentals): CompanyRegime {
     }
     return "preProfit";
   }
-  if (scale && expensive && !highRoe && dy < 0.02) {
-    return "optionality";
-  }
+  const theme =
+    expensive && !highRoe && dy < 0.02 && (scale || ps >= 15 || pe > 80);
+  if (theme) return "optionality";
   if (!(profitable && op >= 0.15) && scale && g >= 0.2 && ps >= 12) {
     return "optionality";
   }
@@ -598,14 +598,35 @@ export function valueStock(
   const ddmScale = ddmYieldScale(divYield, a.ddmYieldFloor ?? 0.01, a.ddmYieldFull ?? 0.025);
   const ddmMathOk = f.dps > 0 && a.gDiv2 < ke;
   const ddmApplicable = ddmMathOk && ddmScale > 0;
+  const dcfFloor = regime === "optionality" || regime === "preProfit" ? 0.2 : 0.05;
+  const dcfTurnaround = a.ebitStart < 0 && (regime === "preProfit" || regime === "optionality");
+  const dcfLow = dcf != null && f.price > 0 && dcf > 0 && dcf < f.price * dcfFloor;
+  const dcfHigh = dcf != null && f.price > 0 && dcf > f.price * 8;
   const dcfOk =
     dcf != null &&
     finite(dcf) &&
     dcf > 0 &&
     f.sharesOut > 0 &&
     f.revenue > 0 &&
-    (f.price <= 0 || dcf >= f.price * 0.01);
+    !dcfTurnaround &&
+    !dcfLow &&
+    !dcfHigh;
   const dcfFragile = dcfOk && tvShare != null && tvShare > 0.7;
+  let dcfSkip = "";
+  if (!dcfOk) {
+    if (!(f.sharesOut > 0 && f.revenue > 0)) {
+      dcfSkip = "缺少營收或股數，DCF 無解。權重已併入相對估值。";
+    } else if (dcf == null || !finite(dcf) || dcf <= 0) {
+      dcfSkip = "DCF 為負或無解，現有現金流養不活估值。權重已併入相對估值。";
+    } else if (dcfTurnaround) {
+      dcfSkip =
+        "目前還在虧損，把利潤線性收到成熟水準是情境不是基本 DCF。權重已併入相對估值，差額看選擇權分頁。";
+    } else if (dcfLow) {
+      dcfSkip = `DCF 只有市價的 ${((dcf! / f.price) * 100).toFixed(0)}%，現有現金流解釋不了市價。不當成「便宜」票，權重已併入相對估值。`;
+    } else if (dcfHigh) {
+      dcfSkip = `DCF 約為市價的 ${(dcf! / f.price).toFixed(1)} 倍，成長或利潤假設過樂觀，不納入加權。`;
+    }
+  }
 
   if (a.g2 >= wacc && a.terminalMethod === "perpetuity") {
     warnings.push("終端成長率 ≥ WACC，永續成長公式無解，已改用離場倍數。");
@@ -639,6 +660,9 @@ export function valueStock(
   const evOk = ebitdaPs > 0;
   const eveDistorted = (f.evToEbitda ?? 0) > 40;
   const skipEve = regime === "optionality" || eveDistorted;
+  const peMarket = f.trailingPE ?? (peOk && eps > 0 ? f.price / eps : 0);
+  const peDistorted = peOk && peMarket > Math.max(a.peBase * 2, 60);
+  const skipPe = regime === "optionality" || peDistorted;
   const pbJ = justifiedPb(roe, ke, a.g2);
   const impliedPe = peOk ? a.peBase * eps : null;
   const impliedPb = bps > 0 ? a.pbBase * bps : null;
@@ -652,11 +676,13 @@ export function valueStock(
     !rim.distorted &&
     rim.price != null &&
     rim.price > 0 &&
-    (f.price <= 0 || rim.price >= f.price * 0.01);
+    (f.price <= 0 || (rim.price >= f.price * 0.05 && rim.price <= f.price * 8));
   let rimReason = rim.reason;
   if (!rimOk) {
     if (regime === "optionality" || regime === "preProfit") {
       rimReason = "高成長選擇權或尚未獲利：帳面解釋不了市價，剩餘收益不納入加權。";
+    } else if (rim.price != null && f.price > 0 && rim.price > 0 && rim.price < f.price * 0.05) {
+      rimReason = `RIM 只有市價的 ${((rim.price / f.price) * 100).toFixed(0)}%，目前 ROE 解釋不了溢價，權重已併入相對估值。`;
     } else if (rim.distorted) {
       rimReason = rim.reason;
     } else if (!rimReason) {
@@ -666,7 +692,7 @@ export function valueStock(
 
   const relParts = (pe: number, pb: number, ps: number, eve: number) => {
     const vals: number[] = [];
-    if (peOk) vals.push(pe * eps);
+    if (peOk && !skipPe) vals.push(pe * eps);
     if (bps > 0) vals.push(pb * bps);
     if (sps > 0) vals.push(ps * sps);
     if (evOk && !skipEve) vals.push(eve * ebitdaPs - ndPs);
@@ -685,7 +711,8 @@ export function valueStock(
     weightDcf: dcfOk ? (dcfFragile ? a.weightDcf * 0.5 : a.weightDcf) : 0,
     weightRelative:
       (Number.isFinite(a.weightRelative) ? a.weightRelative : 0.35) +
-      (dcfOk ? 0 : Math.max(0, a.weightDcf)),
+      (dcfOk ? 0 : Math.max(0, a.weightDcf)) +
+      (rimOk ? 0 : Math.max(0, a.weightRim ?? 0)),
     weightRim: rimOk ? Math.max(0, a.weightRim ?? 0) : 0,
   });
 
@@ -720,14 +747,15 @@ export function valueStock(
     {
       id: "dcf",
       label: "FCFF DCF",
-      price: dcf,
+      price: dcfOk ? dcf : null,
       weight: w.d,
       used: false,
       formula: "每股 = (EV − 淨債務) / 股數",
-      calc:
-        f.sharesOut > 0
+      calc: dcfOk
+        ? f.sharesOut > 0
           ? `EV ${ev.toFixed(0)} − 淨債 ${f.netDebt.toFixed(0)} → 股權 ${equity.toFixed(0)} ÷ ${f.sharesOut.toFixed(0)} 股`
-          : "缺少流通股數，無法換成每股",
+          : "缺少流通股數，無法換成每股"
+        : dcfSkip || "DCF 不納入加權",
     },
     {
       id: "rim",
@@ -804,8 +832,11 @@ export function valueStock(
   if (dcfFragile) {
     warnings.push("終端價值佔企業價值超過 70%，DCF 對折現率與終端假設極度敏感，權重已減半。");
   }
-  if (!dcfOk && a.weightDcf > 0) {
-    warnings.push("缺少營收或股數，DCF 無解。其權重已併入相對估值，避免剩餘收益吃掉缺票。");
+  if (!dcfOk && a.weightDcf > 0 && dcfSkip) {
+    warnings.push(dcfSkip);
+  }
+  if (skipPe && peOk) {
+    warnings.push("本益比被市價嚴重拉伸，相對估值不納入 P/E，改以 P/S、P/B 為主。");
   }
   if (upside != null && upside < -0.2) {
     warnings.push(

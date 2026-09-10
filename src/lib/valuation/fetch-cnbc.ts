@@ -15,17 +15,22 @@ function pct(v: unknown): number {
 }
 
 /**
- * CNBC 常同時給完整數字與「3949.55M」這種縮寫。
- * 若 raw 已經是完整單位（約為 view 數字的 1e6／1e9 倍），不要再乘一次。
+ * CNBC 常同時給完整數字與「10.69M」「3949.55M」這種縮寫。
+ * view 的數字部分必須先去掉 T/B/M，否則 Number("10.69M") 是 NaN，
+ * 百萬級營收會再乘一次變成兆。
  */
 export function scaleCnbcMoney(raw: unknown, view?: unknown): number {
   const v = n(raw);
   if (v === 0) return 0;
   const vs = String(view ?? "").replace(/,/g, "").trim();
-  const viewNum = n(vs);
+  const suffix = (vs.match(/([TBM])\s*$/i)?.[1] ?? "").toUpperCase();
+  const viewNum = n(vs.replace(/[TBM]\s*$/i, ""));
   const abs = Math.abs(v);
-  if (viewNum > 0 && abs / viewNum > 50) return v;
-  const suffix = vs.match(/([TBM])\s*$/i)?.[1]?.toUpperCase() ?? "";
+  if (viewNum > 0 && suffix) {
+    const factor = suffix === "T" ? 1e12 : suffix === "B" ? 1e9 : 1e6;
+    if (abs / viewNum > 50) return v;
+    return v * factor;
+  }
   if (suffix === "T") return abs >= 1e11 ? v : v * 1e12;
   if (suffix === "B") return abs >= 1e8 ? v : v * 1e9;
   if (suffix === "M") return abs >= 1e8 ? v : v * 1e6;
@@ -41,6 +46,18 @@ export function reconcileShares(shares: number, price: number, marketCap: number
     return fromCap;
   }
   return shares;
+}
+
+/** 營收與市值／本益銷售比對不上時，用 P/S 反推，避免相對估值被錯單位炸開。 */
+export function reconcileRevenue(revenue: number, marketCap: number, psales: number): number {
+  if (psales > 0.05 && marketCap > 0) {
+    const fromPs = marketCap / psales;
+    if (fromPs > 0 && (revenue <= 0 || revenue / fromPs > 8 || fromPs / revenue > 8)) {
+      return fromPs;
+    }
+  }
+  if (marketCap > 0 && revenue > marketCap * 40) return 0;
+  return revenue;
 }
 
 function scaleEbitda(raw: unknown, view?: unknown): number {
@@ -62,15 +79,24 @@ type CnbcQuote = {
 };
 
 export async function fetchCnbc(ticker: string): Promise<Partial<Fundamentals> | null> {
-  const sym = ticker.replace(/\.(US|NASDAQ|NYSE)$/i, "");
+  const rawSym = ticker.replace(/\.(US|NASDAQ|NYSE)$/i, "").toUpperCase();
+  const aliases: Record<string, string> = { "BRK-B": "BRK.B", "BRK-A": "BRK.A" };
+  const sym = aliases[rawSym] ?? rawSym;
   if (!sym || sym.includes("/") || /\.(TW|TWO)$/i.test(sym)) return null;
   try {
     const url =
       `https://quote.cnbc.com/quote-html-webservice/quote.htm?symbols=${encodeURIComponent(sym)}` +
       `&partnerId=2&requestMethod=quick&exthrs=1&noform=1&fund=1&extended=1&output=json`;
+    const headers: Record<string, string> = { Accept: "application/json" };
+    if (typeof window === "undefined") {
+      headers["User-Agent"] =
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
+      headers.Referer = "https://www.cnbc.com/";
+    }
     const res = await fetch(url, {
       credentials: "omit",
       cache: "no-store",
+      headers,
       signal: AbortSignal.timeout(7000),
     });
     if (!res.ok) return null;
@@ -87,23 +113,30 @@ export async function fetchCnbc(ticker: string): Promise<Partial<Fundamentals> |
     const marketCap =
       scaleCnbcMoney(fd.mktcap, fd.mktcapView) || (sharesRaw > 0 ? sharesRaw * price : 0);
     const sharesOut = reconcileShares(sharesRaw, price, marketCap);
-    const revenue = scaleCnbcMoney(fd.revenuettm, fd.revenuettmView);
+    const ps = n(fd.psales);
+    const revenueRaw = scaleCnbcMoney(fd.revenuettm, fd.revenuettmView);
+    const revenue = reconcileRevenue(revenueRaw, marketCap, ps);
     const ebitda = scaleEbitda(fd.TTMEBITD, fd.TTMEBITDView);
     const netMargin = pct(fd.NETPROFTTM);
-    const netIncome = netMargin && revenue ? netMargin * revenue : 0;
+    const epsReported = n(fd.eps);
+    const niFromEps = sharesOut > 0 && epsReported ? epsReported * sharesOut : 0;
+    const niFromMargin = netMargin && revenue ? netMargin * revenue : 0;
+    const netIncome = niFromEps || niFromMargin;
     const roe = pct(fd.ROETTM);
     const bookEquity = roe > 0.01 && netIncome ? netIncome / roe : 0;
     const de = pct(fd.DEBTEQTYQ);
     const totalDebt = de && bookEquity ? de * bookEquity : 0;
-    const eps = n(fd.eps) || (sharesOut > 0 && netIncome ? netIncome / sharesOut : 0);
+    const eps = epsReported || (sharesOut > 0 && netIncome ? netIncome / sharesOut : 0);
     const dps = n(fd.dividend);
     const pe = n(fd.pe);
-    const ps = n(fd.psales);
     const ebit = ebitda > 0 ? ebitda * 0.82 : netIncome;
     const op = revenue > 0 && ebit ? ebit / revenue : netMargin || null;
     const notes = ["美股行情取自 CNBC 公開報價（不經 Yahoo 代理）。"];
     if (sharesRaw > 0 && Math.abs(sharesOut / sharesRaw - 1) > 0.2) {
       notes.push("流通股單位已用市值／股價校正，避免百萬／十億被乘兩次。");
+    }
+    if (revenueRaw > 0 && revenue > 0 && Math.abs(revenue / revenueRaw - 1) > 0.5) {
+      notes.push("營收單位已用市值／本益銷售比校正，避免百萬被乘成兆。");
     }
     return {
       ticker: ticker.toUpperCase(),

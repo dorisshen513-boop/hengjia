@@ -289,4 +289,113 @@ describe("RIM / ROE", () => {
     assert.equal(rim?.used, false);
     assert.ok(r.blended != null && r.blended > 20);
   });
+
+  it("small-cap high P/S developer is optionality, not a giant DCF", () => {
+    const f = base({
+      ticker: "SMR",
+      price: 11,
+      sharesOut: 4.3e8,
+      marketCap: 4.7e9,
+      revenue: 1.07e7,
+      ebit: -7e8,
+      ebitda: -7e8,
+      netIncome: -1.2e9,
+      bookEquity: 4e8,
+      eps: -2.8,
+      operatingMargin: -65,
+      priceToSales: 435,
+    });
+    assert.equal(classifyRegime(f), "optionality");
+    const a = suggestAssumptions(f, 0.043);
+    const r = valueStock(f, a, { lite: true });
+    const dcf = r.models.find((m) => m.id === "dcf");
+    const rel = r.models.find((m) => m.id === "relative");
+    assert.equal(dcf?.used, false);
+    assert.equal(rel?.used, true);
+    assert.ok(r.blended != null && r.blended < 30, `blended ${r.blended}`);
+  });
+
+  it("high-PE commodity name is optionality so RIM cannot crush the blend", () => {
+    const f = base({
+      ticker: "CCJ",
+      price: 100,
+      sharesOut: 4.35e8,
+      marketCap: 4.37e10,
+      revenue: 2.52e9,
+      ebit: 4.82e8,
+      ebitda: 5.87e8,
+      netIncome: 2.5e8,
+      bookEquity: 5.03e9,
+      eps: 0.57,
+      dps: 0.17,
+      operatingMargin: 0.19,
+      trailingPE: 175,
+      priceToSales: 17.3,
+      priceToBook: 8.7,
+      dividendYield: 0.0017,
+    });
+    assert.equal(classifyRegime(f), "optionality");
+    const a = suggestAssumptions(f, 0.043);
+    const r = valueStock(f, a, { lite: true });
+    const rim = r.models.find((m) => m.id === "rim");
+    const rel = r.models.find((m) => m.id === "relative");
+    assert.equal(rim?.used, false);
+    assert.equal(rel?.used, true);
+    assert.ok(r.blended != null && r.blended > 50, `blended ${r.blended}`);
+    assert.ok(r.blended != null && r.blended < 160, `blended ${r.blended}`);
+  });
+
+  it("DCF below 20% of price does not vote; weight goes to relative", () => {
+    const f = base({
+      price: 100,
+      sharesOut: 1e9,
+      marketCap: 1e11,
+      revenue: 2e10,
+      ebit: 5e8,
+      ebitda: 8e8,
+      netIncome: 3e8,
+      bookEquity: 3e10,
+      eps: 0.3,
+      fcf: 2e8,
+      operatingMargin: 0.025,
+      revenueGrowth: 0.02,
+      trailingPE: 333,
+      priceToBook: 3.3,
+      priceToSales: 5,
+    });
+    const a = suggestAssumptions(f, 0.043);
+    const r = valueStock(f, a, { lite: true });
+    if (r.dcf != null && r.dcf < f.price * 0.2) {
+      const dcf = r.models.find((m) => m.id === "dcf");
+      const rel = r.models.find((m) => m.id === "relative");
+      assert.equal(dcf?.used, false);
+      assert.equal(dcf?.price, null);
+      assert.equal(rel?.used, true);
+      assert.ok((rel?.weight ?? 0) > 0.5);
+    }
+  });
+
+  it("optionality skips stretched P/E so Tesla-like relative is not crushed by the 45x cap", () => {
+    const f = base({
+      ticker: "TSLA",
+      price: 370,
+      sharesOut: 3.95e9,
+      marketCap: 1.46e12,
+      revenue: 1.04e11,
+      ebit: 9e9,
+      ebitda: 1.12e10,
+      netIncome: 3.6e9,
+      bookEquity: 8.4e10,
+      eps: 1,
+      fcf: 2e9,
+      operatingMargin: 0.09,
+      priceToSales: 14,
+      trailingPE: 370,
+      priceToBook: 17,
+    });
+    const a = suggestAssumptions(f, 0.043);
+    const r = valueStock(f, a, { lite: true });
+    assert.ok(r.relativeBase != null && r.relativeBase > 250, `rel ${r.relativeBase}`);
+    assert.ok(r.blended != null && r.blended > 200, `blend ${r.blended}`);
+  });
 });

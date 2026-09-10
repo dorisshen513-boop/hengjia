@@ -585,7 +585,7 @@ function Overview() {
                     <p className="text-xs text-subtle">{m.used ? "納入加權" : "未納入"}</p>
                   </td>
                   <td className="whitespace-nowrap py-3 px-3 text-right font-mono tabular-nums">
-                    {fmtPrice(m.price)}
+                    {m.price != null && Number.isFinite(m.price) ? fmtPrice(m.price) : "不適用"}
                   </td>
                   <td className="whitespace-nowrap py-3 pl-3 text-right font-mono tabular-nums">
                     {fmtPctAbs(m.weight)}
@@ -940,9 +940,20 @@ function DcfPanel() {
   const { result: r, fundamentals: f, assumptions: a } = useValuation();
   if (!r || !f || !a) return null;
   const last = r.years[r.years.length - 1];
+  const dcfLine = r.models.find((m) => m.id === "dcf");
   return (
     <div className="grid gap-5 lg:grid-cols-[1.4fr_0.8fr]">
       <div className="overflow-x-auto rounded-xl border border-line bg-surface p-5">
+        {!dcfLine?.used ? (
+          <p className="mb-4 rounded-md bg-raised px-3 py-2 text-sm text-muted">
+            {dcfLine?.calc || "DCF 未納入加權。"} 下面仍顯示計算過程，
+            <span className="text-fg">不當目標價</span>。
+          </p>
+        ) : r.dcfFragile ? (
+          <p className="mb-4 rounded-md bg-raised px-3 py-2 text-sm text-muted">
+            終端價值超過企業價值 70%，權重已減半。對折現率與離場倍數很敏感。
+          </p>
+        ) : null}
         <h3 className="font-display text-xl">計算過程</h3>
         {last && f.revenue > 0 ? (
           <p className="mt-2 text-sm text-muted">
@@ -1025,6 +1036,9 @@ function DcfPanel() {
           {fmtMoney(f.sharesOut, 0)} 股。
         </p>
         <p>EBIT 率在預測期內由起始值線性收到目標值。選擇權型股票的營收成長會由 g1 遞減至 g2，避免把一年高成長當成永續。</p>
+        <p>
+          DCF 只在現有現金流能解釋至少兩成市價、且不是從大幅虧損「長出」獲利時才投票。否則權重併入相對估值，差額看選擇權分頁。
+        </p>
       </MethodNote>
     </div>
   );
@@ -1291,6 +1305,9 @@ function GapNote() {
         <li>
           Gordon／兩階段在低殖利率時會算出很小的數字，因為只折現現金股利、不含買回。殖利率低於{" "}
           {fmtPctAbs(a.ddmYieldFloor)} 時權重為 0，不會拉低加權價。
+        </li>
+        <li>
+          虧損硬收到成熟利潤、或 DCF／RIM 低於市價 80% 以上時，那一票會關掉。那是「現有帳解釋不了市價」，不是證明便宜。
         </li>
       </ul>
       <p className="mt-3 text-xs text-muted">
