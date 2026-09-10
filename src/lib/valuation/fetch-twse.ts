@@ -108,3 +108,37 @@ export async function fetchTwse(ticker: string): Promise<Partial<Fundamentals> |
     return null;
   }
 }
+
+export type TwseSnap = {
+  ticker: string;
+  name: string;
+  price: number;
+  pe: number | null;
+  pb: number | null;
+  yieldPct: number | null;
+};
+
+/** One CORS call: all listed names with price / PE / PB / yield. */
+export async function fetchTwseAll(): Promise<TwseSnap[]> {
+  const data = await twseJson(
+    "https://www.twse.com.tw/rwd/zh/afterTrading/BWIBBU_d?response=json&selectType=ALL",
+  );
+  if (!data || data.stat !== "OK") return [];
+  const rows = (data.data as unknown[][]) ?? [];
+  const out: TwseSnap[] = [];
+  for (const row of rows) {
+    const code = String(row[0] ?? "").trim();
+    if (!/^\d{4}$/.test(code) || code.startsWith("00")) continue;
+    const price = twNum(row[2]);
+    if (!price || price <= 0) continue;
+    out.push({
+      ticker: `${code}.TW`,
+      name: String(row[1] ?? code).trim(),
+      price,
+      yieldPct: twNum(row[3]),
+      pe: twNum(row[5]),
+      pb: twNum(row[6]),
+    });
+  }
+  return out;
+}

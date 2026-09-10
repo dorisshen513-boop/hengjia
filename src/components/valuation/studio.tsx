@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MethodNote, NumberField, Stat } from "@/components/valuation/field";
 import { HistoryButton, HistoryStrip } from "@/components/valuation/history-pad";
+import { ScanPanel } from "@/components/valuation/scan-panel";
+import { ZoneBar, ZoneBoard } from "@/components/valuation/zone-bar";
 import { fetchQuoteData } from "@/lib/valuation/fetch-quote";
 import { GUIDE } from "@/lib/valuation/guide";
 import { REGIME_META } from "@/lib/valuation/engine";
@@ -173,6 +175,7 @@ export function Studio() {
             </Button>
           </form>
           <HistoryStrip current={tickerInput} onRestore={restoreRow} />
+          <ScanPanel onOpen={(t) => void run(t)} />
           {loading ? (
             <div
               role="status"
@@ -294,7 +297,7 @@ function EmptyState() {
       {[
         ["輸入代號", "美股直接填 AAPL；台股四碼會自動加上 .TW。"],
         ["新聞進假設", "同步抓公司、母公司與產業新聞，改 g1、EBIT、特定風險與倍數，不另設新聞權重。"],
-        ["負面風控", "高風險會下修合理價，並列出部位、現金跑道與稀釋檢查。"],
+        ["隨機抽樣", "上面可一次抽台股 50 檔與美股 50 檔，先看魚帶與安全邊際再點進完整計算。"],
       ].map(([t, b]) => (
         <div key={t} className="rounded-xl border border-line bg-surface p-5">
           <h2 className="font-display text-xl">{t}</h2>
@@ -438,126 +441,6 @@ function Hero({
           ))}
         </ul>
       ) : null}
-    </div>
-  );
-}
-
-const ZONE_FILL: Record<string, string> = {
-  head: "bg-accent/25",
-  lower: "bg-accent/50",
-  body: "bg-accent",
-  upper: "bg-fg/35",
-  tail: "bg-fg/55",
-};
-
-function ZoneBar({ compact = false }: { compact?: boolean }) {
-  const { fundamentals: f, result: r } = useValuation();
-  const z = r?.zones;
-  if (!f || !r || !z) return null;
-  const min = Math.min(z.zones[0].low, f.price, z.mid);
-  const max = Math.max(z.zones[4].high, f.price, z.mid);
-  const span = max - min || 1;
-  const pin = (p: number) => `${((p - min) / span) * 100}%`;
-  return (
-    <div>
-      <div className="relative h-8 overflow-hidden rounded-md">
-        <div className="flex h-8 w-full">
-          {min < z.zones[0].low ? (
-            <div
-              className="h-8 bg-raised"
-              style={{ width: `${((z.zones[0].low - min) / span) * 100}%` }}
-            />
-          ) : null}
-          {z.zones.map((band) => {
-            const w = ((band.high - band.low) / span) * 100;
-            const on = z.current === band.id;
-            return (
-              <div
-                key={band.id}
-                className={`h-8 ${ZONE_FILL[band.id] ?? "bg-muted"} ${on ? "ring-2 ring-inset ring-fg" : ""}`}
-                style={{ width: `${Math.max(w, 2)}%` }}
-                title={`${band.name} ${fmtPrice(band.low)}–${fmtPrice(band.high)}`}
-              />
-            );
-          })}
-          {max > z.zones[4].high ? (
-            <div
-              className="h-8 bg-raised"
-              style={{ width: `${((max - z.zones[4].high) / span) * 100}%` }}
-            />
-          ) : null}
-        </div>
-        <span
-          className="absolute top-0 z-10 h-8 w-0.5 bg-fg"
-          style={{ left: pin(f.price) }}
-          title={`市價 ${fmtPrice(f.price)}`}
-        />
-        <span
-          className="absolute top-0 z-10 h-8 w-0.5 bg-accent-fg/80"
-          style={{ left: pin(z.mid) }}
-          title={`合理核 ${fmtPrice(z.mid)}`}
-        />
-      </div>
-      {!compact ? (
-        <div className="mt-2 flex justify-between text-[11px] text-muted">
-          <span>魚頭 {fmtPrice(z.zones[0].low)}</span>
-          <span>魚肚 {fmtPrice(z.mid)}</span>
-          <span>魚尾 {fmtPrice(z.zones[4].high)}</span>
-        </div>
-      ) : (
-        <p className="mt-2 text-xs text-muted">
-          現價在{z.currentLabel} · 細線＝市價 · 魚肚中軸 {fmtPrice(z.mid)} {f.currency}
-        </p>
-      )}
-    </div>
-  );
-}
-
-function ZoneBoard() {
-  const { fundamentals: f, result: r } = useValuation();
-  const z = r?.zones;
-  if (!f || !r || !z) return null;
-  return (
-    <div className="rounded-xl border border-line bg-surface p-5">
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h3 className="font-display text-xl">魚帶 · {z.currentLabel}</h3>
-          <p className="mt-1 text-sm text-muted">{z.currentHint}</p>
-        </div>
-        <p className="font-mono text-sm tabular-nums text-muted">
-          市價 {fmtPrice(f.price)} · 合理核 {fmtPrice(z.mid)} {f.currency}
-        </p>
-      </div>
-      <div className="mt-4">
-        <ZoneBar />
-      </div>
-      <table className="mt-4 w-full text-left text-sm">
-        <thead className="text-xs text-muted">
-          <tr>
-            <th className="pb-2 font-medium">帶</th>
-            <th className="pb-2 font-medium">區間</th>
-            <th className="pb-2 font-medium">意思</th>
-          </tr>
-        </thead>
-        <tbody>
-          {z.zones.map((band) => {
-            const on = z.current === band.id;
-            return (
-              <tr key={band.id} className="border-t border-line">
-                <td className="py-2">
-                  {band.name}
-                  <span className="ml-2 text-xs text-muted">{band.action}</span>
-                  {on ? <span className="ml-2 text-xs text-accent">現價</span> : null}
-                </td>
-                <td className="py-2 font-mono tabular-nums">
-                  {fmtPrice(band.low)} – {fmtPrice(band.high)}
-                </td>
-                <td className="py-2 text-xs text-muted">{band.hint}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
     </div>
   );
 }

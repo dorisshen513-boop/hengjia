@@ -370,6 +370,7 @@ export function ddmYieldScale(divYield: number, floor: number, full: number): nu
 export function valueStock(
   f: Fundamentals,
   a: Assumptions,
+  opts?: { lite?: boolean },
 ): ValuationResult {
   const ke = costOfEquity(a);
   const wacc = waccOf(a);
@@ -592,7 +593,9 @@ export function valueStock(
     );
   }
 
-  const { impliedG1, impliedG1Capped } = solveImpliedG1(f, a);
+  const { impliedG1, impliedG1Capped } = opts?.lite
+    ? { impliedG1: null as number | null, impliedG1Capped: false }
+    : solveImpliedG1(f, a);
   if (impliedG1 != null && a.fadeGrowth) {
     warnings.push(
       impliedG1Capped
@@ -650,7 +653,7 @@ export function valueStock(
     option,
     quality,
     zones: null,
-    revCases: revenueGrowthCases(f, a),
+    revCases: opts?.lite ? [] : revenueGrowthCases(f, a),
     models,
   };
 }

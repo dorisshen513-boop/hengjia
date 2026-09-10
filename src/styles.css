@@ -13,6 +13,11 @@
   --color-up: #8fa38a;
   --color-down: #c17b6a;
   --color-warn: #c4a574;
+  --color-zone-head: color-mix(in oklab, var(--color-up) 48%, var(--color-raised));
+  --color-zone-lower: color-mix(in oklab, var(--color-up) 72%, var(--color-raised));
+  --color-zone-body: var(--color-accent);
+  --color-zone-upper: color-mix(in oklab, var(--color-down) 42%, var(--color-raised));
+  --color-zone-tail: color-mix(in oklab, var(--color-down) 68%, var(--color-raised));
   --font-sans: "Noto Sans TC", "Segoe UI", system-ui, sans-serif;
   --font-display: "Fraunces", "Noto Serif TC", Georgia, serif;
   --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
