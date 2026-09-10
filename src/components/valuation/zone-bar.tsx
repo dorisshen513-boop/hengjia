@@ -20,6 +20,18 @@ function hangX(pct: number) {
   return "-50%";
 }
 
+function fmtTick(n: number) {
+  if (n >= 1000) return n.toLocaleString(undefined, { maximumFractionDigits: 0 });
+  if (n >= 100) return n.toLocaleString(undefined, { maximumFractionDigits: 1 });
+  return n.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+}
+
+function zoneGap(price: number, low: number, high: number) {
+  if (price < low) return `差 ${fmtTick(low - price)} 才到`;
+  if (price > high) return `已過 ${fmtTick(price - high)}`;
+  return `區內 離下沿 ${fmtTick(price - low)} · 離上沿還有 ${fmtTick(high - price)}`;
+}
+
 export function ZoneBar({ compact = false }: { compact?: boolean }) {
   const { fundamentals: f, result: r } = useValuation();
   const z = r?.zones;
@@ -43,7 +55,7 @@ export function ZoneBar({ compact = false }: { compact?: boolean }) {
         </div>
 
         <div className="p-1">
-          <div className={`flex min-w-0 ${compact ? "h-12" : "h-14"}`}>
+          <div className={`flex min-w-0 ${compact ? "h-14" : "h-16"}`}>
             {z.zones.map((band, i) => {
               const w = Math.max(((band.high - band.low) / span) * 100, 1);
               const on = z.current === band.id;
@@ -60,22 +72,19 @@ export function ZoneBar({ compact = false }: { compact?: boolean }) {
               return (
                 <div
                   key={band.id}
-                  className={`relative flex min-w-0 flex-col items-center justify-center px-1 ${tone.bar} ${round} ${
-                    on
-                      ? "z-10 ring-2 ring-fg ring-offset-2 ring-offset-bg"
-                      : ""
+                  className={`relative flex min-w-0 flex-col items-stretch justify-center gap-1 px-1.5 ${tone.bar} ${round} ${
+                    on ? "z-10 ring-2 ring-fg ring-offset-2 ring-offset-bg" : ""
                   }`}
                   style={{ flex: `${w} 1 0` }}
                   title={`${band.name} ${fmtPrice(band.low)}–${fmtPrice(band.high)} · ${band.action}`}
                 >
-                  <span className={`truncate text-xs font-medium leading-none ${tone.ink}`}>
+                  <span className={`truncate text-center text-xs font-medium leading-none ${tone.ink}`}>
                     {band.name}
                   </span>
-                  {!compact ? (
-                    <span className={`mt-1 hidden truncate font-mono text-xs leading-none opacity-80 sm:block ${tone.ink}`}>
-                      {fmtPrice(band.low)}
-                    </span>
-                  ) : null}
+                  <span className={`flex justify-between gap-0.5 font-mono text-xs tabular-nums leading-none ${tone.ink}`}>
+                    <span className="min-w-0 truncate">{fmtTick(band.low)}</span>
+                    <span className="min-w-0 truncate text-right">{fmtTick(band.high)}</span>
+                  </span>
                 </div>
               );
             })}
@@ -83,7 +92,7 @@ export function ZoneBar({ compact = false }: { compact?: boolean }) {
         </div>
       </div>
 
-      <div className="relative mt-3 h-8">
+      <div className="relative mt-2 h-8">
         <div
           className="absolute z-10"
           style={{ left: `${midPct}%`, transform: `translateX(${hangX(midPct)})` }}
@@ -93,35 +102,34 @@ export function ZoneBar({ compact = false }: { compact?: boolean }) {
           </span>
         </div>
       </div>
+
       <p className="mt-1 text-xs text-muted">
-        淺藍是魚頭、深藍是魚尾。淺色外框是市價所在格。
-        {compact ? ` 現價在${z.currentLabel}。` : ""}
+        每區左右是上下沿。市價 {fmtPrice(f.price)}
+        {compact ? ` · 現價在${z.currentLabel}` : ""}。
       </p>
       {compact ? <p className="mt-1 text-xs text-muted">{z.currentHint}</p> : null}
 
-      {compact ? null : (
-        <div className="mt-3 grid grid-cols-2 gap-1 sm:grid-cols-5">
-          {z.zones.map((band) => {
-            const on = z.current === band.id;
-            const tone = ZONE_TONE[band.id] ?? ZONE_TONE.body;
-            return (
-              <div
-                key={band.id}
-                className={`rounded-md px-2 py-2 ${on ? "bg-raised" : ""}`}
-              >
-                <p className="flex items-center gap-1.5 text-xs font-medium">
-                  <span className={`inline-block size-2.5 rounded-sm ${tone.bar}`} />
-                  {band.name}
-                </p>
-                <p className="font-mono text-xs tabular-nums text-muted">
-                  {fmtPrice(band.low)}–{fmtPrice(band.high)}
-                </p>
-                <p className="mt-1 text-xs text-subtle">{band.action}</p>
-              </div>
-            );
-          })}
-        </div>
-      )}
+      <div className="mt-3 grid grid-cols-1 gap-1 sm:grid-cols-5">
+        {z.zones.map((band) => {
+          const on = z.current === band.id;
+          const tone = ZONE_TONE[band.id] ?? ZONE_TONE.body;
+          return (
+            <div
+              key={band.id}
+              className={`rounded-md px-2 py-2 ${on ? "bg-raised" : ""}`}
+            >
+              <p className="flex items-center gap-1.5 text-xs font-medium">
+                <span className={`inline-block size-2.5 rounded-sm ${tone.bar}`} />
+                {band.name}
+              </p>
+              <p className="font-mono text-xs tabular-nums text-muted">
+                {fmtPrice(band.low)} – {fmtPrice(band.high)}
+              </p>
+              <p className="mt-1 text-xs text-subtle">{zoneGap(f.price, band.low, band.high)}</p>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
