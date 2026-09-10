@@ -41,18 +41,13 @@ async function corsGet(url: string, timeoutMs: number): Promise<Response> {
   });
 }
 
-function withBust(url: string): string {
-  const join = url.includes("?") ? "&" : "?";
-  return `${url}${join}_hj=${Date.now()}`;
-}
-
 async function tryDirect(url: string): Promise<Response | null> {
   try {
     const res = await fetch(url, {
       method: "GET",
       credentials: "omit",
       cache: "no-store",
-      signal: AbortSignal.timeout(3500),
+      signal: AbortSignal.timeout(2500),
     });
     if (!res.ok) return null;
     const text = await res.text();
@@ -66,22 +61,39 @@ async function tryDirect(url: string): Promise<Response | null> {
   }
 }
 
+let active = 0;
+const waiters: Array<() => void> = [];
+
+async function enqueue<T>(fn: () => Promise<T>): Promise<T> {
+  if (active >= 2) {
+    await new Promise<void>((resolve) => waiters.push(resolve));
+  }
+  active += 1;
+  try {
+    return await fn();
+  } finally {
+    active -= 1;
+    waiters.shift()?.();
+  }
+}
+
+async function viaAllorigins(url: string): Promise<Response> {
+  const encoded = encodeURIComponent(url);
+  try {
+    const wrapped = await corsGet(`https://api.allorigins.win/get?url=${encoded}`, 9000);
+    return unwrapAllorigins(JSON.parse(await wrapped.text()) as unknown);
+  } catch {
+    return corsGet(`https://api.allorigins.win/raw?url=${encoded}`, 9000);
+  }
+}
+
 async function browserGet(url: string): Promise<Response> {
   const canDirect = !/finance\.yahoo\.com|query[12]\.finance|news\.google\.com/i.test(url);
   if (canDirect) {
     const direct = await tryDirect(url);
     if (direct) return direct;
   }
-  const encoded = encodeURIComponent(withBust(url));
-  return Promise.any([
-    corsGet(`https://api.allorigins.win/get?url=${encoded}`, 8000).then(async (res) =>
-      unwrapAllorigins(JSON.parse(await res.text()) as unknown),
-    ),
-    corsGet(`https://api.allorigins.win/raw?url=${encoded}`, 9000),
-  ]).catch((err: unknown) => {
-    if (err instanceof AggregateError && err.errors[0] instanceof Error) throw err.errors[0];
-    throw new Error("網路請求失敗");
-  });
+  return enqueue(() => viaAllorigins(url));
 }
 
 export async function netFetch(url: string, init?: RequestInit): Promise<Response> {
