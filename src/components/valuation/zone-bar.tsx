@@ -42,6 +42,22 @@ export function ZoneBar({ compact = false }: { compact?: boolean }) {
   const pricePct = pinPct(f.price, min, span);
   const midPct = pinPct(z.mid, min, span);
   const midLabel = r.thinBooks ? "營收地板" : "合理核";
+  const seams: { p: number; pct: number; row: 0 | 1; shift: string }[] = [];
+  {
+    const edges = [z.zones[0].low, ...z.zones.map((b) => b.high)];
+    let lastPct = -100;
+    edges.forEach((p, i) => {
+      const pct = ((p - min) / span) * 100;
+      const row: 0 | 1 = i > 0 && pct - lastPct < 12 ? 1 : 0;
+      if (row === 0) lastPct = pct;
+      seams.push({
+        p,
+        pct,
+        row,
+        shift: i === 0 ? "0%" : i === edges.length - 1 ? "-100%" : "-50%",
+      });
+    });
+  }
   return (
     <div className="min-w-0">
       <div className="relative pt-9">
@@ -55,7 +71,7 @@ export function ZoneBar({ compact = false }: { compact?: boolean }) {
         </div>
 
         <div className="p-1">
-          <div className={`flex min-w-0 ${compact ? "h-14" : "h-16"}`}>
+          <div className={`flex min-w-0 ${compact ? "h-12" : "h-14"}`}>
             {z.zones.map((band, i) => {
               const w = Math.max(((band.high - band.low) / span) * 100, 1);
               const on = z.current === band.id;
@@ -72,22 +88,29 @@ export function ZoneBar({ compact = false }: { compact?: boolean }) {
               return (
                 <div
                   key={band.id}
-                  className={`relative flex min-w-0 flex-col items-stretch justify-center gap-1 px-1.5 ${tone.bar} ${round} ${
+                  className={`relative flex min-w-0 items-center justify-center px-1 ${tone.bar} ${round} ${
                     on ? "z-10 ring-2 ring-fg ring-offset-2 ring-offset-bg" : ""
                   }`}
                   style={{ flex: `${w} 1 0` }}
                   title={`${band.name} ${fmtPrice(band.low)}–${fmtPrice(band.high)} · ${band.action}`}
                 >
-                  <span className={`truncate text-center text-xs font-medium leading-none ${tone.ink}`}>
+                  <span className={`truncate text-xs font-medium leading-none ${tone.ink}`}>
                     {band.name}
-                  </span>
-                  <span className={`flex justify-between gap-0.5 font-mono text-xs tabular-nums leading-none ${tone.ink}`}>
-                    <span className="min-w-0 truncate">{fmtTick(band.low)}</span>
-                    <span className="min-w-0 truncate text-right">{fmtTick(band.high)}</span>
                   </span>
                 </div>
               );
             })}
+          </div>
+          <div className="relative mt-1 h-9">
+            {seams.map((s, i) => (
+              <span
+                key={`${s.p}-${i}`}
+                className={`absolute font-mono text-xs tabular-nums text-muted ${s.row ? "top-4" : "top-0"}`}
+                style={{ left: `${s.pct}%`, transform: `translateX(${s.shift})` }}
+              >
+                {fmtTick(s.p)}
+              </span>
+            ))}
           </div>
         </div>
       </div>
@@ -104,7 +127,7 @@ export function ZoneBar({ compact = false }: { compact?: boolean }) {
       </div>
 
       <p className="mt-1 text-xs text-muted">
-        每區左右是上下沿。市價 {fmtPrice(f.price)}
+        兩區中間的數字是交界價。市價 {fmtPrice(f.price)}
         {compact ? ` · 現價在${z.currentLabel}` : ""}。
       </p>
       {compact ? <p className="mt-1 text-xs text-muted">{z.currentHint}</p> : null}
