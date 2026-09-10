@@ -23,6 +23,38 @@ function unwrapAllorigins(data: unknown): Response {
   return asResponse(contents, row.status?.content_type || "application/json", row.status?.http_code ?? 200);
 }
 
+function jsonpAllorigins(url: string, timeoutMs: number): Promise<Response> {
+  return new Promise((resolve, reject) => {
+    const cb = `hjcb_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+    const script = document.createElement("script");
+    let settled = false;
+    const finish = (err?: Error, data?: unknown) => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timer);
+      script.remove();
+      try {
+        delete (window as unknown as Record<string, unknown>)[cb];
+      } catch {
+        /* ignore */
+      }
+      if (err) reject(err);
+      else {
+        try {
+          resolve(unwrapAllorigins(data));
+        } catch (e) {
+          reject(e instanceof Error ? e : new Error(String(e)));
+        }
+      }
+    };
+    const timer = window.setTimeout(() => finish(new Error("代理逾時")), timeoutMs);
+    (window as unknown as Record<string, unknown>)[cb] = (data: unknown) => finish(undefined, data);
+    script.onerror = () => finish(new Error("代理失敗"));
+    script.src = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}&callback=${encodeURIComponent(cb)}`;
+    document.head.appendChild(script);
+  });
+}
+
 async function corsGet(url: string, timeoutMs: number): Promise<Response> {
   const res = await fetch(url, {
     method: "GET",
@@ -65,7 +97,7 @@ let active = 0;
 const waiters: Array<() => void> = [];
 
 async function enqueue<T>(fn: () => Promise<T>): Promise<T> {
-  if (active >= 2) {
+  if (active >= 1) {
     await new Promise<void>((resolve) => waiters.push(resolve));
   }
   active += 1;
@@ -77,13 +109,13 @@ async function enqueue<T>(fn: () => Promise<T>): Promise<T> {
   }
 }
 
-async function viaAllorigins(url: string): Promise<Response> {
-  const encoded = encodeURIComponent(url);
+async function viaProxy(url: string): Promise<Response> {
   try {
-    const wrapped = await corsGet(`https://api.allorigins.win/get?url=${encoded}`, 9000);
-    return unwrapAllorigins(JSON.parse(await wrapped.text()) as unknown);
+    return await jsonpAllorigins(url, 10000);
   } catch {
-    return corsGet(`https://api.allorigins.win/raw?url=${encoded}`, 9000);
+    const encoded = encodeURIComponent(url);
+    const wrapped = await corsGet(`https://api.allorigins.win/get?url=${encoded}`, 10000);
+    return unwrapAllorigins(JSON.parse(await wrapped.text()) as unknown);
   }
 }
 
@@ -93,7 +125,7 @@ async function browserGet(url: string): Promise<Response> {
     const direct = await tryDirect(url);
     if (direct) return direct;
   }
-  return enqueue(() => viaAllorigins(url));
+  return enqueue(() => viaProxy(url));
 }
 
 export async function netFetch(url: string, init?: RequestInit): Promise<Response> {

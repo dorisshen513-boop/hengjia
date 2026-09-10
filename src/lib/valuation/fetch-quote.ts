@@ -572,17 +572,17 @@ export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload>
     fundamentals = mergeFundamentals(fundamentals ?? blankFundamentals(ticker), twse);
   }
 
-  if (!isComplete(fundamentals) && !ticker.includes(".")) {
+  if (!fundamentals?.price && !ticker.includes(".")) {
     const nasdaq = await withTimeout(fetchNasdaq(ticker), 8000, null);
     if (nasdaq?.price) {
       fundamentals = mergeFundamentals(fundamentals ?? blankFundamentals(ticker), nasdaq);
     }
   }
 
-  if (fundamentals?.price && !isComplete(fundamentals)) {
+  if (!fundamentals?.price) {
     const grok = await fetchGrokFundamentals(ticker);
     if (grok && grok !== "notfound" && grok.price) {
-      fundamentals = mergeFundamentals(fundamentals, grok);
+      fundamentals = mergeFundamentals(fundamentals ?? blankFundamentals(ticker), grok);
     }
   }
 
@@ -602,7 +602,7 @@ export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload>
       sector: fundamentals.sector,
       industry: fundamentals.industry,
     }),
-    8000,
+    5000,
     { items: [] as NewsItem[], parentName: "", aiNote: null as string | null },
   );
   const applied = applyNewsToAssumptions(baseAssumptions, newsPack.items, {
