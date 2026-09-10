@@ -416,7 +416,12 @@ export function valueStock(
   }
 
   const eps = f.eps;
-  const bps = f.sharesOut > 0 ? f.bookEquity / f.sharesOut : 0;
+  const bps =
+    f.sharesOut > 0 && f.bookEquity > 0
+      ? f.bookEquity / f.sharesOut
+      : f.priceToBook && f.priceToBook > 0 && f.price > 0
+        ? f.price / f.priceToBook
+        : 0;
   const sps = f.sharesOut > 0 ? f.revenue / f.sharesOut : 0;
   const ebitdaPs = f.sharesOut > 0 ? f.ebitda / f.sharesOut : 0;
   const ndPs = f.sharesOut > 0 ? f.netDebt / f.sharesOut : 0;
