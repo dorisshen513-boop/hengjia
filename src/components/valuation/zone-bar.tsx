@@ -42,53 +42,62 @@ export function ZoneBar({ compact = false }: { compact?: boolean }) {
           </span>
         </div>
 
-        <div className={`flex min-w-0 overflow-hidden rounded-full ${compact ? "h-12" : "h-14"}`}>
-          {z.zones.map((band) => {
-            const w = Math.max(((band.high - band.low) / span) * 100, 1);
-            const on = z.current === band.id;
-            const tone = ZONE_TONE[band.id] ?? ZONE_TONE.body;
-            return (
-              <div
-                key={band.id}
-                className={`relative flex min-w-0 flex-col items-center justify-center px-1 ${tone.bar}`}
-                style={{ flex: `${w} 1 0` }}
-                title={`${band.name} ${fmtPrice(band.low)}–${fmtPrice(band.high)} · ${band.action}`}
-              >
-                <span className={`relative z-10 truncate text-xs font-medium leading-none ${tone.ink}`}>
-                  {band.name}
-                </span>
-                {!compact ? (
-                  <span className={`relative z-10 mt-1 hidden truncate font-mono text-xs leading-none opacity-80 sm:block ${tone.ink}`}>
-                    {fmtPrice(band.low)}
+        <div className="p-1">
+          <div className={`flex min-w-0 ${compact ? "h-12" : "h-14"}`}>
+            {z.zones.map((band, i) => {
+              const w = Math.max(((band.high - band.low) / span) * 100, 1);
+              const on = z.current === band.id;
+              const tone = ZONE_TONE[band.id] ?? ZONE_TONE.body;
+              const first = i === 0;
+              const last = i === z.zones.length - 1;
+              const round = first && last
+                ? "rounded-full"
+                : first
+                  ? "rounded-l-full"
+                  : last
+                    ? "rounded-r-full"
+                    : "";
+              return (
+                <div
+                  key={band.id}
+                  className={`relative flex min-w-0 flex-col items-center justify-center px-1 ${tone.bar} ${round} ${
+                    on
+                      ? "z-10 ring-2 ring-fg ring-offset-2 ring-offset-bg"
+                      : ""
+                  }`}
+                  style={{ flex: `${w} 1 0` }}
+                  title={`${band.name} ${fmtPrice(band.low)}–${fmtPrice(band.high)} · ${band.action}`}
+                >
+                  <span className={`truncate text-xs font-medium leading-none ${tone.ink}`}>
+                    {band.name}
                   </span>
-                ) : null}
-                {on ? (
-                  <span
-                    className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_0_0_2px_var(--color-fg),inset_0_0_0_4px_var(--color-zone-ink-dark)]"
-                    aria-hidden
-                  />
-                ) : null}
-              </div>
-            );
-          })}
+                  {!compact ? (
+                    <span className={`mt-1 hidden truncate font-mono text-xs leading-none opacity-80 sm:block ${tone.ink}`}>
+                      {fmtPrice(band.low)}
+                    </span>
+                  ) : null}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
 
-      <div className="relative mt-8">
+      <div className="relative mt-3 h-8">
         <div
-          className="absolute -top-6 z-10"
+          className="absolute z-10"
           style={{ left: `${midPct}%`, transform: `translateX(${hangX(midPct)})` }}
         >
           <span className="whitespace-nowrap rounded-md border border-fg bg-surface px-2.5 py-1 font-mono text-xs font-medium text-fg">
             {midLabel} {fmtPrice(z.mid)}
           </span>
         </div>
-        <p className="text-xs text-muted">
-          淺藍是魚頭、深藍是魚尾。淺色雙框是市價所在格。
-          {compact ? ` 現價在${z.currentLabel}。` : ""}
-        </p>
-        {compact ? <p className="mt-1 text-xs text-muted">{z.currentHint}</p> : null}
       </div>
+      <p className="mt-1 text-xs text-muted">
+        淺藍是魚頭、深藍是魚尾。淺色外框是市價所在格。
+        {compact ? ` 現價在${z.currentLabel}。` : ""}
+      </p>
+      {compact ? <p className="mt-1 text-xs text-muted">{z.currentHint}</p> : null}
 
       {compact ? null : (
         <div className="mt-3 grid grid-cols-2 gap-1 sm:grid-cols-5">
