@@ -6,6 +6,7 @@ import {
   fetchNasdaq,
   mergeFundamentals,
 } from "./fetch-alt";
+import { fetchCnbc, fetchCnbcRf } from "./fetch-cnbc";
 import { fetchTwse } from "./fetch-twse";
 import { netFetch } from "./http";
 import { applyNewsToAssumptions, gatherNews, type NewsBrief, type NewsItem } from "./news";
@@ -57,13 +58,13 @@ async function getYahooAuth(): Promise<YahooAuth> {
     throw new Error("browser-skip-auth");
   }
   if (yahooSession && Date.now() - yahooSession.at < 20 * 60_000) return yahooSession;
-  const boot = await netFetch("https://fc.yahoo.com/", {
+  const boot = await fetch("https://fc.yahoo.com/", {
     headers: { "User-Agent": UA, Accept: "*/*" },
     redirect: "manual",
     signal: AbortSignal.timeout(8000),
   });
   let cookie = pickCookies(boot);
-  const crumbRes = await netFetch("https://query1.finance.yahoo.com/v1/test/getcrumb", {
+  const crumbRes = await fetch("https://query1.finance.yahoo.com/v1/test/getcrumb", {
     headers: {
       "User-Agent": UA,
       Accept: "text/plain,*/*",
@@ -350,47 +351,6 @@ async function fetchSearchMeta(ticker: string): Promise<SearchMeta | null> {
   }
 }
 
-async function fetchQuoteSummary(ticker: string): Promise<Record<string, unknown>> {
-  const modules = [
-    "price",
-    "summaryDetail",
-    "defaultKeyStatistics",
-    "financialData",
-    "summaryProfile",
-  ].join(",");
-  const hosts = [
-    "https://query1.finance.yahoo.com/v10/finance/quoteSummary/",
-    "https://query2.finance.yahoo.com/v10/finance/quoteSummary/",
-  ];
-  let last = "no summary";
-  for (const host of hosts) {
-    try {
-      const data = (await yahooGet(
-        `${host}${encodeURIComponent(ticker)}?modules=${modules}`,
-      )) as {
-        quoteSummary?: { result?: Array<Record<string, unknown>>; error?: unknown };
-      };
-      const row = data.quoteSummary?.result?.[0];
-      if (row) return row;
-      last = "empty summary";
-    } catch (err) {
-      last = err instanceof Error ? err.message : "summary fail";
-    }
-  }
-  throw new Error(last);
-}
-
-async function fetchTreasuryRf(): Promise<number> {
-  try {
-    const meta = await fetchChart("^TNX");
-    const y = meta?.regularMarketPrice;
-    if (y && y > 0.5 && y < 20) return y / 100;
-  } catch {
-    /* ignore */
-  }
-  return 0.043;
-}
-
 function buildFundamentals(
   ticker: string,
   chart: ChartResult,
@@ -509,10 +469,6 @@ function buildFundamentals(
   };
 }
 
-function isComplete(f: Fundamentals | null): boolean {
-  return !!f && f.price > 0 && f.sharesOut > 0 && f.revenue > 0;
-}
-
 function withTimeout<T>(promise: Promise<T>, ms: number, fallback: T): Promise<T> {
   return new Promise((resolve) => {
     const timer = setTimeout(() => resolve(fallback), ms);
@@ -528,19 +484,12 @@ function withTimeout<T>(promise: Promise<T>, ms: number, fallback: T): Promise<T
   });
 }
 
-export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload> {
-  const ticker = normalizeTicker(rawTicker);
-  if (!ticker || ticker.length > 16) {
-    throw new Error(`找不到股票：${rawTicker.trim() || "?"}`);
-  }
-
-  const chart = await withTimeout(fetchChart(ticker), 10000, null);
-  const [series, search, twse] = await Promise.all([
-    withTimeout(fetchTimeseries(ticker), 10000, null),
-    withTimeout(fetchSearchMeta(ticker), 8000, null),
-    withTimeout(fetchTwse(ticker), 8000, null),
+async function fetchYahooBundle(ticker: string): Promise<Fundamentals | null> {
+  const [chart, series, search] = await Promise.all([
+    withTimeout(fetchChart(ticker), 8000, null),
+    withTimeout(fetchTimeseries(ticker), 8000, null),
+    withTimeout(fetchSearchMeta(ticker), 5000, null),
   ]);
-
   const inferredPrice =
     series && series.marketCap > 0 && series.shares > 0 ? series.marketCap / series.shares : 0;
   const chartOrPrice: ChartResult | null =
@@ -554,32 +503,52 @@ export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload>
           symbol: ticker,
         }
       : null);
+  if (!chartOrPrice) return null;
+  return buildFundamentals(ticker, chartOrPrice, null, series, search);
+}
 
+function isTw(ticker: string): boolean {
+  return /\.(TW|TWO)$/i.test(ticker);
+}
+
+export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload> {
+  const ticker = normalizeTicker(rawTicker);
+  if (!ticker || ticker.length > 16) {
+    throw new Error(`找不到股票：${rawTicker.trim() || "?"}`);
+  }
+
+  const tw = isTw(ticker);
+  const onServer = typeof window === "undefined";
   let fundamentals: Fundamentals | null = null;
-  if (chartOrPrice) {
-    let summary: Record<string, unknown> | null = null;
-    if (typeof window === "undefined") {
-      try {
-        summary = await fetchQuoteSummary(ticker);
-      } catch {
-        /* timeseries already covers GitHub Pages */
+
+  if (tw) {
+    const twse = await withTimeout(fetchTwse(ticker), 8000, null);
+    if (twse?.price) {
+      fundamentals = mergeFundamentals(blankFundamentals(ticker), twse);
+    }
+  } else {
+    const cnbc = await withTimeout(fetchCnbc(ticker), 8000, null);
+    if (cnbc?.price) {
+      fundamentals = mergeFundamentals(blankFundamentals(ticker), cnbc);
+    }
+  }
+
+  if (onServer) {
+    const extra: Array<Promise<Partial<Fundamentals> | null>> = [
+      withTimeout(fetchYahooBundle(ticker), 10000, null),
+    ];
+    if (!tw && !fundamentals?.price) {
+      extra.push(withTimeout(fetchNasdaq(ticker), 8000, null));
+    }
+    const parts = await Promise.all(extra);
+    for (const p of parts) {
+      if (p?.price) {
+        fundamentals = mergeFundamentals(fundamentals ?? blankFundamentals(ticker), p);
       }
     }
-    fundamentals = buildFundamentals(ticker, chartOrPrice, summary, series, search);
   }
 
-  if (twse?.price) {
-    fundamentals = mergeFundamentals(fundamentals ?? blankFundamentals(ticker), twse);
-  }
-
-  if (!fundamentals?.price && !ticker.includes(".")) {
-    const nasdaq = await withTimeout(fetchNasdaq(ticker), 8000, null);
-    if (nasdaq?.price) {
-      fundamentals = mergeFundamentals(fundamentals ?? blankFundamentals(ticker), nasdaq);
-    }
-  }
-
-  if (!fundamentals?.price) {
+  if (!fundamentals?.price && onServer) {
     const grok = await fetchGrokFundamentals(ticker);
     if (grok && grok !== "notfound" && grok.price) {
       fundamentals = mergeFundamentals(fundamentals ?? blankFundamentals(ticker), grok);
@@ -587,13 +556,12 @@ export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload>
   }
 
   if (!fundamentals?.price) {
-    if (search?.name) {
-      throw new Error(`暫時連不到 ${ticker} 的行情，請再試一次`);
-    }
-    throw new Error(`找不到股票：${ticker}`);
+    throw new Error(`暫時連不到 ${ticker} 的行情，請再試一次`);
   }
 
-  const rf = await fetchTreasuryRf();
+  const rf = tw
+    ? 0.016
+    : (await withTimeout(fetchCnbcRf(), 3500, null)) ?? 0.043;
   const baseAssumptions = suggestAssumptions(fundamentals, rf);
   const newsPack = await withTimeout(
     gatherNews({
@@ -602,7 +570,7 @@ export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload>
       sector: fundamentals.sector,
       industry: fundamentals.industry,
     }),
-    5000,
+    4000,
     { items: [] as NewsItem[], parentName: "", aiNote: null as string | null },
   );
   const applied = applyNewsToAssumptions(baseAssumptions, newsPack.items, {
@@ -625,9 +593,7 @@ export const loadQuote = createServerFn({ method: "POST" })
   .handler(async ({ data }): Promise<QuotePayload> => loadQuotePayload(data.ticker));
 
 export async function fetchQuoteData(ticker: string): Promise<QuotePayload> {
-  if (import.meta.env.VITE_STATIC === "1") {
-    return loadQuotePayload(ticker);
-  }
-  return loadQuote({ data: { ticker } });
+  // Always run in the browser with CORS-open sources (TWSE / CNBC).
+  // GitHub Pages has no server; the live preview must not freeze on a hung RPC.
+  return loadQuotePayload(ticker);
 }
-

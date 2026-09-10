@@ -66,23 +66,20 @@ export function Studio() {
     if (runId.current !== id) return;
     const timers = [
       window.setTimeout(() => {
-        if (runId.current === id) setProgress("正在重新上網抓最新財報，不用上次結果…");
-      }, 1200),
-      window.setTimeout(() => {
-        if (runId.current === id) setProgress("公開站會走代理，Yahoo 若卡住會改走 Nasdaq…");
-      }, 5000),
+        if (runId.current === id) setProgress("正在向證交所／公開行情站抓最新財報…");
+      }, 400),
       window.setTimeout(() => {
         if (runId.current === id) setProgress("正在抓公司、母公司與產業新聞…");
-      }, 12000),
+      }, 4000),
       window.setTimeout(() => {
         if (runId.current === id) setProgress("還在計算，請稍候…");
-      }, 20000),
+      }, 9000),
     ];
     try {
       const data = await Promise.race([
         fetchQuoteData(q),
         new Promise<never>((_, reject) => {
-          window.setTimeout(() => reject(new Error("計算逾時，請再試一次")), 35000);
+          window.setTimeout(() => reject(new Error("計算逾時，請再試一次")), 18000);
         }),
       ]);
       if (runId.current !== id) return;
@@ -156,7 +153,6 @@ export function Studio() {
               size="lg"
               className="sm:min-w-36"
               aria-busy={loading}
-              disabled={loading}
             >
               {loading ? (
                 <span className="inline-flex items-center gap-2">
@@ -181,7 +177,7 @@ export function Studio() {
                   正在計算 {tickerInput.toUpperCase() || "…"}，請稍候
                 </p>
                 <p className="mt-1 text-sm text-muted">
-                  {progress ?? "正在重新上網抓最新財報與新聞…"}。不會使用上次測算，新聞與財報大約 10–25 秒。
+                  {progress ?? "正在向證交所／公開行情站抓最新財報與新聞…"}。每次都重新上網，大約 3–12 秒。
                 </p>
               </div>
             </div>
@@ -274,10 +270,9 @@ function LoadingState({
         </div>
         <p className="mt-3 text-sm text-muted">{progress ?? "正在抓行情與財報…"}</p>
         <ol className="mt-5 space-y-2 text-sm text-muted">
-          <li>1. Yahoo 行情／財報</li>
-          <li>2. 失敗則改 Nasdaq 看盤資料，再不行用 Grok 搜尋</li>
-          <li>3. 公司／母公司／產業新聞</li>
-          <li>4. 套用假設並算出合理價</li>
+          <li>1. 台股：證交所　美股：CNBC 公開報價</li>
+          <li>2. 公司／母公司／產業新聞</li>
+          <li>3. 套用假設並算出合理價</li>
         </ol>
       </div>
     </section>

@@ -113,6 +113,12 @@ export function classifyRegime(f: Fundamentals): CompanyRegime {
         ? f.marketCap / f.revenue
         : 0;
   const scale = f.revenue >= 5e9 || f.marketCap >= 8e10;
+  if (f.revenue <= 0) {
+    if (f.eps > 0 || (f.trailingPE != null && f.trailingPE > 0) || (f.priceToBook != null && f.priceToBook > 0)) {
+      return dy >= 0.025 ? "dividend" : "compounder";
+    }
+    return "preProfit";
+  }
   if (!(profitable && op >= 0.15) && scale && g >= 0.2 && ps >= 12) {
     return "optionality";
   }

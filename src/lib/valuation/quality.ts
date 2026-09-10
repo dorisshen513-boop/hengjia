@@ -104,6 +104,7 @@ export function scoreQuality(f: Fundamentals): QualityReport {
   const absGrowthUsd = toUsd(absGrowth, ccy);
   const ebitdaM = f.revenue > 0 ? f.ebitda / f.revenue : 0;
   const fcfM = f.revenue > 0 ? f.fcf / f.revenue : 0;
+  const lite = f.revenue <= 0 && (f.eps > 0 || ((f.trailingPE ?? 0) > 0));
   const profitable = f.eps > 0 && op >= 0;
   const burn = Math.max(-f.fcf, -f.ebitda, 0);
   const runwayYears =
@@ -147,7 +148,10 @@ export function scoreQuality(f: Fundamentals): QualityReport {
 
   let a = 0;
   let aRule = "營收 < 2,000 萬美元 → 0";
-  if (revUsd >= 2e10) {
+  if (lite) {
+    a = 12;
+    aRule = "本次沒抓到營收，不把已上市股票當零營收新創 → 12";
+  } else if (revUsd >= 2e10) {
     a = 20;
     aRule = "營收 ≥ 200 億美元 → 20";
   } else if (revUsd >= 5e9) {
@@ -174,7 +178,10 @@ export function scoreQuality(f: Fundamentals): QualityReport {
 
   let b = 0;
   let bRule = "EBITDA 與 FCF 皆負 → 0";
-  if (f.fcf > 0 && fcfM >= 0.08) {
+  if (lite && f.eps > 0) {
+    b = 12;
+    bRule = "有正 EPS／本益比，本次沒抓到 EBITDA → 12";
+  } else if (f.fcf > 0 && fcfM >= 0.08) {
     b = 20;
     bRule = "FCF>0 且 FCF／營收 ≥ 8% → 20";
   } else if (f.ebitda > 0 && ebitdaM >= 0.1) {
@@ -198,7 +205,10 @@ export function scoreQuality(f: Fundamentals): QualityReport {
 
   let c = 0;
   let cRule = "營業利益率 < −20% → 0";
-  if (op >= 0.15) {
+  if (lite && f.eps > 0) {
+    c = 12;
+    cRule = "未提供營業利益率，依正 EPS 給中性 12";
+  } else if (op >= 0.15) {
     c = 20;
     cRule = "營業利益率 ≥ 15% → 20";
   } else if (op >= 0.08) {
@@ -222,7 +232,10 @@ export function scoreQuality(f: Fundamentals): QualityReport {
 
   let d = 0;
   let dRule = "成長不足或基期過小";
-  if (g >= 0.2 && absGrowthUsd >= 5e7) {
+  if (lite) {
+    d = 8;
+    dRule = "本次沒有營收成長序列 → 中性 8";
+  } else if (g >= 0.2 && absGrowthUsd >= 5e7) {
     d = g >= 0.4 ? 20 : 16;
     dRule = "成長 ≥ 20% 且年增額 ≥ 5,000 萬美元 → 16–20";
   } else if (g >= 0.2 && absGrowthUsd < 1e7) {
@@ -325,6 +338,7 @@ export function scoreQuality(f: Fundamentals): QualityReport {
 
   let label: QualityLabel = "shell";
   if (survival) label = "survival";
+  else if (lite && f.eps > 0) label = q >= 55 ? "investable" : "early";
   else if (expensive && (q < 40 || revUsd < 1e8)) label = "thematic";
   else if (q < 30 || (a === 0 && b === 0)) label = "shell";
   else if (q >= 55 && expensive && revUsd >= 1e9 && (f.ebitda > 0 || ebitdaM > -0.03)) {

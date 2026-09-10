@@ -141,7 +141,7 @@ export const useValuation = create<AppState>((set, get) => ({
     set({
       tickerInput: ticker,
       loading: true,
-      progress: "正在重新上網抓最新財報與新聞…",
+      progress: "正在向證交所／公開行情站抓最新財報與新聞…",
       error: null,
       fundamentals: null,
       assumptions: null,

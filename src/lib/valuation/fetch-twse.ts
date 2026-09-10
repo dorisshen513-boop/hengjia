@@ -31,9 +31,13 @@ function nameFromTitle(title: string, code: string): string {
   return "";
 }
 
-async function twseJson(url: string): Promise<Record<string, unknown> | null> {
+async function twseJson(url: string, ms = 5000): Promise<Record<string, unknown> | null> {
   try {
-    const res = await fetch(url, { credentials: "omit", signal: AbortSignal.timeout(8000) });
+    const res = await fetch(url, {
+      credentials: "omit",
+      cache: "no-store",
+      signal: AbortSignal.timeout(ms),
+    });
     if (!res.ok) return null;
     return (await res.json()) as Record<string, unknown>;
   } catch {
@@ -42,7 +46,7 @@ async function twseJson(url: string): Promise<Record<string, unknown> | null> {
 }
 
 async function stockDay(code: string): Promise<{ price: number; name: string } | null> {
-  for (const offset of [0, 1, 2, 3, 4]) {
+  for (const offset of [0, 1, 2]) {
     const data = await twseJson(
       `https://www.twse.com.tw/rwd/zh/afterTrading/STOCK_DAY?date=${ymd(offset)}&stockNo=${code}&response=json`,
     );
@@ -60,7 +64,7 @@ async function stockDay(code: string): Promise<{ price: number; name: string } |
 
 async function bwibbu(code: string): Promise<{ pe: number | null; pb: number | null; yieldPct: number | null }> {
   const empty = { pe: null, pb: null, yieldPct: null };
-  for (const offset of [0, 1, 2, 3, 4]) {
+  for (const offset of [0, 1, 2]) {
     const data = await twseJson(
       `https://www.twse.com.tw/rwd/zh/afterTrading/BWIBBU?date=${ymd(offset)}&stockNo=${code}&response=json`,
     );
@@ -77,33 +81,51 @@ async function bwibbu(code: string): Promise<{ pe: number | null; pb: number | n
   return empty;
 }
 
+function snapToPartial(ticker: string, snap: TwseSnap): Partial<Fundamentals> {
+  const pe = snap.pe;
+  const pb = snap.pb;
+  const yieldPct = snap.yieldPct;
+  const eps = pe && pe > 0 ? snap.price / pe : 0;
+  const dps = yieldPct && yieldPct > 0 ? (snap.price * yieldPct) / 100 : 0;
+  return {
+    ticker,
+    name: snap.name || ticker,
+    currency: "TWD",
+    exchange: "TWSE",
+    price: snap.price,
+    eps,
+    dps,
+    bookEquity: 0,
+    dividendYield: yieldPct != null ? yieldPct / 100 : null,
+    trailingPE: pe,
+    priceToBook: pb,
+    source: "臺灣證交所公開資訊",
+    notes: [
+      "台股行情取自證交所（不經 Yahoo 代理）。",
+      "證交所快照沒有營收與股數，DCF 可能空白；相對估值用本益比／淨值比，結果會靠近市價。",
+    ],
+  };
+}
+
 /** Direct TWSE JSON (CORS *). Works on GitHub Pages without a proxy. */
 export async function fetchTwse(ticker: string): Promise<Partial<Fundamentals> | null> {
   const code = codeOf(ticker);
   if (!code) return null;
   try {
     const [day, ratios] = await Promise.all([stockDay(code), bwibbu(code)]);
-    if (!day?.price) return null;
-    const pe = ratios.pe;
-    const pb = ratios.pb;
-    const yieldPct = ratios.yieldPct;
-    const eps = pe && pe > 0 ? day.price / pe : 0;
-    const dps = yieldPct && yieldPct > 0 ? (day.price * yieldPct) / 100 : 0;
-    return {
-      ticker,
-      name: day.name || ticker,
-      currency: "TWD",
-      exchange: "TWSE",
-      price: day.price,
-      eps,
-      dps,
-      bookEquity: 0,
-      dividendYield: yieldPct != null ? yieldPct / 100 : null,
-      trailingPE: pe,
-      priceToBook: pb,
-      source: "臺灣證交所公開資訊",
-      notes: ["台股行情取自證交所（不經 Yahoo 代理）。"],
-    };
+    if (day?.price) {
+      return snapToPartial(ticker, {
+        ticker,
+        name: day.name || ticker,
+        price: day.price,
+        pe: ratios.pe,
+        pb: ratios.pb,
+        yieldPct: ratios.yieldPct,
+      });
+    }
+    const all = await fetchTwseAll();
+    const hit = all.find((r) => r.ticker === `${code}.TW`);
+    return hit ? snapToPartial(ticker, hit) : null;
   } catch {
     return null;
   }
@@ -122,6 +144,7 @@ export type TwseSnap = {
 export async function fetchTwseAll(): Promise<TwseSnap[]> {
   const data = await twseJson(
     "https://www.twse.com.tw/rwd/zh/afterTrading/BWIBBU_d?response=json&selectType=ALL",
+    8000,
   );
   if (!data || data.stat !== "OK") return [];
   const rows = (data.data as unknown[][]) ?? [];

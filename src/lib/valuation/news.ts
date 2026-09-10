@@ -1,5 +1,4 @@
 import type { Assumptions } from "./types";
-import { netFetch } from "./http";
 
 export type NewsScope = "company" | "parent" | "industry";
 
@@ -97,7 +96,9 @@ function classify(title: string): { sentiment: NewsItem["sentiment"]; tags: stri
 }
 
 async function fetchText(url: string, timeout = 9000): Promise<string> {
-  const res = await netFetch(url, {
+  const res = await fetch(url, {
+    credentials: "omit",
+    cache: "no-store",
     headers: { "User-Agent": UA, Accept: "application/rss+xml, application/json, text/xml, */*" },
     signal: AbortSignal.timeout(timeout),
   });
@@ -166,12 +167,14 @@ async function yahooNews(query: string, scope: NewsScope, limit: number): Promis
 }
 
 async function googleNews(query: string, scope: NewsScope, limit: number, tw: boolean): Promise<NewsItem[]> {
+  if (typeof window !== "undefined") return [];
   const loc = tw
     ? "hl=zh-TW&gl=TW&ceid=TW:zh-Hant"
     : "hl=en-US&gl=US&ceid=US:en";
   try {
     const xml = await fetchText(
       `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&${loc}`,
+      3500,
     );
     return parseRss(xml, scope, limit);
   } catch {
@@ -413,7 +416,7 @@ export async function gatherNews(input: {
     : `${industry} industry outlook stocks`;
 
   const [coY, coG, parG, indG] = await Promise.all([
-    yahooNews(input.ticker, "company", 8),
+    typeof window === "undefined" ? yahooNews(input.ticker, "company", 8) : Promise.resolve([] as NewsItem[]),
     googleNews(`${name} ${input.ticker}`, "company", 6, tw),
     googleNews(parentQ, "parent", 5, tw),
     googleNews(industryQ, "industry", 6, tw),

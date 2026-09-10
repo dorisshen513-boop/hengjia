@@ -268,7 +268,11 @@ export function mergeFundamentals(base: Fundamentals, extra: Partial<Fundamental
       if (cur === 0 && v !== 0) (next[k] as number) = v;
       continue;
     }
-    if (typeof cur === "string" && typeof v === "string" && !cur) (next[k] as string) = v;
+    if (typeof cur === "string" && typeof v === "string") {
+      const prefer = k === "name" || k === "currency" || k === "exchange" || k === "source" || k === "sector" || k === "industry";
+      if (!cur || (prefer && v && v !== next.ticker)) (next[k] as string) = v;
+      continue;
+    }
     if (cur == null && v != null) (next as Record<string, unknown>)[k] = v;
   }
   if (next.sharesOut <= 0 && next.marketCap > 0 && next.price > 0) {
