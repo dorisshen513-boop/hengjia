@@ -103,7 +103,7 @@ export const useValuation = create<AppState>((set, get) => ({
         qualityQ: r.quality.q,
         qualityLabel: r.quality.labelText,
         regime: p.assumptions.regime,
-        snapshot: p,
+        snapshot: null,
       });
     }
   },
@@ -141,8 +141,18 @@ export const useValuation = create<AppState>((set, get) => ({
     set({
       tickerInput: ticker,
       loading: true,
-      progress: "正在抓行情與財報…",
+      progress: "正在重新上網抓最新財報與新聞…",
       error: null,
+      fundamentals: null,
+      assumptions: null,
+      baseAssumptions: null,
+      newsAssumptions: null,
+      bearAssumptions: null,
+      news: null,
+      result: null,
+      bearResult: null,
+      sensitivity: [],
+      tab: "overview",
     }),
   reset: () =>
     set({

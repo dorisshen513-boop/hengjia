@@ -9,7 +9,7 @@ import { fetchQuoteData } from "@/lib/valuation/fetch-quote";
 import { GUIDE } from "@/lib/valuation/guide";
 import { REGIME_META } from "@/lib/valuation/engine";
 import { useValuation } from "@/lib/valuation/store";
-import { touchHistory, type HistoryRow } from "@/lib/valuation/history";
+import { type HistoryRow } from "@/lib/valuation/history";
 import { fmtMoney, fmtMult, fmtPct, fmtPctAbs, fmtPrice } from "@/lib/utils";
 import type { Assumptions } from "@/lib/valuation/types";
 
@@ -66,7 +66,7 @@ export function Studio() {
     if (runId.current !== id) return;
     const timers = [
       window.setTimeout(() => {
-        if (runId.current === id) setProgress("正在抓 Yahoo 行情與財報…");
+        if (runId.current === id) setProgress("正在重新上網抓最新財報，不用上次結果…");
       }, 1200),
       window.setTimeout(() => {
         if (runId.current === id) setProgress("公開站會走代理，Yahoo 若卡住會改走 Nasdaq…");
@@ -110,13 +110,7 @@ export function Studio() {
   }
 
   function restoreRow(row: HistoryRow) {
-    if (!row.snapshot) {
-      void run(row.ticker);
-      return;
-    }
-    touchHistory(row.ticker);
-    setTickerInput(row.ticker);
-    applyQuote(row.snapshot, { record: false });
+    void run(row.ticker);
   }
 
   return (
@@ -132,7 +126,7 @@ export function Studio() {
                 衡價
               </h1>
               <p className="mt-2 max-w-xl text-sm text-muted">
-                輸入代號，同步抓財報與公司／母公司／產業新聞，用新聞改成長與折現假設。不是投資建議。
+                輸入代號，每次都重新上網抓最新財報與公司／母公司／產業新聞。不會沿用上次測算。不是投資建議。
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
@@ -186,7 +180,7 @@ export function Studio() {
                   正在計算 {tickerInput.toUpperCase() || "…"}，請稍候
                 </p>
                 <p className="mt-1 text-sm text-muted">
-                  {progress ?? "正在抓行情與財報…"}。新聞與財報大約 10–25 秒，畫面卡住時仍在跑。
+                  {progress ?? "正在重新上網抓最新財報與新聞…"}。不會使用上次測算，新聞與財報大約 10–25 秒。
                 </p>
               </div>
             </div>
@@ -556,47 +550,71 @@ function Overview() {
         </div>
       </div>
       <GapNote />
-      <div className="rounded-xl border border-line bg-surface p-5">
+      <div className="rounded-xl border border-line bg-surface p-4 sm:p-5">
         <h3 className="font-display text-xl">各模型怎麼算、怎麼加權</h3>
         <p className="mt-2 text-sm text-muted">
           加權合理價 = Σ（有效權重 × 每股價值）。不適用的模型權重歸零後重分。
         </p>
         <div className="mt-4 overflow-x-auto">
-          <table className="w-full min-w-[640px] text-left text-sm">
-            <thead className="text-xs text-muted">
-              <tr>
-                <th className="pb-2 font-medium">模型</th>
-                <th className="pb-2 font-medium">每股</th>
-                <th className="pb-2 font-medium">有效權重</th>
-                <th className="pb-2 font-medium">公式</th>
-                <th className="pb-2 font-medium">代入</th>
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-line text-xs text-muted">
+                <th className="pb-2 pr-3 text-left font-medium">模型</th>
+                <th className="pb-2 px-3 text-right font-medium">每股</th>
+                <th className="w-20 pb-2 pl-3 text-right font-medium">權重</th>
               </tr>
             </thead>
             <tbody>
               {r.models.map((m) => (
-                <tr key={m.id} className="border-t border-line align-top">
-                  <td className="py-3">
-                    {m.label}
+                <tr key={m.id} className="border-b border-line">
+                  <td className="py-3 pr-3 align-middle">
+                    <p className="leading-snug">{m.label}</p>
                     <p className="text-xs text-subtle">{m.used ? "納入加權" : "未納入"}</p>
                   </td>
-                  <td className="py-3 font-mono tabular-nums">{fmtPrice(m.price)}</td>
-                  <td className="py-3 font-mono tabular-nums">{fmtPctAbs(m.weight)}</td>
-                  <td className="py-3 font-mono text-xs text-accent">{m.formula}</td>
-                  <td className="py-3 text-xs text-muted">{m.calc}</td>
+                  <td className="whitespace-nowrap py-3 px-3 text-right font-mono tabular-nums">
+                    {fmtPrice(m.price)}
+                  </td>
+                  <td className="whitespace-nowrap py-3 pl-3 text-right font-mono tabular-nums">
+                    {fmtPctAbs(m.weight)}
+                  </td>
                 </tr>
               ))}
-              <tr className="border-t border-line">
-                <td className="py-3 font-medium">加權合理價</td>
-                <td className="py-3 font-mono tabular-nums">{fmtPrice(r.blended)}</td>
-                <td className="py-3 font-mono">100%</td>
-                <td className="py-3 font-mono text-xs text-accent">Σ wᵢPᵢ</td>
-                <td className="py-3 text-xs text-muted">
-                  安全邊際 {fmtPct(r.upside)}（vs 市價 {fmtPrice(f.price)} {f.currency}）
+              <tr>
+                <td className="py-3 pr-3 align-middle font-medium">加權合理價</td>
+                <td className="whitespace-nowrap py-3 px-3 text-right font-mono tabular-nums">
+                  {fmtPrice(r.blended)}
+                </td>
+                <td className="whitespace-nowrap py-3 pl-3 text-right font-mono tabular-nums">
+                  100%
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
+        <ul className="mt-4 divide-y divide-line border-t border-line">
+          {[
+            ...r.models.map((m) => ({
+              id: m.id,
+              title: m.label,
+              formula: m.formula,
+              calc: m.calc,
+            })),
+            {
+              id: "blend",
+              title: "加權合理價",
+              formula: "Σ wᵢPᵢ",
+              calc: `安全邊際 ${fmtPct(r.upside)}（vs 市價 ${fmtPrice(f.price)} ${f.currency}）`,
+            },
+          ].map((row) => (
+            <li key={row.id} className="py-3">
+              <p className="text-sm text-fg">{row.title}</p>
+              <p className="mt-1 break-words font-mono text-xs leading-relaxed text-accent">
+                {row.formula}
+              </p>
+              <p className="mt-1 break-words text-xs leading-relaxed text-muted">{row.calc}</p>
+            </li>
+          ))}
+        </ul>
       </div>
       <MethodNote title="匯總怎麼來" formula="加權價 = Σ wᵢ Pᵢ　新聞只改假設，不另設權重">
         <p>
