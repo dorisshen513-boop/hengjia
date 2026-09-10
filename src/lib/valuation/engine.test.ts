@@ -313,8 +313,9 @@ describe("RIM / ROE", () => {
     const dcf = r.models.find((m) => m.id === "dcf");
     const rel = r.models.find((m) => m.id === "relative");
     assert.equal(dcf?.used, false);
-    assert.equal(rel?.used, false);
-    assert.equal(r.blended, null);
+    assert.equal(rel?.used, true);
+    assert.ok(r.blended != null && r.blended < 30, `blended ${r.blended}`);
+    assert.equal(r.thinBooks, true);
   });
 
   it("high-PE commodity name is optionality so RIM cannot crush the blend", () => {
@@ -433,7 +434,7 @@ describe("RIM / ROE", () => {
     assert.ok(r.blended == null || r.blended < 80, `blend ${r.blended}`);
   });
 
-  it("tiny-revenue developer does not get a fake blended price", () => {
+  it("tiny-revenue developer uses sales floor, not a blank and not DCF", () => {
     const f = base({
       ticker: "OKLO",
       price: 42,
@@ -450,8 +451,13 @@ describe("RIM / ROE", () => {
     assert.equal(booksTooThin(f), true);
     const a = suggestAssumptions(f, 0.043);
     const r = valueStock(f, a, { lite: true });
-    assert.equal(r.blended, null);
-    assert.match(r.blendSkip, /過薄|不適用|不給/);
+    const dcf = r.models.find((m) => m.id === "dcf");
+    const rel = r.models.find((m) => m.id === "relative");
+    assert.equal(dcf?.used, false);
+    assert.equal(rel?.used, true);
+    assert.ok(r.blended != null && r.blended < 5, `blend ${r.blended}`);
+    assert.equal(r.status, "現有營收地板");
+    assert.equal(r.thinBooks, true);
   });
 
   it("exploded revenue vs P/S is not sane", () => {

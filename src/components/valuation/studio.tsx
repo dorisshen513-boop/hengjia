@@ -347,12 +347,20 @@ function Hero({
       </div>
       <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
         <Stat
-          label={newsOn ? "新聞調整後合理價" : "財報合理價"}
+          label={
+            r.thinBooks
+              ? "現有營收地板"
+              : newsOn
+                ? "新聞調整後合理價"
+                : "財報合理價"
+          }
           value={r.blended != null ? `${fmtPrice(r.blended)} ${f.currency}` : "無法加權"}
           hint={
-            r.blended != null
-              ? `${r.status} · 由納入的模型加權`
-              : r.blendSkip || "沒有模型能投票時才會空白"
+            r.thinBooks && r.blended != null
+              ? "帳上生意只撐到這裡。市價其餘是選擇權，不是算錯，DCF 不投票。"
+              : r.blended != null
+                ? `${r.status} · 由納入的模型加權`
+                : r.blendSkip || "沒有模型能投票時才會空白"
           }
           tone={tone}
         />

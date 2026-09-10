@@ -616,7 +616,7 @@ export function valueStock(
   if (!sane.ok) warnings.push(sane.reason);
   if (thin) {
     warnings.push(
-      "現有營收相對市值過薄（本益銷售過高），財報加權不適用。這不是算出來的便宜或昂貴，差額看選擇權分頁。",
+      "現有營收相對市值過薄。DCF 與剩餘收益不投票，只留本益銷售當「現有生意地板」。市價其餘是選擇權，不是算錯。",
     );
   }
   const path = runDcf(f, a);
@@ -753,7 +753,6 @@ export function valueStock(
     relativeBase != null && f.price > 0 && relativeBase > f.price * 8;
   const relOk =
     sane.ok &&
-    !thin &&
     relativeBase != null &&
     finite(relativeBase) &&
     relativeBase > 0 &&
@@ -834,7 +833,7 @@ export function valueStock(
       calc: !sane.ok
         ? sane.reason
         : thin
-          ? "現有營收相對市值過薄，P/S 地板不是合理價。"
+          ? "現有營收相對市值過薄。這是本益銷售地板，不是完整合理價。"
           : relHigh
             ? "相對估值遠高於市價，可能被一次性格外收益或錯單位拉爆，不納入加權。"
             : `P/S ${a.psBase.toFixed(1)}× × ${spsTxt}；P/B ${a.pbBase.toFixed(1)}×${
@@ -879,14 +878,14 @@ export function valueStock(
     ? ""
     : !sane.ok
       ? sane.reason
-      : thin
-        ? "現有營收相對市值過薄，財報加權不適用。"
-        : "沒有模型能投票，不給合理價。";
+      : "沒有模型能投票，不給合理價。";
   const upside =
     blended != null && f.price > 0 ? blended / f.price - 1 : null;
 
   let status = "資料不足";
-  if (blended != null && f.price > 0) {
+  if (thin && blended != null) {
+    status = "現有營收地板";
+  } else if (blended != null && f.price > 0) {
     if (upside != null && upside > 0.2) status = "顯著低估";
     else if (upside != null && upside > 0.05) status = "略低估";
     else if (upside != null && upside > -0.05) status = "約當合理";
@@ -906,7 +905,7 @@ export function valueStock(
   if (skipPe && peOk) {
     warnings.push("本益比被市價嚴重拉伸，相對估值不納入 P/E，改以 P/S、P/B 為主。");
   }
-  if (upside != null && upside < -0.2) {
+  if (upside != null && upside < -0.2 && !thin) {
     warnings.push(
       "合理價低於市價超過 20%：ERP 5%、終端成長 3%、倍數上限會系統性低於熱市。這是模型設定，不是單獨證明泡沫。見匯總「為何常低於市價」。",
     );
@@ -1017,6 +1016,7 @@ export function valueStock(
     rimYears: rim.years,
     blended,
     blendSkip,
+    thinBooks: thin,
     upside,
     status,
     years,
