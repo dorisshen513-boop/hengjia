@@ -52,6 +52,9 @@ function mergeCookie(a: string, b: string): string {
 }
 
 async function getYahooAuth(): Promise<YahooAuth> {
+  if (typeof window !== "undefined") {
+    throw new Error("browser-skip-auth");
+  }
   if (yahooSession && Date.now() - yahooSession.at < 20 * 60_000) return yahooSession;
   const boot = await netFetch("https://fc.yahoo.com/", {
     headers: { "User-Agent": UA, Accept: "*/*" },
@@ -83,7 +86,8 @@ async function yahooGet(url: string, authed = true): Promise<unknown> {
     "Accept-Language": "en-US,en;q=0.9",
   };
   let target = url;
-  if (authed) {
+  const useAuth = authed && typeof window === "undefined";
+  if (useAuth) {
     try {
       const auth = await getYahooAuth();
       headers.Cookie = auth.cookie;
@@ -91,11 +95,11 @@ async function yahooGet(url: string, authed = true): Promise<unknown> {
       u.searchParams.set("crumb", auth.crumb);
       target = u.toString();
     } catch {
-      /* chart often still works without crumb */
+      /* chart / timeseries often still work without crumb */
     }
   }
   const res = await netFetch(target, { headers, signal: AbortSignal.timeout(12000) });
-  if ((res.status === 401 || res.status === 403) && authed) {
+  if ((res.status === 401 || res.status === 403) && useAuth) {
     yahooSession = null;
     const retryAuth = await getYahooAuth();
     headers.Cookie = retryAuth.cookie;
@@ -159,6 +163,192 @@ async function fetchChart(ticker: string): Promise<ChartResult | null> {
   }
 }
 
+type SeriesFund = {
+  revenue: number;
+  ebit: number;
+  ebitda: number;
+  netIncome: number;
+  fcf: number;
+  marketCap: number;
+  shares: number;
+  cash: number;
+  debt: number;
+  netDebt: number;
+  equity: number;
+  eps: number;
+  dps: number;
+  pe: number | null;
+  ps: number | null;
+  pb: number | null;
+  evebitda: number | null;
+  revenueGrowth: number | null;
+  yield: number | null;
+};
+
+type SearchMeta = {
+  name: string;
+  exchange: string;
+  sector: string;
+  industry: string;
+};
+
+const TS_TYPES = [
+  "trailingTotalRevenue",
+  "trailingOperatingIncome",
+  "trailingEBITDA",
+  "trailingEBIT",
+  "trailingNetIncome",
+  "trailingFreeCashFlow",
+  "trailingMarketCap",
+  "trailingPeRatio",
+  "trailingPsRatio",
+  "trailingPbRatio",
+  "trailingEnterprisesValueEBITDARatio",
+  "trailingDividendRate",
+  "trailingDividendYield",
+  "trailingEps",
+  "annualTotalRevenue",
+  "annualOperatingIncome",
+  "annualEBITDA",
+  "annualEBIT",
+  "annualNetIncome",
+  "annualFreeCashFlow",
+  "annualTotalDebt",
+  "annualCashAndCashEquivalents",
+  "annualStockholdersEquity",
+  "annualOrdinarySharesNumber",
+  "annualDilutedAverageShares",
+  "annualBasicAverageShares",
+  "annualNetDebt",
+  "annualDilutedEPS",
+].join(",");
+
+function tsLatest(block: Record<string, unknown>, type: string): number | null {
+  const arr = block[type];
+  if (!Array.isArray(arr)) return null;
+  for (let i = arr.length - 1; i >= 0; i--) {
+    const item = arr[i] as { reportedValue?: { raw?: unknown } } | null;
+    const v = item?.reportedValue?.raw;
+    if (typeof v === "number" && Number.isFinite(v)) return v;
+  }
+  return null;
+}
+
+function tsGrowth(block: Record<string, unknown>, type: string): number | null {
+  const arr = block[type];
+  if (!Array.isArray(arr) || arr.length < 2) return null;
+  const vals: number[] = [];
+  for (const item of arr as Array<{ reportedValue?: { raw?: unknown } }>) {
+    const v = item?.reportedValue?.raw;
+    if (typeof v === "number" && Number.isFinite(v)) vals.push(v);
+  }
+  if (vals.length < 2) return null;
+  const prev = vals[vals.length - 2];
+  const last = vals[vals.length - 1];
+  if (!prev) return null;
+  const g = last / prev - 1;
+  return Number.isFinite(g) ? g : null;
+}
+
+async function fetchTimeseries(ticker: string): Promise<SeriesFund | null> {
+  const period1 = 1577836800;
+  const period2 = Math.floor(Date.now() / 1000) + 86400;
+  const hosts = [
+    "https://query1.finance.yahoo.com/ws/fundamentals-timeseries/v1/finance/timeseries/",
+    "https://query2.finance.yahoo.com/ws/fundamentals-timeseries/v1/finance/timeseries/",
+  ];
+  for (const host of hosts) {
+    try {
+      const data = (await yahooGet(
+        `${host}${encodeURIComponent(ticker)}?symbol=${encodeURIComponent(ticker)}&period1=${period1}&period2=${period2}&type=${TS_TYPES}`,
+        false,
+      )) as { timeseries?: { result?: Array<Record<string, unknown>> } };
+      const blocks = data.timeseries?.result ?? [];
+      if (!blocks.length) continue;
+      const bag: Record<string, Record<string, unknown>> = {};
+      for (const block of blocks) {
+        const type = (block.meta as { type?: string[] } | undefined)?.type?.[0];
+        if (type) bag[type] = block;
+      }
+      const pick = (...keys: string[]) => {
+        for (const k of keys) {
+          const v = bag[k] ? tsLatest(bag[k], k) : null;
+          if (v != null) return v;
+        }
+        return 0;
+      };
+      const pickNull = (...keys: string[]) => {
+        for (const k of keys) {
+          const v = bag[k] ? tsLatest(bag[k], k) : null;
+          if (v != null) return v;
+        }
+        return null;
+      };
+      const revenue = pick("trailingTotalRevenue", "annualTotalRevenue");
+      const shares = pick(
+        "annualDilutedAverageShares",
+        "annualOrdinarySharesNumber",
+        "annualBasicAverageShares",
+      );
+      if (!revenue && !shares && !pick("trailingMarketCap")) continue;
+      return {
+        revenue,
+        ebit: pick("trailingEBIT", "trailingOperatingIncome", "annualEBIT", "annualOperatingIncome"),
+        ebitda: pick("trailingEBITDA", "annualEBITDA"),
+        netIncome: pick("trailingNetIncome", "annualNetIncome"),
+        fcf: pick("trailingFreeCashFlow", "annualFreeCashFlow"),
+        marketCap: pick("trailingMarketCap"),
+        shares,
+        cash: pick("annualCashAndCashEquivalents"),
+        debt: pick("annualTotalDebt"),
+        netDebt: pick("annualNetDebt"),
+        equity: pick("annualStockholdersEquity"),
+        eps: pick("trailingEps", "annualDilutedEPS"),
+        dps: pick("trailingDividendRate"),
+        pe: pickNull("trailingPeRatio"),
+        ps: pickNull("trailingPsRatio"),
+        pb: pickNull("trailingPbRatio"),
+        evebitda: pickNull("trailingEnterprisesValueEBITDARatio"),
+        revenueGrowth: bag.annualTotalRevenue ? tsGrowth(bag.annualTotalRevenue, "annualTotalRevenue") : null,
+        yield: pickNull("trailingDividendYield"),
+      };
+    } catch {
+      /* next host */
+    }
+  }
+  return null;
+}
+
+async function fetchSearchMeta(ticker: string): Promise<SearchMeta | null> {
+  try {
+    const data = (await yahooGet(
+      `https://query2.finance.yahoo.com/v1/finance/search?q=${encodeURIComponent(ticker)}&quotesCount=5&newsCount=0`,
+      false,
+    )) as {
+      quotes?: Array<{
+        symbol?: string;
+        shortname?: string;
+        longname?: string;
+        exchDisp?: string;
+        sector?: string;
+        industry?: string;
+      }>;
+    };
+    const hit =
+      data.quotes?.find((q) => (q.symbol ?? "").toUpperCase() === ticker.toUpperCase()) ??
+      data.quotes?.[0];
+    if (!hit) return null;
+    return {
+      name: hit.longname || hit.shortname || "",
+      exchange: hit.exchDisp || "",
+      sector: hit.sector || "",
+      industry: hit.industry || "",
+    };
+  } catch {
+    return null;
+  }
+}
+
 async function fetchQuoteSummary(ticker: string): Promise<Record<string, unknown>> {
   const modules = [
     "price",
@@ -204,6 +394,8 @@ function buildFundamentals(
   ticker: string,
   chart: ChartResult,
   summary: Record<string, unknown> | null,
+  series: SeriesFund | null,
+  search: SearchMeta | null,
 ): Fundamentals {
   const priceMod = (summary?.price ?? {}) as Record<string, unknown>;
   const fd = (summary?.financialData ?? {}) as Record<string, unknown>;
@@ -211,17 +403,21 @@ function buildFundamentals(
   const sd = (summary?.summaryDetail ?? {}) as Record<string, unknown>;
   const sp = (summary?.summaryProfile ?? {}) as Record<string, unknown>;
 
+  const inferredPrice =
+    series && series.marketCap > 0 && series.shares > 0 ? series.marketCap / series.shares : 0;
   const price =
     num(priceMod.regularMarketPrice) ??
     chart.regularMarketPrice ??
+    inferredPrice ??
     0;
   const shares =
     num(ks.sharesOutstanding) ??
     num(fd.sharesOutstanding) ??
-    0;
+    (series?.shares || 0);
   const marketCap =
     num(priceMod.marketCap) ??
     num(sd.marketCap) ??
+    (series?.marketCap || 0) ??
     (shares > 0 ? price * shares : 0);
   const sharesOut =
     shares > 0
@@ -230,27 +426,30 @@ function buildFundamentals(
         ? marketCap / price
         : 0;
 
-  const totalCash = num(fd.totalCash) ?? 0;
-  const totalDebt = num(fd.totalDebt) ?? 0;
-  const revenue = num(fd.totalRevenue) ?? 0;
-  const ebitda = num(fd.ebitda) ?? 0;
-  const fcf = num(fd.freeCashflow) ?? 0;
+  const totalCash = num(fd.totalCash) ?? series?.cash ?? 0;
+  const totalDebt = num(fd.totalDebt) ?? series?.debt ?? 0;
+  const revenue = num(fd.totalRevenue) ?? series?.revenue ?? 0;
+  const ebitda = num(fd.ebitda) ?? series?.ebitda ?? 0;
+  const fcf = num(fd.freeCashflow) ?? series?.fcf ?? 0;
   const opMargin = num(fd.operatingMargins);
   const ebit =
     num(fd.ebit) ??
+    series?.ebit ??
     (opMargin != null && revenue ? opMargin * revenue : ebitda * 0.7);
   const eps =
     num(ks.trailingEps) ??
     num(sd.trailingEps) ??
+    series?.eps ??
     (sharesOut > 0 ? (num(fd.profitMargins) ?? 0) * revenue / sharesOut : 0);
   const book =
     num(ks.bookValue) != null && sharesOut
       ? num(ks.bookValue)! * sharesOut
-      : 0;
-  const dps = num(sd.dividendRate) ?? 0;
+      : series?.equity ?? 0;
+  const dps = num(sd.dividendRate) ?? series?.dps ?? 0;
   const beta = num(ks.beta) ?? 1;
   const notes: string[] = [];
-  if (!summary) notes.push("僅取得行情，財務欄位請自行核對或改輸入。");
+  if (!summary && series) notes.push("財報取自 Yahoo 公開時間序列（TTM／年報）。");
+  if (!summary && !series) notes.push("僅取得行情，財務欄位請自行核對或改輸入。");
   if (sharesOut <= 0) notes.push("沒有流通股數，DCF 與相對估值無法換成每股。");
   if (revenue <= 0) notes.push("沒有營收，DCF 路徑與 P/S 無法建立。");
 
@@ -259,22 +458,26 @@ function buildFundamentals(
     str(priceMod.shortName) ||
     str(chart.longName) ||
     str(chart.shortName) ||
+    search?.name ||
     ticker;
 
-  const ps = revenue > 0 && marketCap > 0 ? marketCap / revenue : null;
-  const pb = book > 0 && marketCap > 0 ? marketCap / book : num(ks.priceToBook);
-  const pe = eps > 0 ? price / eps : num(sd.trailingPE);
-  const netDebt = totalDebt - totalCash;
+  const ps = revenue > 0 && marketCap > 0 ? marketCap / revenue : series?.ps ?? null;
+  const pb = book > 0 && marketCap > 0 ? marketCap / book : series?.pb ?? num(ks.priceToBook);
+  const pe = eps > 0 ? price / eps : series?.pe ?? num(sd.trailingPE);
+  const netDebt = totalDebt - totalCash || series?.netDebt || 0;
   const ev = marketCap + netDebt;
-  const eve = ebitda > 0 ? ev / ebitda : null;
+  const eve = ebitda > 0 ? ev / ebitda : series?.evebitda ?? null;
+  const source = series
+    ? "Yahoo Finance 公開行情／財報時間序列"
+    : "Yahoo Finance 公開行情／摘要";
 
   return {
     ticker,
     name,
     currency: str(priceMod.currency) || str(chart.currency) || "USD",
-    exchange: str(priceMod.exchangeName) || str(chart.exchangeName) || "",
-    sector: str(sp.sector),
-    industry: str(sp.industry),
+    exchange: str(priceMod.exchangeName) || str(chart.exchangeName) || search?.exchange || "",
+    sector: str(sp.sector) || search?.sector || "",
+    industry: str(sp.industry) || search?.industry || "",
     price,
     sharesOut,
     marketCap,
@@ -282,7 +485,7 @@ function buildFundamentals(
     revenue,
     ebit,
     ebitda,
-    netIncome: sharesOut * eps,
+    netIncome: series?.netIncome || sharesOut * eps,
     bookEquity: book,
     dps,
     eps,
@@ -292,14 +495,14 @@ function buildFundamentals(
     netDebt,
     nonCoreAssets: 0,
     minorityInterest: 0,
-    revenueGrowth: num(fd.revenueGrowth),
-    operatingMargin: opMargin,
-    dividendYield: num(sd.dividendYield),
+    revenueGrowth: num(fd.revenueGrowth) ?? series?.revenueGrowth ?? null,
+    operatingMargin: opMargin ?? (revenue ? ebit / revenue : null),
+    dividendYield: num(sd.dividendYield) ?? series?.yield ?? (dps && price ? dps / price : null),
     trailingPE: pe,
     priceToBook: pb,
     priceToSales: ps,
     evToEbitda: eve,
-    source: "Yahoo Finance 公開行情／摘要",
+    source,
     asOf: new Date().toISOString().slice(0, 10),
     notes,
   };
@@ -330,16 +533,37 @@ export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload>
     throw new Error(`找不到股票：${rawTicker.trim() || "?"}`);
   }
 
+  const [chart, series, search] = await Promise.all([
+    fetchChart(ticker),
+    fetchTimeseries(ticker),
+    fetchSearchMeta(ticker),
+  ]);
+
+  const inferredPrice =
+    series && series.marketCap > 0 && series.shares > 0 ? series.marketCap / series.shares : 0;
+  const chartOrPrice: ChartResult | null =
+    chart ??
+    (inferredPrice
+      ? {
+          regularMarketPrice: inferredPrice,
+          shortName: search?.name,
+          longName: search?.name,
+          exchangeName: search?.exchange,
+          symbol: ticker,
+        }
+      : null);
+
   let fundamentals: Fundamentals | null = null;
-  const chart = await fetchChart(ticker);
-  if (chart) {
+  if (chartOrPrice) {
     let summary: Record<string, unknown> | null = null;
-    try {
-      summary = await fetchQuoteSummary(ticker);
-    } catch {
-      /* try other sources */
+    if (typeof window === "undefined") {
+      try {
+        summary = await fetchQuoteSummary(ticker);
+      } catch {
+        /* timeseries already covers GitHub Pages */
+      }
     }
-    fundamentals = buildFundamentals(ticker, chart, summary);
+    fundamentals = buildFundamentals(ticker, chartOrPrice, summary, series, search);
   }
 
   if (!isComplete(fundamentals)) {
