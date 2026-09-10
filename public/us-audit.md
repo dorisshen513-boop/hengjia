@@ -1,0 +1,1122 @@
+# 美股全市場掃描 2026-09-10
+
+- Nasdaq 上市股票清單：7139
+- 算得出合理價：6536
+- 無資料：0
+- 算不出合理價：603
+- 計算錯誤：0
+- 虧損但改用淨值比：2991
+
+## 無資料
+（無）
+
+## 算不出合理價
+- GOOGM Alphabet Inc. Depositary Shares representing a 1/20th Interest in a Share of Series A Mandatory Convertible Preferred Stock｜市價 47.39｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GOOGN Alphabet Inc. Depositary Shares representing a 1/20th Interest in a Share of Series B Mandatory Convertible Preferred Stock｜市價 47.3｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CCZ Comcast Holdings ZONES｜市價 64.67｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BMNP BitMine Immersion Technologies, Inc. 9.5% Series A Perpetual Preferred Stock｜市價 97.9｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BNH Brookfield Finance Inc. 4.625% Subordinated Notes due October 16, 2080｜市價 14.83｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BNJ Brookfield Finance Inc. 4.50% Perpetual Subordinated Notes｜市價 14.55｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BPYPM Brookfield Property Partners L.P. 6.25% Class A Cumulative Redeemable Preferred Units, Series 1｜市價 16.93｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AQNB Algonquin Power & Utilities Corp. 6.20% Fixed-to-Floating Subordinated Notes Series 2019-A due July 1, 2079｜市價 26.22｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SOJD Southern Company (The) Series 2020A 4.95% Junior Subordinated Notes due January 30, 2080｜市價 17.96｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SOJE Southern Company (The) Series 2020C 4.20% Junior Subordinated Notes due October 15, 2060｜市價 15.95｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DUKB Duke Energy Corporation 5.625% Junior Subordinated Debentures due 2078｜市價 21.67｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- APOS Apollo Global Management, Inc. 7.625% Fixed-Rate Resettable Junior Subordinated Notes due 2053｜市價 25.28｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KKRS KKR Group Finance Co. IX LLC 4.625% Subordinated Notes due 2061｜市價 15.8｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SREA DBA Sempra 5.750% Junior Subordinated Notes due 2079｜市價 19.92｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BIPJ Brookfield Infrastructure Corporation 7.250% Subordinated Notes due 2084｜市價 23.9｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TPGXL TPG Operating Group II, L.P. 6.950% Fixed-Rate Junior Subordinated Notes due 2064｜市價 21.46｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PRH Prudential Financial, Inc. 5.950% Junior Subordinated Notes due 2062｜市價 21.58｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GJS Goldman Sachs Group Securities STRATS Trust for Goldman Sachs Group Securities, Series 2006-2｜市價 23.16｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PRS Prudential Financial, Inc. 5.625% Junior Subordinated Notes due 2058｜市價 20.52｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BIPH Brookfield Infrastructure Corporation 5.000% Subordinated Notes due 2081｜市價 15.5｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BEPJ Brookfield BRP Holdings (Canada) Inc. 7.250% Perpetual Subordinated Notes｜市價 23.27｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CMSC CMS Energy Corporation 5.875% Junior Subordinated Notes due 2078｜市價 20.69｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CMSD CMS Energy Corporation 5.875% Junior Subordinated Notes due 2079｜市價 20.55｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CORZZ Core Scientific, Inc. Tranche 2 Warrants｜市價 17.94｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CGABL The Carlyle Group Inc. 4.625% Subordinated Notes due 2061｜市價 15.83｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PFH Prudential Financial, Inc. 4.125% Junior Subordinated Notes due 2060｜市價 15.18｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ATHS Athene Holding Ltd. 7.250% Fixed-Rate Reset Junior Subordinated Debentures due 2064｜市價 24.87｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BEPI Brookfield BRP Holdings (Canada) Inc. 4.875% Perpetual Subordinated Notes｜市價 15.7｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- OXLCM Oxford Lane Capital Corp. Preferred Stock Shares, 8.25% Series 2031｜市價 25.09｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- OXLCZ Oxford Lane Capital Corp. 5.00% Notes due 2027｜市價 25.062｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DHCNI Diversified Healthcare Trust 5.625% Senior Notes due 2042｜市價 17.9｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BEPH Brookfield BRP Holdings (Canada) Inc. 4.625% Perpetual Subordinated Notes｜市價 14.88｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- OXLCL Oxford Lane Capital Corp. 6.75% Notes due 2031｜市價 24.365｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ELC Entergy Louisiana, Inc. Collateral Trust Mortgage Bonds, 4.875 % Series due September 1, 2066｜市價 19.45｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ASBA Associated Banc-Corp 6.625% Fixed-Rate Reset Subordinated Notes due 2033｜市價 24.84｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CORZW Core Scientific, Inc. Tranche 1 Warrants｜市價 11.38｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DTG DTE Energy Company 2021 Series E 4.375% Junior Subordinated Debentures｜市價 15.72｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DTB DTE Energy Company 2020 Series G 4.375% Junior Subordinated Debentures due 2080｜市價 15.5225｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RWTN Redwood Trust, Inc. 9.125% Senior Notes Due 2029｜市價 24.73｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RWTO Redwood Trust, Inc. 9.00% Senior Notes Due 2029｜市價 24.2｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- FGN F&G Annuities & Life, Inc. 7.950% Senior Notes due 2053｜市價 24.54｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RGC Regencell Bioscience Holdings Limited Ordinary Shares｜市價 5.85｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NMFCZ New Mountain Finance Corporation 8.250% Notes due 2028｜市價 25.22｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CHTRP Charter Communications, Inc. Series A Cumulative Redeemable Preferred Stock｜市價 22.82｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MFAO MFA Financial, Inc. 9.000% Senior Notes due 2029｜市價 25.38｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MFAN MFA Financial, Inc. 8.875% Senior Notes due 2029｜市價 25.29｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MFICL MidCap Financial Investment Corporation 8.00% Notes due 2028｜市價 25.09｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ADAMI Adamas Trust, Inc. 9.125% Senior Notes Due 2029｜市價 25.39｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PMTU PennyMac Mortgage Investment Trust 8.50% Senior Notes due 2028｜市價 25.775｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NGL NGL ENERGY PARTNERS LP Common Units representing Limited Partner Interests｜市價 17.71｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PCTTU PureCycle Technologies, Inc. Unit｜市價 11｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CIMN Chimera Investment Corporation 9.000% Senior Notes due 2029｜市價 25.15｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SFB Stifel Financial Corporation 5.20% Senior Notes due 2047｜市價 19.57｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ABXL Abacus Global Management, Inc. 9.875% Fixed Rate Senior Notes due 2028｜市價 25.35｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- HWCPZ Hancock Whitney Corporation 6.25% Subordinated Notes due 2060｜市價 21.2｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TRNZ Trinity Capital Inc. 7.875% Notes due 2029｜市價 25.47｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TRNI Trinity Capital Inc. 7.875% Notes Due 2029｜市價 25.42｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AFGB American Financial Group, Inc. 5.875% Subordinated Debentures due 2059｜市價 21.25｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AFGD American Financial Group, Inc. 5.625% Subordinated Debentures due 2060｜市價 20.65｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RZC Reinsurance Group of America, Incorporated 7.125% Fixed-Rate Reset Subordinated Debentures due 2052｜市價 25.59｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BPOPM Popular, Inc. Popular Capital Trust II - 6.125% Cumulative Monthly Income Trust Preferred Securities｜市價 25.19｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- UZD Array Digital Infrastructure, Inc. 6.250% Senior Notes due 2069｜市價 18.4165｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- OXSQG Oxford Square Capital Corp. 5.50% Notes due 2028｜市價 24.25｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ECCV Eagle Point Credit Company 5.375% Notes due 2029｜市價 24.42｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KMPB Kemper Corporation 5.875% Fixed-Rate Reset Junior Subordinated Debentures due 2062｜市價 24.45｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- UZF Array Digital Infrastructure, Inc. 5.500% Senior Notes due 2070｜市價 16.62｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- EOSEW Eos Energy Enterprises, Inc. Warrant｜市價 3.91｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- UZE Array Digital Infrastructure, Inc. 5.500% Senior Notes due 2070｜市價 16.51｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AFGE American Financial Group, Inc. 4.500% Subordinated Debentures due 2060｜市價 15.75｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SCCD Sachem Capital Corp. 6.00% Notes due 2026｜市價 24.975｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SCCG Sachem Capital Corp. 8.00% Notes due 2027｜市價 24.8｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SCCF Sachem Capital Corp. 7.125% Notes due 2027｜市價 24.6846｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SCCE Sachem Capital Corp. 6.00% Notes due 2027｜市價 24.57｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- HTFC Horizon Technology Finance Corporation 6.25% Notes due 2027｜市價 25.1915｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DCBG Dime Commercial Bancshares, Inc. 9.000% Junior Subordinated Notes｜市價 26.65｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PSUS Pershing Square USA, Ltd. Common Shares｜市價 37.85｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BANFP BancFirst Corporation - BFC Capital Trust II Cumulative Trust Preferred Securities｜市價 27.5｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GAINZ Gladstone Investment Corporation 4.875% Notes due 2028｜市價 24.15｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RWAYL Runway Growth Finance Corp. 7.50% Notes due 2027｜市價 25.06｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AIZN Assurant, Inc. 5.25% Subordinated Notes due 2061｜市價 17.96｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RILYN BRC Group Holdings, Inc. 6.50% Senior Notes Due 2026｜市價 25.18｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RILYG BRC Group Holdings, Inc. 5.00% Senior Notes due 2026｜市價 24.83｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MITN TPG Mortgage Investment Trust, Inc. 9.500% Senior Notes due 2029｜市價 25.4599｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MITP TPG Mortgage Investment Trust, Inc. 9.500% Senior Notes due 2029｜市價 25.31｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GEGGL Great Elm Group, Inc.  7.25% Notes due 2027｜市價 24.7501｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CUBB Customers Bancorp, Inc 5.375% Subordinated Notes Due 2034｜市價 21.9754｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NSLRL Neostellar Capital Corp. 6.00% Notes due 2026｜市價 25.2756｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NEWTG NewtekOne, Inc. 8.50% Fixed Rate Senior Notes due 2029｜市價 25.1801｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NEWTI NewtekOne, Inc. 8.00% Fixed Rate Senior Notes due 2028｜市價 25.125｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RILYT BRC Group Holdings, Inc. 6.00% Senior Notes Due 2028｜市價 21.54｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RILYZ BRC Group Holdings, Inc. 5.25% Senior Notes due 2028｜市價 20.67｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MGRE Affiliated Managers Group, Inc. 6.750% Junior Subordinated Notes due 2064｜市價 22.14｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- VFSWW VinFast Auto Ltd. Warrant｜市價 0.2559｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- WHFCL WhiteHorse Finance, Inc. 7.875% Notes due 2028｜市價 25.12｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MGR Affiliated Managers Group, Inc. 5.875% Junior Subordinated Notes due 2059｜市價 19.75｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MGRB Affiliated Managers Group, Inc. 4.750% Junior Subordinated Notes due 2060｜市價 16.16｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MGRD Affiliated Managers Group, Inc. 4.200% Junior Subordinated Notes due 2061｜市價 14.55｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DDT Dillard's Capital Trust I｜市價 26.09｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SAZ Saratoga Investment Corp 8.50% Notes due 2028｜市價 25.198｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SAY Saratoga Investment Corp 8.125% Notes due 2027｜市價 25.09｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SAJ Saratoga Investment Corp 8.00% Notes due 2027｜市價 25.0801｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SAT Saratoga Investment Corp 6.00% Notes due 2027｜市價 25.04｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GREEL Vulcan Infrastructure and Power Inc. 8.50% Senior Notes due 2026｜市價 24.65｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ATLCZ Atlanticus Holdings Corporation 9.25% Senior Notes due 2029｜市價 25.38｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ATLCL Atlanticus Holdings Corporation 6.125% Senior Notes due 2026｜市價 25.2｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PSQLW Pasqal Holding SA Warrant｜市價 1.63｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SWKHL SWK Holdings Corporation 9.00% Senior Notes due 2027｜市價 25.5399｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- FCNCN First Citizens BancShares, Inc. Depositary Shares, each representing a 1/40th interest in a share of 6.625% Non-Cumulative Perpetual Preferred Stock, Series E｜市價 24.14｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- INBKZ First Internet Bancorp 6.0% Fixed-to-Floating Rate Subordinated Notes Due 2029｜市價 25.25｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BIPI BIP Bermuda Holdings I Limited 5.125% Perpetual Subordinated Notes｜市價 16.25｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SJT San Juan Basin Royalty Trust Common Stock｜市價 3.08｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- QVCG QVC Group, Inc. Common Stock｜市價 16.86｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- WHLRD Wheeler Real Estate Investment Trust, Inc. Series D Cumulative Preferred Stock｜市價 36｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KRSA Korsana Biosciences, Inc. Common Stock｜市價 26.2｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KDKRW Kodiak AI, Inc. Warrants｜市價 0.585｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ALVOW Alvotech Warrant｜市價 0.32｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GFUZW General Fusion Group Ltd. Warrant｜市價 1.67｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GRABW Grab Holdings Limited Warrant｜市價 0.0222｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MHNC Maiden Holdings North America, Ltd. 7.75% Notes due 2043｜市價 11.4｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SHMDW SCHMID Group N.V. Warrants｜市價 0.82｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ENRDW Einride AB Warrants｜市價 0.34｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PFXNZ PhenixFIN Corporation  5.25% Notes due 2028｜市價 23.96｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- HCMAW HCM III Acquisition Corp. Warrants｜市價 0.56｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- WHLRP Wheeler Real Estate Investment Trust, Inc. Class B Preferred Stock｜市價 9｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ADSEW ADS-TEC ENERGY PLC Warrant｜市價 0.44｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- LOTWW Lotus Technology Inc. Warrants｜市價 0.0473｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AFRIW Forafric Global PLC Warrants｜市價 1.12｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- XLABW Exascale Labs Holdings Inc. Warrant｜市價 0.3234｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DFDVW DeFi Development Corp. Warrant｜市價 0.93｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MDCXW Medicus Pharma Ltd. Warrant｜市價 0.4｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NUCLW Eagle Nuclear Energy Corp. Warrants｜市價 0.6994｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- YFOR YYForce Inc. Class A Ordinary Shares｜市價 1.31｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MDAIW Spectral AI, Inc. Warrants｜市價 0.4998｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AISPW Airship AI Holdings, Inc. Warrants｜市價 0.46｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- OGGWZ Osisko Gold Group Inc. Warrant expiring 5/27/2027｜市價 0.0499｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- VRXAW Veraxa Biotech AG Warrants｜市價 0.101｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ECXWW ECARX Holdings Inc. Warrants｜市價 0.0278｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BAERW Bridger Aerospace Group Holdings, Inc. Warrant｜市價 0.18｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NAMMW Namib Minerals Warrants｜市價 0.1578｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NCT Intercont (Cayman) Limited Class A Ordinary shares｜市價 0.3155｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SPWRW SunPower Inc. Warrants｜市價 0.0258｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DSS DSS, Inc. Common Stock｜市價 0.75｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RDZNW Roadzen, Inc. Warrants｜市價 0.085｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DPU Top KingWin Ltd Class A Ordinary Shares｜市價 2.05｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SLDPW Solid Power, Inc. Warrant｜市價 0.025｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GRRRW Gorilla Technology Group Inc. Warrant｜市價 0.169｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BNCWZ CEA Industries Inc. Warrant｜市價 0.11｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- STLNW Starling Oncology, Inc. Warrant｜市價 0.0401｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NXAT Nexus Advanced Technologies Inc. Ordinary Shares｜市價 1.31｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- WALDW Waldencast plc Warrant｜市價 0.0245｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ASPSW Altisource Portfolio Solutions S.A. Net Settle Stakeholder Warrants｜市價 0.2688｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AIIOW Robo.ai Inc. Warrant｜市價 0.025｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KLXER KLX Energy Services Holdings, Inc.  Rights｜市價 0.137｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- VWAVW VisionWave Holdings, Inc. Warrant｜市價 0.0791｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BETRW Better Home & Finance Holding Company Warrant｜市價 0.124｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RAINW Rain Enhancement Technologies Holdco, Inc. Warrants｜市價 0.14｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BLUWW Blue Water Acquisition Corp. III Warrant.｜市價 0.2801｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ASPSZ Altisource Portfolio Solutions S.A. Cash Exercise Stakeholder Warrants｜市價 0.172｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ONMDW OneMedNet Corp Warrant｜市價 0.028｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NRSNW NeuroSense Therapeutics Ltd. Warrant｜市價 0.05｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PGYWW Pagaya Technologies Ltd. Warrants｜市價 0.0208｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MNYWW MoneyHero Limited Warrants｜市價 0.0357｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SKYAW SkyAI, Inc. Warrant｜市價 0.0349｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BDMDW Baird Medical Investment Holdings Ltd Warrant｜市價 0.035｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- FUSEW Fusemachines Inc. Warrants｜市價 0.0469｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SDSTW Stardust Power Inc. Warrant｜市價 0.0893｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BCTXZ BriaCell Therapeutics Corp. Warrant expiring 2030｜市價 0.1399｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ILLRW Triller Group Inc. Warrant｜市價 0.0569｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- VGASW Verde Clean Fuels, Inc. Warrant｜市價 0.0251｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ASTLW Algoma Steel Group Inc. Warrant｜市價 0.0101｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GRMLW Greenland Mines Ltd Warrant｜市價 0.1788｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BGLWW Blue Gold Limited Warrant｜市價 0.025｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BRLSW Borealis Foods Inc. Warrant｜市價 0.0454｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SCLXW Scilex Holding Company Warrant｜市價 0.1088｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SCAGW Scage Future Warrants｜市價 0.0123｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- HOLOW MicroCloud Hologram Inc. Warrant｜市價 0.034｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- HPAIW Helport AI Limited Warrants｜市價 0.0151｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BNAIW Brand Engagement Network Inc. Warrant｜市價 0.07｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GFAIW Guardforce AI Co., Limited Warrant｜市價 0.016｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- HUBCZ Hub Cyber Security Ltd. Warrant｜市價 0.0149｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TMCWW TMC the metals company Inc. Warrants｜市價 0.0011｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MRNOW Murano Global Investments PLC Warrants｜市價 0.0061｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BIOTW Instinct Bio Technical Company Holdings Inc. Warrants｜市價 0.0164｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DFLIW Dragonfly Energy Holdings Corp. Warrant｜市價 0.023｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BNCWW CEA Industries Inc. Warrant｜市價 0.0104｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- IVDAW Iveda Solutions, Inc. Warrant｜市價 0.0193｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- HUBCW Hub Cyber Security Ltd. Warrant 2/27/28｜市價 0.0113｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- XBPEW XBP Europe Holdings, Inc. Warrant｜市價 0.0317｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SEATW Vivid Seats Inc. Warrant｜市價 0.0314｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- LUCYW Innovative Eyewear, Inc. Series A Warrants 8/16/27｜市價 0.0391｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PDYNW Palladyne AI Corp Warrants｜市價 0.0068｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TVGNW Tevogen Inc. Warrant｜市價 0.0514｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SWVLW Swvl Holdings Corp Warrant｜市價 0.011｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BFRIW Biofrontera Inc. Warrants｜市價 0.0205｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ZOOZW ZOOZ Strategy Ltd. Warrant｜市價 0.0245｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- LNZAW LanzaTech Global, Inc. Warrant｜市價 0.0148｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SHFSW SHF Holdings, Inc. Warrants｜市價 0.0157｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DFNSW T3 Defense Inc. Warrants｜市價 0.0663｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NCPLW Netcapital Inc. Warrants｜市價 0.021｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NXGLW NexGel, Inc Warrant｜市價 0.0149｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BENFW Beneficient Warrant｜市價 0.0093｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CDTTW CDT Equity Inc. Warrant｜市價 0.0098｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SXTPW 60 Degrees Pharmaceuticals, Inc. Warrant｜市價 0.035｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ANGHW Anghami Inc. Warrants｜市價 0.0132｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CINGW Cingulate Inc. Warrants｜市價 0.0081｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KTTAW Pasithea Therapeutics Corp. Warrant｜市價 0.0035｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KITTW Nauticus Robotics, Inc. Warrant｜市價 0.0145｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- EUDAW EUDA Health Holdings Limited Warrant｜市價 0.0353｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AMODW Alpha Modus Holdings, Inc. Warrant｜市價 0.0193｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- EDBLW Edible Garden AG Incorporated Warrant｜市價 0.0394｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DSYWW Big Tree Cloud Holdings Limited Warrants｜市價 0.0196｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PIIIW P3 Health Partners Inc. Warrant｜市價 0.0118｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ERNAW Ernexa Therapeutics Inc. Warrants｜市價 0.0495｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CXAIW CXApp Inc. Warrant｜市價 0.0337｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- VEEAW Veea Inc. Warrant｜市價 0.0251｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PBMWW Psyence Biomedical Ltd. Warrant｜市價 0.02｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DFSCW DEFSEC Technologies Inc. Warrant｜市價 0.016｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ACONW Aclarion, Inc. Warrant｜市價 0.0256｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CYCUW Cycurion, Inc. Warrant｜市價 0.022｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MSAIW MultiSensor AI Holdings, Inc. Warrant｜市價 0.0299｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ICUCW SeaStar Medical Holding Corporation Warrant｜市價 0.0141｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SWAGW Stran & Company, Inc. Warrant｜市價 0.0032｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SAIHW SAIHEAT Limited Warrant｜市價 0.0255｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CDIOW Cardio Diagnostics Holdings Inc. Warrant｜市價 0.0159｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RVSNW Rail Vision Ltd. Warrant｜市價 0.02｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NIVFW NewGenIvf Group Limited Warrants｜市價 0.019｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- APLMW Apollomics Inc. Warrant｜市價 0.0139｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- REVBW Revelation Biosciences, Inc. Warrant｜市價 0.0094｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ONFOW Onfolio Holdings Inc. Warrant｜市價 0.0149｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PARAW Banzai International, Inc. Warrant｜市價 0.0085｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NXATW Nexus Advanced Technologies Inc. Warrant｜市價 0.01｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SQFTW Presidio Property Trust, Inc. Series A Common Stock Purchase Warrants｜市價 0.0157｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SMXWW SMX (Security Matters) Public Limited Company Warrant｜市價 0.0195｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DAICW CID HoldCo, Inc. Warrants｜市價 0.0099｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ASBPW Aspire-Lakewood Holdings, Inc. Warrant｜市價 0.0133｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- LTRYW Sports Entertainment Gaming Global Corporation Warrants｜市價 0.0047｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MLECW Moolec Science SA Warrant｜市價 0.0156｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KIDZW KIDZ AI Inc. Warrants｜市價 0.01｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TNONW Tenon Medical, Inc. Warrant｜市價 0.0077｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AACIU Armada Acquisition Corp. III Units｜市價 10.14｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AACIW Armada Acquisition Corp. III Warrant｜市價 0.25｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AACOW Abony Acquisition Corp. I Warrants｜市價 0.3981｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AACPR Apogee Acquisition Corp Rights｜市價 0.1701｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ADACW American Drive Acquisition Company Warrant｜市價 0.4｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ADAMK Adamas Trust, Inc. 9.600% Senior Notes Due 2031｜市價 25.3398｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ADAMO Adamas Trust, Inc. 9.250% Senior Notes Due 2031｜市價 25.319｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AEFC Aegon Funding Company LLC 5.10% Subordinated Notes due 2049｜市價 18.12｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AESPR Aeon Acquisition I Corp. Rights｜市價 0.21｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AFJKR Aimei Health Technology Co., Ltd Right｜市價 0.1101｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AFJKU Aimei Health Technology Co., Ltd Unit｜市價 13｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AGM-PI Federal Agricultural Mortgage Corporation 6.875% Non-Cumulative Preferred Stock, Series I｜市價 24.9｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AHT-PD Ashford Hospitality Trust Inc 8.45% Series D Cumulative Preferred Stock｜市價 5.77｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AHT-PF Ashford Hospitality Trust Inc 7.375% Series F Cumulative Preferred Stock｜市價 6.28｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AHT-PG Ashford Hospitality Trust Inc 7.375% Series G Cumulative Preferred Stock｜市價 5.8｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AHT-PH Ashford Hospitality Trust Inc 7.50% Series H Cumulative Preferred Stock｜市價 5.1901｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AHT-PI Ashford Hospitality Trust Inc 7.50% Series I Cumulative Preferred Stock｜市價 5.75｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ALFUW Centurion Acquisition Corp. Warrant｜市價 0.29｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ALISU Calisa Acquisition Corp Units｜市價 10.79｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ALL-PB Allstate Corporation (The) 5.100% Fixed-to-Floating Rate Subordinated Debentures due 2053｜市價 25.63｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ALPXR Alpex Acquisition Corporation Rights｜市價 0.1801｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ALPXW Alpex Acquisition Corporation Warrants｜市價 0.07｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AMACU AMR Resources Acquisition Corp Units｜市價 9.96｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AMACW AMR Resources Acquisition Corp Warrants｜市價 0.2701｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AOMD Angel Oak Mortgage REIT, Inc. 9.750% Senior Notes due 2030｜市價 25.0499｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AOMN Angel Oak Mortgage REIT, Inc. 9.500% Senior Notes due 2029｜市價 25.27｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- APMCU AmperCap Acquisition Company Unit｜市價 10.055｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- APXTU Apex Treasury Corporation Units｜市價 10.29｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- APXTW Apex Treasury Corporation Warrants｜市價 0.3001｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ARCIU Archimedes Tech SPAC Partners III Co. Units｜市價 10.35｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ARCLU ARC Group Acquisition I Corp Unit｜市價 10.23｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ARES-PB Ares Management Corporation 6.75% Series B Mandatory Convertible Preferred Stock｜市價 43.18｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ARTCW Art Technology Acquisition Corp. Warrants｜市價 0.3522｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ATIIW Archimedes Tech SPAC Partners II Co. Warrant｜市價 1.285｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ATLQU JAB Acquisition Corp I Unit｜市價 10.12｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AXINR Axiom Intelligence Acquisition Corp 1 Right｜市價 0.36｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- AXINU Axiom Intelligence Acquisition Corp 1 Units｜市價 10.725｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BA-PA Boeing Company (The) Depositary Shares, each representing a 1/20th interest in a share of 6.00% Series A Mandatory Convertible Preferred Stock, par value $1.00｜市價 64.27｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BACCR Blue Acquisition Corp. Right｜市價 0.4201｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BACCU Blue Acquisition Corp. Unit｜市價 10.89｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BC-PC Brunswick Corporation 6.375% Notes due 2049｜市價 24.235｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BCCQU Bleichroeder Acquisition Corp. III Units｜市價 10.32｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BCCQW Bleichroeder Acquisition Corp. III Warrant｜市價 1.08｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BDCIU BTC Development Corp. Unit｜市價 10.3｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BDCIW BTC Development Corp. Warrant｜市價 0.4251｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BEAGR Bold Eagle Acquisition Corp. Right｜市價 0.25｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BEAGU Bold Eagle Acquisition Corp. Units｜市價 11.22｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BFH-PA Bread Financial Holdings, Inc. Depositary Shares, each representing a 1/40th interest in a share of 8.625% Non-Cumulative Perpetual Preferred Stock, Series A｜市價 24.655｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BIDWR Tribeca Strategic Acquisition Corp. Rights｜市價 0.14｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BIDWU Tribeca Strategic Acquisition Corp. Unit｜市價 10.02｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BIXIU Bitcoin Infrastructure Acquisition Corp Ltd. Unit｜市價 10.24｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BIXIW Bitcoin Infrastructure Acquisition Corp Ltd. Warrant｜市價 0.375｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BKHAU Black Hawk Acquisition Corporation Units｜市價 12｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BLRKU Bluerock Acquisition Corp. Unit｜市價 10.2573｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BLZRU Trailblazer Acquisition Corp. Unit｜市價 10.33｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BLZRW Trailblazer Acquisition Corp. Warrant｜市價 0.32｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BOH-PB Bank of Hawaii Corporation Depositary Shares, Each Representing a 1/40th Interest in a Share of 8.000% Fixed Rate Non-Cumulative Perpetual Preferred Stock, Series B｜市價 25.71｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BREZR Breeze Acquisition Corp. II Right｜市價 0.28｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BRKHU Burtech Acquisition Corp II Unit｜市價 10.09｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- BRTMU B&R Technology Merger Corp. Units｜市價 9.96｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- C-PN Citigroup Capital XIII 7.875% Fixed rate Floating Rate trust Preferred Securities (TruPS)｜市價 26.36｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CAIIU Collective Acquisition Corp. II Units｜市價 10.0889｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CAIIW Collective Acquisition Corp. II Warrants｜市價 0.22｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CAPNR Cayson Acquisition Corp Right｜市價 0.09｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CAPNU Cayson Acquisition Corp Unit｜市價 11.17｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CAQUW Cambridge Acquisition Corp. Warrants｜市價 0.3｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CATLU Catalyst Acquisition Corp. Units｜市價 10｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CCAQW Collective Acquisition Corp. Warrants｜市價 0.28｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CCCTU Columbus Circle Capital Corp III Units｜市價 9.96｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CCCTW Columbus Circle Capital Corp III Warrants｜市價 0.36｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CCIIU Cohen Circle Acquisition Corp. II Unit｜市價 10.4701｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CCXIU Churchill Capital Corp XI Units｜市價 14.4｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CCXIW Churchill Capital Corp XI Warrants｜市價 6.4｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CGCFU Cartesian Growth Corporation IV Unit｜市價 9.965｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CGCFW Cartesian Growth Corporation IV Warrants｜市價 0.33｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CHARR Charlton Aria Acquisition Corporation Rights｜市價 0.1001｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CHPGR ChampionsGate Acquisition Corporation Rights｜市價 0.084｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CICC CION Investment Corporation 7.50% Notes due 2031｜市價 24.92｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CIMP Chimera Investment Corporation 8.875% Senior Notes due 2030｜市價 25.18｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CNO-PA CNO Financial Group, Inc. 5.125% Subordinated Debentures due 2060｜市價 16.32｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- COLAR Columbus Acquisition Corp Rights｜市價 0.51｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CRANR Crane Harbor Acquisition Corp. II Rights｜市價 0.19｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CRANU Crane Harbor Acquisition Corp. II Units｜市價 10.355｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CRAQR Cal Redwood Acquisition Corp. Right｜市價 0.16｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CRAQU Cal Redwood Acquisition Corp. Units｜市價 10.49｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CRBD Corebridge Financial Inc. 6.375% Junior Subordinated Notes due 2064｜市價 20.75｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CTGG Qwest Corporation 6.500% Senior Notes due 2051 (denominations of $25)｜市價 16.2｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CTHH Qwest Corporation 6.750% Senior Notes due 2052 (denominations of $25)｜市價 16.68｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- CUBWW Lionheart Holdings Warrant｜市價 0.2394｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DAAQU Digital Asset Acquisition Corp. Units｜市價 11｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DAAQW Digital Asset Acquisition Corp. Warrant｜市價 0.1899｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DMIIR Drugs Made In America Acquisition II Corp. Right｜市價 0.0702｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DMIIU Drugs Made In America Acquisition II Corp. Unit｜市價 10.1999｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DSACW Daedalus Special Acquisition Corp. Warrant｜市價 0.8｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DTK DTE Energy Company 2025 Series H 6.25% Junior Subordinated Debentures due 2085｜市價 22.45｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DTSQR DT Cloud Star Acquisition Corporation Right｜市價 0.1001｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- DYORW Insight Digital Partners II Warrants｜市價 0.21｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ECCU Eagle Point Credit Company 7.75% Notes due 2030｜市價 25.52｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- EGHAR EGH Acquisition Corp. Rights｜市價 0.3199｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- EIIA Eagle Point Institutional Income Fund 8.125% Series A Term Preferred Shares Due 2029｜市價 25.22｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- EP-PC El Paso Corporation Preferred Stock｜市價 50.53｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- EVOXU Evolution Global Acquisition Corp Units｜市價 10.28｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- EVOXW Evolution Global Acquisition Corp Warrants｜市價 0.3552｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- EWAVR East West Ave Acquisition Corp. Rights｜市價 0.165｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- EWAVU East West Ave Acquisition Corp. Units｜市價 10.034｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- F-PB Ford Motor Company 6.20% Notes due June 1, 2059｜市價 19.99｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- F-PC Ford Motor Company 6% Notes due December 1, 2059｜市價 19.51｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- F-PD Ford Motor Company 6.500% Notes due August 15, 2062｜市價 20.75｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- FACTW FACT II Acquisition Corp. Warrant｜市價 0.15｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- FDMMU Freedom Metals Acquisition Corp. Units｜市價 9.98｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- FERAR Fifth Era Acquisition Corp I Rights｜市價 0.27｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- FGSN F&G Annuities & Life, Inc. 7.300% Junior Subordinated Notes due 2065｜市價 20.68｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- FHN-PH First Horizon Corporation Depositary Shares each representing a 1/4,000th interest in a share of Non-Cumulative Perpetual Preferred Stock, Series H｜市價 23.84｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- FIGXW FIGX Capital Acquisition Corp. Warrant｜市價 0.1797｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- FITB-PI Fifth Third Bancorp Depositary Share repstg 1/1000th Ownership Interest Perp Pfd Series I｜市價 25.56｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- FJDIU ARC Group Securities Acquisition I Units｜市價 9.98｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- FLG-PU Flagstar Bank, N.A. Bifurcated Option Note Unit SecuritiES｜市價 39.99｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- FMACU Future Money Acquisition Corporation Units｜市價 10.3082｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- FSHPR Flag Ship Acquisition Corp. Right｜市價 0.085｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- FVNNR Future Vision II Acquisition Corporation Right｜市價 0.2｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- FVNNU Future Vision II Acquisition Corporation Units｜市價 14｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GAING Gladstone Investment Corporation 7.125% Notes due 2031｜市價 25.05｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GCGRW General Catalyst Global Resilience Merger Corp. Warrants｜市價 0.7｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GECCG Great Elm Capital Corp. 7.75% Notes Due 2030｜市價 24.85｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GECCH Great Elm Capital Corp. 8.125% Notes Due 2029｜市價 25.28｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GECCI Great Elm Capital Corp. 8.50% NOTES DUE 2029｜市價 25.305｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GHXIU Gores Holdings XI, Inc. Units｜市價 10.17｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GHXIW Gores Holdings XI, Inc. Warrant｜市價 0.58｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GIWWU GigCapital8 Corp. Units｜市價 10.61｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GJH Synthetic Fixed-Income Securities Inc 6.375% (STRATS) Cl A-1｜市價 9.44｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GJO Synthetic Fixed-Income Securities, Inc. on behalf of STRATS(SM) Trust for Wal-Mart Stores, Inc. Securities, Series 2004-5｜市價 24.4989｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GJP Synthetic Fixed-Income Securities, Inc. on behalf of STRATS (SM) Trust for Dominion Resources, Inc. Securities, Series 2005-6, Floating Rate Structured Repackaged Asset-Backed Trust Securities (STRATS) Certificates｜市價 24.61｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GJR Synthetic Fixed-Income Securities, Inc. STRATS Trust for Procter&Gamble Securities, Series 2006-1｜市價 24.72｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GL-PD Globe Life Inc. 4.25% Junior Subordinated Debentures due 2061｜市價 14.69｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GLU-PA The Gabelli Global Utility and Income Trust Series A Cumulative Puttable and Callable Preferred Shares｜市價 55.48｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GNT-PA GAMCO Natural Resources, Gold & Income Tust  5.20% Series A Cumulative Preferred Shares (Liquidation Preference $25.00 per share)｜市價 19.68｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GPACU General Purpose Acquisition Corp. Units｜市價 10.16｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GPATW GP-Act III Acquisition Corp. Warrants｜市價 0.1893｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GSHRW Gesher Acquisition Corp. II Warrants｜市價 0.27｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GSRFR GSR IV Acquisition Corp. Rights｜市價 1.9｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GTENU Gores Holdings X, Inc. Units｜市價 10.65｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GTENW Gores Holdings X, Inc. Warrants｜市價 0.6706｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GTERR Globa Terra Acquisition Corporation Rights｜市價 0.065｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GTERU Globa Terra Acquisition Corporation Units｜市價 10.46｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- GTERW Globa Terra Acquisition Corporation Warrants｜市價 0.07｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- HACQW HCM IV Acquisition Corp. Warrants｜市價 0.429｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- HAVAR Harvard Ave Acquisition Corporation Rights that convert on a 1/10th of 1 basis to Class A ordinary Shares｜市價 0.1499｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- HCACR Hall Chadwick Acquisition Corp Rights｜市價 0.25｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- HCICR Hennessy Capital Investment Corp. VIII Share Rights｜市價 0.13｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- HCICU Hennessy Capital Investment Corp. VIII Units｜市價 10.1201｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- HCMAU HCM III Acquisition Corp. Units｜市價 10.47｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- HPE-PC Hewlett Packard Enterprise Company 7.625% Series C Mandatory Convertible Preferred Stock｜市價 148.19｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- HVMCU Highview Merger Corp. Units｜市價 10.425｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- IACOU Idea Acquisition Corp. Units｜市價 10.05｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- IACQW Irenic Acquisition Corp. Warrants｜市價 0.42｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- IDACW Iron Dome Acquisition I Corp. Warrant｜市價 0.28｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- IEAGR Infinite Eagle Acquisition Corp. Rights｜市價 0.18｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- IEAGU Infinite Eagle Acquisition Corp. Unit｜市價 10.37｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- INACR Indigo Acquisition Corp. Right｜市價 0.0939｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- IPEXR Inflection Point Acquisition Corp. V Rights｜市價 0.5｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- IPEXU Inflection Point Acquisition Corp. V Units｜市價 8.2｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- IPFXW Inflection Point Acquisition Corp. VI Warrant｜市價 1.0799｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- IPHXU Inflection Point Acquisition Corp. VIII Unit｜市價 10.11｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- IPVVW InterPrivate Investment Partners V, Inc. Warrants｜市價 0.35｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- IPXGW Inflection Point Acquisition Corp. VII Warrant｜市價 0.75｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- IRHOR Iron Horse Acquisitions Corp. II Rights｜市價 0.21｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- IRHOU Iron Horse Acquisitions II Corp. Units｜市價 10.2499｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ISNRU Snow Rothschild Acquisition Corp. Units｜市價 9.97｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ISNRW Snow Rothschild Acquisition Corp. Warrants｜市價 0.22｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ITHAW ITHAX Acquisition Corp III Warrants｜市價 0.1712｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- JBK Lehman ABS 3.50 3.50% Adjustable Corp Backed Tr Certs GS Cap I｜市價 25.65｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- JONER Jones Ventures INTL Acquisition1 Corp Rights｜市價 0.15｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- JONEU Jones Ventures INTL Acquisition1 Corp Units｜市價 9.97｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KBONU Karbon Capital Partners Corp. Units｜市價 10.3｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KBONW Karbon Capital Partners Corp. Warrant｜市價 0.6｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KCHVR Kochav Defense Acquisition Corp. Right｜市價 0.11｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KCHVU Kochav Defense Acquisition Corp. Units｜市價 10.52｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KEYYU Keystone Acquisition Corp. Unit｜市價 10.15｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KEYYW Keystone Acquisition Corp. Warrants｜市價 0.4｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KFIIR K&F Growth Acquisition Corp. II Rights｜市價 0.09｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KKRT KKR & Co. Inc. 6.875% Subordinated Notes due 2065｜市價 23.2｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KOYNU CSLM Digital Asset Acquisition Corp III Units｜市價 10.31｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KOYNW CSLM Digital Asset Acquisition Corp III Warrants｜市價 0.236｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KRAQU KRAKacquisition Corp Unit｜市價 10.1201｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KRAQW KRAKacquisition Corp Warrants｜市價 0.4｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KTH Structures Products Cp 8% CorTS Issued by Peco Energy Cap Tr II Preferred Stock｜市價 28.56｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KTN Structured Products Corp 8.205% CorTS 8.205% Corporate Backed Trust Securities (CorTS)｜市價 25.54｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- KTWOU K2 Capital Acquisition Corporation Units｜市價 10.255｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- LAFAR LaFayette Acquisition Corp. Rights｜市價 0.0801｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- LATAU Galata Acquisition Corp. II Units｜市價 10.3｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- LATAW Galata Acquisition Corp. II Warrant｜市價 0.2101｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- LKSPR Lake Superior Acquisition Corp. Rights｜市價 1.1｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- LPBBW Launch Two Acquisition Corp. Warrant｜市價 0.23｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- LPCVU Launchpad Cadenza Acquisition Corp I Unit｜市價 10.1｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- LTGRU Long Table Growth Corp. Units｜市價 10.099｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- LTGRW Long Table Growth Corp. Warrants｜市價 0.28｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- LWACW LightWave Acquisition Corp. Warrants｜市價 0.1601｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MBVIU M3-Brigade Acquisition VI Corp. Units｜市價 10.3｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MBVIW M3-Brigade Acquisition VI Corp. Warrant｜市價 0.3301｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MCGAU Yorkville Acquisition Corp. Unit｜市價 10.41｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MCGAW Yorkville Acquisition Corp. Warrant｜市價 0.3299｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MER-PK Bank of America Corporation Income Capital Obligation Notes initially due December 15, 2066｜市價 24.65｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MESHU Meshflow Acquisition Corp. Units｜市價 10.21｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MESHW Meshflow Acquisition Corp. Warrants｜市價 0.3509｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MEVOU M Evo Global Acquisition Corp II Units｜市價 10.19｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MEVOW M Evo Global Acquisition Corp II Warrants｜市價 0.39｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MIACU Meridian3 Industrials Acquisition Corp Units｜市價 10.015｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MIACW Meridian3 Industrials Acquisition Corp Warrant｜市價 0.35｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MKLYR McKinley Acquisition Corporation Rights｜市價 0.26｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MKLYU McKinley Acquisition Corporation Units｜市價 10.46｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MLAAU Mountain Lake Acquisition Corp. II Units｜市價 10.0801｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MLAAW Mountain Lake Acquisition Corp. II Warrants｜市價 0.2｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MLCIL Mount Logan Capital Inc. 8.00% Notes Due 2031｜市價 22.61｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MRCOU Mercator Acquisition Corp. Units｜市價 10.02｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MRCOW Mercator Acquisition Corp. Warrant｜市價 0.31｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MTAKU Market Technology Acquisition Corp Unit｜市價 9.965｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- MUZEU Muzero Acquisition Corp Unit｜市價 10.1｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NCOOR Southern Cross Acquisition I Corp. Rights｜市價 0.18｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NCOOU Southern Cross Acquisition I Corp. Units｜市價 10.1062｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NCOOW Southern Cross Acquisition I Corp. Warrants｜市價 0.05｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NEE-PN NextEra Energy Capital Holdings Inc. Series N Junior Subordinated Debentures due March 1, 2079｜市價 19.79｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NEE-PU NextEra Energy, Inc. Series U Junior Subordinated Debentures due June 1, 2085｜市價 22.95｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NEE-PW NextEra Energy Capital Holdings Inc. Series Z Junior Subordinated Debentures due April 15, 2086｜市價 23.02｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NHICU NewHold Investment Corp III Units｜市價 11.3｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NHICW NewHold Investment Corp III Warrants｜市價 1.4｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NOEMR CO2 Energy Transition Corp. Right｜市價 0.18｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NOEMW CO2 Energy Transition Corp. Warrant｜市價 0.165｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NPACU New Providence Acquisition Corp. III Units｜市價 10.59｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NRUC National Rural Utilities Cooperative Finance Corporation 5.500% Subordinated Notes due 2064 (Subordinated Deferrable Interest Notes)｜市價 20.58｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NSAIU NorthStrive Acquisition Corp I. Units｜市價 10.03｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NTWOU Newbury Street II Acquisition Corp Unit｜市價 11.88｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- NTWOW Newbury Street II Acquisition Corp Warrant｜市價 1.24｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- OACCU Oaktree Acquisition Corp. III Life Sciences Unit｜市價 10.9988｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- OBAWU Oxley Bridge Acquisition Limited Unit｜市價 10.38｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- OBAWW Oxley Bridge Acquisition Limited Warrants｜市價 0.182｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- OCLTU OceanLight Acquisition Corporation Units｜市價 10.0224｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- OHACR Oceanhawk Acquisition Corp. Rights｜市價 0.25｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- OHACU Oceanhawk Acquisition Corp. Units｜市價 10.2｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- OIMAW OneIM Acquisition Corp. Warrant｜市價 0.7001｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ONCHU 1RT Acquisition Corp. Units｜市價 10.42｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ONCHW 1RT Acquisition Corp. Warrant｜市價 0.4199｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- OPP-PC RiverNorth/DoubleLine Strategic Opportunity Fund, Inc. 6.00% Series C Term Preferred Stock (Liquidation Preference $10.00 per share)｜市價 10.11｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- OSPRU Osprey Acquisition Corp. III Units｜市價 9.97｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- OSPRW Osprey Acquisition Corp. III Warrants｜市價 0.35｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- OTAI Starlink AI Acquisition Corporation Ordinary Shares｜市價 10.005｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- OTGAU OTG Acquisition Corp. I Unit｜市價 10.37｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- OYSER Oyster Enterprises II Acquisition Corp Rights｜市價 0.135｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PAACW Proem Acquisition Corp I Warrants｜市價 0.479｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PACHU Pioneer Acquisition I Corp Units｜市價 10.3801｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PACHW Pioneer Acquisition I Corp Warrants｜市價 0.17｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PCAPU ProCap Acquisition Corp Unit｜市價 10.4501｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PCAPW ProCap Acquisition Corp Warrant｜市價 0.3｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PCG-PX PG&E Corp 6.000% Series A Mandatory Convertible Preferred Stock｜市價 35.88｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PECEU Peace Acquisition Corp Units｜市價 10.29｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PGACR Pantages Capital Acquisition Corporation Right｜市價 0.1701｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PHXE-P Phoenix Energy One, LLC Series A Cumulative Redeemable Preferred Shares｜市價 25.32｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PLCIU Pelican Acquisition II Corporation Unit｜市價 10.01｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PLMKW Plum Acquisition Corp. IV Warrants｜市價 0.35｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PMTRU Perimeter Acquisition Corp. I Unit｜市價 11｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PMTRW Perimeter Acquisition Corp. I Warrant｜市價 0.71｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PMTV PennyMac Mortgage Investment Trust 9.00% Senior Notes due 2030｜市價 25.27｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PSA-PT Public Storage 6.000% Cumulative Preferred Shares of beneficial interest, Series T｜市價 22.04｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PSA-PU Public Storage 6.000% Cumulative Preferred Shares of Beneficial Interest, Series U｜市價 23.15｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PTACU Patriot Acquisition Corp. Units｜市價 10.04｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PTACW Patriot Acquisition Corp. Warrants｜市價 0.2｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PTORU Praetorian Acquisition Corp. Units｜市價 10.15｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PTORW Praetorian Acquisition Corp. Warrant｜市價 0.345｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PW-PA Power REIT 7.75% Series A Cumulative Perpetual Preferred Stock｜市價 9.34｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- PYT PPlus Tr GSC-2 Tr Ctf Fltg Rate｜市價 23.5｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- QETAR Quetta Acquisition Corporation Right｜市價 0.6001｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- QETAU Quetta Acquisition Corporation Unit｜市價 11.51｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- QSEAR Quartzsea Acquisition Corporation Rights｜市價 0.1502｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- QSEAU Quartzsea Acquisition Corporation Units｜市價 10.98｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- QUMSR Quantumsphere Acquisition Corp. Rights｜市價 0.0601｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- QUMSU Quantumsphere Acquisition Corp. Units｜市價 10.33｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- QXO-PB QXO, Inc.  Depositary Shares, each representing a 1/20th interest in a share of 5.50% Series B Mandatory Convertible Preferred Stock｜市價 39.16｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RANGR Range Capital Acquisition Corp. Rights｜市價 0.2759｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RCD Ready Capital Corporation 9.00% Senior Notes due 2029｜市價 23.3｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RDACR Rising Dragon Acquisition Corp. Rights｜市價 0.117｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RDACU Rising Dragon Acquisition Corp. Unit｜市價 9.95｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RDAGW Republic Digital Acquisition Company Warrants｜市價 0.2605｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RFAIR RF Acquisition Corp II Right｜市價 0.1607｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RFAMU RF Acquisition Corp III Units｜市價 10.11｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RITM-PF Rithm Capital Corp. 8.750% Series F Fixed-Rate Reset Cumulative Redeemable Preferred Stock｜市價 24.7｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RNAQU Rainier Acquisition Corporation Units｜市價 10.17｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RNGTW Range Capital Acquisition Corp II Warrants｜市價 0.3301｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RREVU RRE Ventures Acquisition Corp. Units｜市價 10.1｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RREVW RRE Ventures Acquisition Corp. Warrants｜市價 0.5｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RTACU Renatus Tactical Acquisition Corp I Unit｜市價 10.7501｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RTACW Renatus Tactical Acquisition Corp I Warrant｜市價 0.72｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- RWTS Redwood Trust, Inc. 9.75% Senior Notes Due 2031｜市價 23.1261｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SAAQU Space Asset Acquisition Corp. Units｜市價 10.32｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SAAQW Space Asset Acquisition Corp. Warrants｜市價 0.72｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SAV Saratoga Investment Corp 7.50% Notes due 2031｜市價 24.41｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SAX Saratoga Investment Corp 8.00% Notes due 2031｜市價 24.98｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SCATU Southern Cross Acquisition II Corp. Units｜市價 10.025｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SCE-PG SCE Trust II Trust Preferred Securities｜市價 17｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SCE-PL SCE TRUST VI｜市價 16.65｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SCE-PM SCE Trust VII 7.50% Trust Preference Securities｜市價 23.98｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SCE-PN SCE Trust VIII 6.95% Trust Preference Securities｜市價 22.58｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SCPQU Social Commerce Partners Corporation Unit｜市價 10.28｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SHOTU RMG ML Sports Holdings Unit｜市價 9.9899｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SOCAW Solarius Capital Acquisition Corp. Warrant｜市價 0.2002｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SOJF Southern Company (The) Series 2025A 6.50% Junior Subordinated Notes due March 15, 2085｜市價 24.82｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SPEGR Silver Pegasus Acquisition Corp Rights.｜市價 0.2｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SPEGU Silver Pegasus Acquisition Corp Unit｜市價 10.55｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SPKLW Spark I Acquisition Corp. Warrant｜市價 1.19｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SRJN Spire Inc. 6.375% Junior Subordinated Notes due 2086｜市價 21.9｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SSACR SPACSphere Acquisition Corp. Rights｜市價 0.1899｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SSACU SPACSphere Acquisition Corp. Unit｜市價 10.3099｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SSACW SPACSphere Acquisition Corp. Warrant｜市價 0.0799｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SUMAU SUMA Acquisition Corporation Units｜市價 10.25｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SVAQU Silicon Valley Acquisition Corp. Units｜市價 10.48｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SVAQW Silicon Valley Acquisition Corp. Warrants｜市價 0.36｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SVCCW Stellar V Capital Corp. Warrant｜市價 0.26｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- SVIVW Spring Valley Acquisition Corp. IV Warrants｜市價 0.6213｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TACHU Titan Acquisition Corp. Units｜市價 10.75｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TACHW Titan Acquisition Corp. Warrants｜市價 0.55｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TAVIR Tavia Acquisition Corp. Right｜市價 0.1149｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TBCVU Thunder Bridge Capital Partners V, Ltd. Units｜市價 9.93｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TCPA TransCanada PipeLines Limited 6.250% Junior Subordinated Notes due 2085｜市價 22.1｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TDACU Translational Development Acquisition Corp. Units｜市價 12.8899｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- THEOR BOA Acquisition Corp. II Rights｜市價 0.3｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- THEOU BOA Acquisition Corp. II Units｜市價 10.2｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TLACU Three Lions Acquisition Corp. Units｜市價 10.01｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TLNCU Talon Capital Corp. Units｜市價 10.5｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TLNCW Talon Capital Corp. Warrants｜市價 0.67｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TMUSI T-Mobile US, Inc. 5.500% Senior Notes due June 2070｜市價 19.69｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TMUSL T-Mobile US, Inc. 6.250% Senior Notes due 2069｜市價 22.76｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TMUSZ T-Mobile US, Inc. 5.500% Senior Notes due March 2070｜市價 19.77｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TPTS Terra Property Trust, Inc. 7.00% Senior Secured Notes due 2029｜市價 15.93｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TRGSR TRG Latin America Acquisitions Corp. Rights｜市價 0.165｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TVACU Texas Ventures Acquisition III Corp Unit｜市價 10.77｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TVACW Texas Ventures Acquisition III Corp Warrants｜市價 0.27｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TVAIR Thayer Ventures Acquisition Corporation II Rights｜市價 0.14｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TVC Tennessee Valley Authority Common Stock｜市價 23.945｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TVIVU Texas Ventures Acquisition IV Corp Units｜市價 10.375｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TVIVW Texas Ventures Acquisition IV Corp Warrant｜市價 0.26｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TWLVR Twelve Seas Investment Company III Rights｜市價 0.109｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- TWLVU Twelve Seas Investment Company III Units｜市價 10.16｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- USB-PS U.S. Bancorp Depositary Shares, each representing a 1/1,000th interest in a share of Series O Non-Cumulative Perpetual Preferred Stock｜市價 16.7｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- UYSCR UY Scuti Acquisition Corp. Rights｜市價 0.0799｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- VCX Fundrise Innovation Fund, LLC Common Shares of Limited Liability Company Interests｜市價 37.59｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- VHCPU Vine Hill Capital Investment Corp. II Units｜市價 10.16｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- VII Viking Acquisition Corp. II Class A Ordinary Shares｜市價 9.83｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- VLOSW Velos Acquisition I Corp. Warrant｜市價 0.41｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- WENNW Wen Acquisition Corp Warrant｜市價 0.28｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- WHR-PA Whirlpool Corporation Depositary Shares, each representing a 1/20th interest in a share of 8.50% Series A Mandatory Convertible Preferred Stock｜市價 32.3｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- WLCOU Wilco 63 Corporation Units｜市價 10｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- WLCOW Wilco 63 Corporation Warrant｜市價 0.28｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- WLIIU Willow Lane Acquisition Corp. II Unit｜市價 10.4401｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- WLIIW Willow Lane Acquisition Corp. II Warrants｜市價 0.8｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- WRB-PF W.R. Berkley Corporation 5.10% Subordinated Debentures due 2059｜市價 17.73｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- WRB-PG W.R. Berkley Corporation 4.25% Subordinated Debentures due 2060｜市價 15.67｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- WRB-PH W.R. Berkley Corporation 4.125% Subordinated Debentures due 2061｜市價 15.25｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- XIIIU Churchill Capital Corp XIII Units｜市價 10.56｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- XRPNU Armada Acquisition Corp. II Units｜市價 10.93｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- XRPNW Armada Acquisition Corp. II Warrant｜市價 0.97｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- XSLLU Xsolla SPAC 1 Units｜市價 10.01｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- XTERU Karman Line Acquisition Corp. Units｜市價 9.93｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- XTERW Karman Line Acquisition Corp. Warrants｜市價 0.3｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- YHNAR YHN Acquisition I Limited Right｜市價 0.1101｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ZKPU Lafayette Digital Acquisition Corp. I Unit｜市價 10.03｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+- ZKPW Lafayette Digital Acquisition Corp. I Warrant｜市價 0.3239｜本益比 -｜淨值比 -｜殖利率 -｜無本益比（虧損或未公布）；無淨值比；無股息；模型加權為空
+
+## 計算錯誤
+（無）
+
+## 虧損、改用淨值比（仍算得出，共 2991）
+- SPCX Space Exploration Technologies Corp. Class A Common Stock｜市價 147.55｜淨值比 15.280655｜合理價 110.66
+- INTC Intel Corporation Common Stock｜市價 106.24｜淨值比 6.120168｜合理價 79.68
+- GILD Gilead Sciences, Inc. Common Stock｜市價 145.65｜淨值比 15.280109｜合理價 109.24
+- SNOW Snowflake Inc. Common Stock｜市價 331.48｜淨值比 54.349895｜合理價 91.48
+- NET Cloudflare, Inc. Class A Common Stock｜市價 314.18｜淨值比 69.02021｜合理價 68.28
+- LITE Lumentum Holdings Inc. Common Stock｜市價 988.98｜淨值比 18.868622｜合理價 741.73
+- WBD Warner Bros. Discovery, Inc. Series A Common Stock｜市價 27.91｜淨值比 2.1316733｜合理價 20.93
+- APD Air Products and Chemicals, Inc. Common Stock｜市價 295.24｜淨值比 4.735432｜合理價 221.43
+- NBIS Nebius Group N.V. Class A Ordinary Shares｜市價 240.35｜淨值比 6.3716135｜合理價 180.26
+- BRKRP Bruker Corporation 6.375% Mandatory Convertible Preferred Stock, Series A｜市價 406.23｜淨值比 25.98874｜合理價 312.62
+- TAK Takeda Pharmaceutical Company Limited American Depositary Shares (each representing 1/2 of a share of Common Stock)｜市價 18.21｜淨值比 1.1894948｜合理價 13.66
+- SOMN Southern Company (The) 2025 Series A Corporate Units｜市價 47.78｜淨值比 1.3890343｜合理價 47.78
+- MRNA Moderna, Inc. Common Stock｜市價 135.61｜淨值比 8.002951｜合理價 101.71
+- F Ford Motor Company Common Stock｜市價 13.45｜淨值比 1.5014511｜合理價 10.09
+- CRWV CoreWeave, Inc. Class A Common Stock｜市價 94.94｜淨值比 10.412372｜合理價 71.21
+- MSTR Strategy Inc Common Stock Class A｜市價 132.7｜淨值比 1.5965638｜合理價 99.52
+- HBANL Huntington Bancshares Incorporated Depositary Shares, Each Representing a 1/40th Interest in a Share of 6.875% Series J Non-Cumulative Perpetual Preferred Stock｜市價 25.1｜淨值比 1.7050472｜合理價 25.10
+- NTRA Natera, Inc. Common Stock｜市價 330.31｜淨值比 26.043524｜合理價 190.25
+- CBRS Cerebras Systems Inc. Class A Common Stock｜市價 196.2｜淨值比 4.8717504｜合理價 147.15
+- COIN Coinbase Global, Inc. Class A Common Stock｜市價 174.72｜淨值比 3.5236464｜合理價 131.04
+- STM STMicroelectronics N.V. Common Stock｜市價 51.55｜淨值比 2.60775｜合理價 38.66
+- TEAM Atlassian Corporation Class A Common Stock｜市價 177.74｜淨值比 42.55207｜合理價 62.65
+- RVMD Revolution Medicines, Inc. Common Stock｜市價 207.68｜淨值比 17.071928｜合理價 155.76
+- SMCIP Super Micro Computer, Inc. Depositary Shares representing a 1/20th Interest in a Share of 7% Series A Mandatory Convertible Preferred Stock｜市價 65.66｜淨值比 4.2065477｜合理價 65.66
+- HMC Honda Motor Company, Ltd. Common Stock｜市價 31.3｜淨值比 0.50566095｜合理價 37.14
+- BTSGU BrightSpring Health Services, Inc. Tangible Equity Unit｜市價 204.52｜淨值比 20.569246｜合理價 198.86
+- LYV Live Nation Entertainment, Inc. Common Stock｜市價 169.99｜淨值比 null｜合理價 0.67
+- STRF Strategy Inc 10.00% Series A Perpetual Strife Preferred Stock｜市價 103.85｜淨值比 0.9801701｜合理價 103.85
+- VOD Vodafone Group Plc American Depositary Shares｜市價 17.13｜淨值比 1.3551847｜合理價 12.85
+- TTWO Take-Two Interactive Software, Inc. Common Stock｜市價 211.14｜淨值比 11.149601｜合理價 158.35
+- HBANZ Huntington Bancshares Incorporated Depositary Shares, Each Representing a 1/1000th Interest in a Share of 5.50% Series L Non-Cumulative Perpetual Preferred Stock｜市價 19.17｜淨值比 1.3022213｜合理價 19.17
+- RKT Rocket Companies, Inc. Class A Common Stock｜市價 13.43｜淨值比 1.6145709｜合理價 10.07
+- RKLB Rocket Lab Corporation Common Stock｜市價 63.07｜淨值比 10.803357｜合理價 47.30
+- STRC Strategy Inc Variable Rate Series A Perpetual Stretch Preferred Stock｜市價 97.85｜淨值比 0.9235401｜合理價 97.85
+- PPLC PPL Corporation Corporate Units｜市價 46.23｜淨值比 2.3118467｜合理價 46.23
+- MCHPP Microchip Technology Incorporated Depositary Shares Each Representing a 1/20th Interest in a Share of 7.50% Series A Mandatory Convertible Preferred Stock｜市價 62.965｜淨值比 5.300084｜合理價 62.97
+- RBLX Roblox Corporation Class A Common Stock｜市價 44.52｜淨值比 null｜合理價 0.40
+- CNC Centene Corporation Common Stock｜市價 64.06｜淨值比 1.4025792｜合理價 48.04
+- BIDU Baidu, Inc. ADS｜市價 92.03｜淨值比 0.77167726｜合理價 71.56
+- AGNCN AGNC Investment Corp. Depositary Shares Each Representing a 1/1,000th Interest in a Share of 7.00% Series C Fixed-To-Floating Rate Cumulative Redeemable Preferred Stock｜市價 25.84｜淨值比 2.844875｜合理價 19.38
+- AGNCO AGNC Investment Corp. Depositary Shares, each representing a 1/1,000th interest in a share of 6.50% Series E Fixed-to-Floating Cumulative Redeemable Preferred Stock｜市價 25.67｜淨值比 2.8261588｜合理價 25.67
+- ROIV Roivant Sciences Ltd. Common Shares｜市價 41.81｜淨值比 7.1409054｜合理價 31.36
+- AGNCZ AGNC Investment Corp. Depositary Shares Each Representing a 1/1,000th Interest in a Share of 8.75% Series H Fixed-Rate Cumulative Redeemable Preferred Stock｜市價 25.46｜淨值比 2.8030386｜合理價 25.46
+- AGNCP AGNC Investment Corp. Depositary Shares Each Representing a 1/1,000th Interest in a Share of 6.125% Series F Fixed-to-Floating Rate Cumulative Redeemable Preferred Stock｜市價 25.38｜淨值比 2.794231｜合理價 25.38
+- AGNCM AGNC Investment Corp. Depositary Shares rep 6.875% Series D Fixed-to-Floating Cumulative Redeemable Preferred Stock｜市價 25.35｜淨值比 2.7909281｜合理價 19.01
+- AGNCL AGNC Investment Corp. Depositary Shares Each Representing a 1/1,000th Interest in a Share of 7.75% Series G Fixed-Rate Reset Cumulative Redeemable Preferred Stock｜市價 25.25｜淨值比 2.7799184｜合理價 25.25
+- STRK Strategy Inc 8.00% Series A Perpetual Strike Preferred Stock｜市價 76.3｜淨值比 0.7201443｜合理價 84.76
+- KHC The Kraft Heinz Company Common Stock｜市價 24.61｜淨值比 0.8106328｜合理價 18.46
+- STRD Strategy Inc 10.00% Series A Perpetual Stride Preferred Stock｜市價 75.01｜淨值比 0.70796883｜合理價 63.57
+- INSM Insmed Incorporated Common Stock｜市價 128.8｜淨值比 37.118156｜合理價 52.05
+- ZS Zscaler, Inc. Common Stock｜市價 166.1｜淨值比 10.423596｜合理價 124.58
+- CPNG Coupang, Inc. Class A Common Stock｜市價 14.76｜淨值比 8.854229｜合理價 11.07
+- ECHO EchoStar  Corporation Common Stock｜市價 91.32｜淨值比 1.8738073｜合理價 68.49
+- BNTX BioNTech SE American Depositary Share｜市價 98.13｜淨值比 1.1938572｜合理價 73.60
+- ASTS AST SpaceMobile, Inc. Class A Common Stock｜市價 62.42｜淨值比 9.878145｜合理價 46.81
+- RIVN Rivian Automotive, Inc. Class A Common Stock｜市價 16.005｜淨值比 4.2691383｜合理價 12.00
+- GH Guardant Health, Inc. Common Stock｜市價 162.78｜淨值比 null｜合理價 0.00
+- IFF International Flavors & Fragrances, Inc. Common Stock｜市價 84.31｜淨值比 1.5401056｜合理價 63.23
+- DOW Dow Inc. Common Stock｜市價 29.4｜淨值比 1.3390417｜合理價 22.05
+- BEP Brookfield Renewable Partners L.P. Limited Partnership Units｜市價 31.2｜淨值比 2.504214｜合理價 23.40
+- LYB LyondellBasell Industries NV Ordinary Shares Class A (Netherlands)｜市價 64.51｜淨值比 1.9526592｜合理價 48.38
+- GIS General Mills, Inc. Common Stock｜市價 37.09｜淨值比 3.5821905｜合理價 27.82
+- VTRS Viatris Inc. Common Stock｜市價 16.5｜淨值比 1.3107722｜合理價 12.38
+- GFL GFL Environmental Inc. Subordinate voting shares, no par value｜市價 42｜淨值比 2.8662577｜合理價 31.50
+- U Unity Software Inc. Common Stock｜市價 42.54｜淨值比 6.169688｜合理價 31.90
+- RBRK Rubrik, Inc. Class A Common Stock｜市價 88.82｜淨值比 null｜合理價 0.00
+- IP International Paper Company Common Stock｜市價 34.64｜淨值比 1.2689109｜合理價 25.98
+- IREN IREN Limited Ordinary Shares｜市價 45.37｜淨值比 4.1211734｜合理價 34.03
+- FLUT Flutter Entertainment plc Ordinary Shares｜市價 99.33｜淨值比 1.9693485｜合理價 74.50
+- APG APi Group Corporation Common Stock｜市價 38.01｜淨值比 4.496096｜合理價 28.51
+- VNOM Viper Energy, Inc. Class A Common Stock｜市價 45.27｜淨值比 1.720704｜合理價 33.95
+- STLA Stellantis N.V. Common Shares｜市價 5.29｜淨值比 0.23383841｜合理價 13.57
+- TLN Talen Energy Corporation Common Stock｜市價 319.67｜淨值比 9.475354｜合理價 239.75
+- TU Telus Corporation Ordinary Shares｜市價 9.46｜淨值比 1.5489239｜合理價 7.10
+- BBIO BridgeBio Pharma, Inc. Common Stock｜市價 76.08｜淨值比 null｜合理價 0.00
+- BMNR BitMine Immersion Technologies, Inc. Common Stock｜市價 24.21｜淨值比 1.2098346｜合理價 18.16
+- PS Pershing Square Inc. Common Stock｜市價 36.48｜淨值比 17.404581｜合理價 27.36
+- IONQ IonQ, Inc. Common Stock｜市價 38.14｜淨值比 4.367842｜合理價 28.60
+- VLYPN Valley National Bancorp 8.250% Fixed-Rate Reset Non-Cumulative Perpetual Preferred Stock, Series C｜市價 26.15｜淨值比 1.9394794｜合理價 26.15
+- EQH Equitable Holdings, Inc. Common Stock｜市價 52.09｜淨值比 null｜合理價 0.00
+- IVZ Invesco Ltd Common Stock｜市價 32.09｜淨值比 1.42224｜合理價 24.07
+- SMMT Summit Therapeutics Inc. Common Stock｜市價 17.54｜淨值比 22.090681｜合理價 11.91
+- W Wayfair Inc. Class A Common Stock｜市價 100.12｜淨值比 null｜合理價 0.00
+- TRMB Trimble Inc. Common Stock｜市價 57.4｜淨值比 2.3592274｜合理價 43.05
+- CRL Charles River Laboratories International, Inc. Common Stock｜市價 278.35｜淨值比 4.678466｜合理價 208.76
+- QXO QXO, Inc. Common Stock｜市價 12.71｜淨值比 0.98918205｜合理價 9.53
+- AUR Aurora Innovation, Inc. Class A Common Stock｜市價 6.5｜淨值比 6.6530194｜合理價 4.87
+- QNT Quantinuum Inc. Class A Common Stock｜市價 48.89｜淨值比 4.276592｜合理價 36.67
+- MDGL Madrigal Pharmaceuticals, Inc. Common Stock｜市價 546.66｜淨值比 24.105299｜合理價 340.17
+- BAX Baxter International Inc. Common Stock｜市價 24.39｜淨值比 2.0318227｜合理價 18.29
+- BEPC Brookfield Renewable Corporation Brookfield Renewable Corporation Class A Subordinate Voting Shares｜市價 31.59｜淨值比 null｜合理價 0.00
+- HUT Hut 8 Corp. Common Stock｜市價 95.92｜淨值比 8.191289｜合理價 71.94
+- ELAN Elanco Animal Health Incorporated Common Stock｜市價 23.55｜淨值比 1.7857143｜合理價 17.66
+- DKNG DraftKings Inc. Class A Common Stock｜市價 23.66｜淨值比 20.609756｜合理價 17.22
+- FIG Figma, Inc. Class A Common Stock｜市價 22.01｜淨值比 7.903052｜合理價 16.51
+- ARWR Arrowhead Pharmaceuticals, Inc. Common Stock｜市價 82.63｜淨值比 25.054577｜合理價 49.47
+- TEM Tempus AI, Inc. Class A Common Stock｜市價 61.28｜淨值比 24.799677｜合理價 37.06
+- AXSM Axsome Therapeutics, Inc. Common Stock｜市價 210.63｜淨值比 null｜合理價 2.99
+- LI Li Auto Inc. American Depositary Shares｜市價 11.91｜淨值比 1.2321949｜合理價 8.93
+- FROG JFrog Ltd. Ordinary Shares｜市價 87.32｜淨值比 11.183401｜合理價 65.49
+- LFUS Littelfuse, Inc. Common Stock｜市價 421.98｜淨值比 4.0929594｜合理價 316.49
+- GKOS Glaukos Corporation Common Stock｜市價 179.79｜淨值比 15.50582｜合理價 134.84
+- GSAT Globalstar, Inc. Common Stock｜市價 81.68｜淨值比 36.173607｜合理價 33.87
+- CYTK Cytokinetics, Incorporated Common Stock｜市價 74.11｜淨值比 null｜合理價 0.00
+- ABVX Abivax SA American Depositary Shares｜市價 119.46｜淨值比 18.96322｜合理價 89.59
+- OC Owens Corning Inc Common Stock New｜市價 128.67｜淨值比 2.6948287｜合理價 96.50
+- XPEV XPeng Inc. American depositary shares, each representing two Class A ordinary shares｜市價 10.57｜淨值比 2.512889｜合理價 7.93
+- AVTR Avantor, Inc. Common Stock｜市價 14.88｜淨值比 1.7878169｜合理價 11.16
+- SAIL SailPoint, Inc. Common Stock｜市價 17.58｜淨值比 1.457349｜合理價 13.19
+- VSAT ViaSat, Inc. Common Stock｜市價 72.36｜淨值比 2.1203153｜合理價 54.27
+- GLXY Galaxy Digital Inc. Class A Common Stock｜市價 25.15｜淨值比 2.686966｜合理價 18.86
+- KLAR Klarna Group plc Ordinary Shares｜市價 13.88｜淨值比 2.155949｜合理價 10.41
+- MP MP Materials Corp. Common Stock｜市價 54.3｜淨值比 4.939507｜合理價 40.73
+- VIAV Viavi Solutions Inc. Common Stock｜市價 39.18｜淨值比 6.6814466｜合理價 29.39
+- PRAX Praxis Precision Medicines, Inc. Common Stock｜市價 345.3｜淨值比 7.1880593｜合理價 258.97
+- JAN Janus Living, Inc. Class A-1 Common Stock｜市價 31｜淨值比 2.444795｜合理價 23.25
+- KYMR Kymera Therapeutics, Inc. Common Stock｜市價 115.43｜淨值比 6.3318706｜合理價 86.57
+- ONBPO Old National Bancorp Depositary Shares, Each Representing a 1/40th Interest in a Share of Series C Preferred Stock｜市價 24.9191｜淨值比 1.1411412｜合理價 24.92
+- SATA Strive, Inc. Variable Rate Series A Perpetual Preferred Stock｜市價 100.01｜淨值比 12.683577｜合理價 100.01
+- IONS Ionis Pharmaceuticals, Inc. Common Stock｜市價 56.02｜淨值比 21.099812｜合理價 39.82
+- NIO NIO Inc. American depositary shares, each  representing one Class A ordinary share｜市價 3.7｜淨值比 14.794529｜合理價 2.78
+- WLK Westlake Corporation Common Stock｜市價 71.78｜淨值比 1.0537906｜合理價 53.84
+- AAOI Applied Optoelectronics, Inc. Common Stock｜市價 107.93｜淨值比 5.46011｜合理價 80.95
+- JMKE Jersey Mike's Subs Inc. Class A Common Stock｜市價 22.37｜淨值比 null｜合理價 0.00
+- SNAP Snap Inc. Class A Common Stock｜市價 5.31｜淨值比 4.6335077｜合理價 3.98
+- LLYVK Liberty Live Holdings, Inc. Series C Liberty Live Group Common Stock｜市價 96.93｜淨值比 null｜合理價 0.00
+- PCVX Vaxcyte, Inc. Common Stock｜市價 59.51｜淨值比 3.1242123｜合理價 44.63
+- ARE Alexandria Real Estate Equities, Inc. Common Stock｜市價 50.34｜淨值比 0.5525614｜合理價 54.66
+- TXG 10x Genomics, Inc. Class A Common Stock｜市價 67.29｜淨值比 10.6589575｜合理價 50.47
+- LLYVA Liberty Live Holdings, Inc. Series A Liberty Live Group Common Stock｜市價 93.66｜淨值比 null｜合理價 0.00
+- AAL American Airlines Group Inc. Common Stock｜市價 12.94｜淨值比 null｜合理價 0.00
+- LINE Lineage, Inc. Common Stock｜市價 37.59｜淨值比 1.0844103｜合理價 28.19
+- WULF TeraWulf Inc. Common Stock｜市價 17.13｜淨值比 58.067795｜合理價 4.42
+- IBRX ImmunityBio, Inc. Common Stock｜市價 8.06｜淨值比 null｜合理價 0.00
+- MOS Mosaic Company (The) Common Stock｜市價 26.21｜淨值比 0.7268038｜合理價 21.64
+- TWST Twist Bioscience Corporation Common Stock｜市價 125.52｜淨值比 17.649044｜合理價 94.14
+- BRKR Bruker Corporation Common Stock｜市價 54.43｜淨值比 3.482183｜合理價 40.82
+- RIOT Riot Platforms, Inc. Common Stock｜市價 22.07｜淨值比 3.8051722｜合理價 16.55
+- REXR Rexford Industrial Realty, Inc. Common Stock｜市價 37.07｜淨值比 1.1160284｜合理價 27.80
+- PCOR Procore Technologies, Inc. Common Stock｜市價 54.13｜淨值比 6.4310327｜合理價 40.60
+- IMVT Immunovant, Inc. Common Stock｜市價 38.75｜淨值比 10.869565｜合理價 29.06
+- OKLO Oklo Inc. Class A common stock｜市價 42.57｜淨值比 2.4069884｜合理價 31.93
+- APLD Applied Digital Corporation Common Stock｜市價 27.14｜淨值比 4.5491114｜合理價 20.35
+- GTLB GitLab Inc. Class A Common Stock｜市價 46.33｜淨值比 8.373396｜合理價 34.75
+- SYRE Spyre Therapeutics, Inc. Common Stock｜市價 86.93｜淨值比 8.018633｜合理價 65.20
+- ZETA Zeta Global Holdings Corp. Class A Common Stock｜市價 30.42｜淨值比 8.2194｜合理價 22.81
+- RAL Ralliant Corporation Common Stock｜市價 67｜淨值比 4.830918｜合理價 50.25
+- BLTE Belite Bio, Inc American Depositary Shares｜市價 183.16｜淨值比 9.497538｜合理價 137.37
+- SLAB Silicon Laboratories, Inc. Common Stock｜市價 219.82｜淨值比 6.6993785｜合理價 164.87
+- FLR Fluor Corporation Common Stock｜市價 54.83｜淨值比 2.767375｜合理價 41.12
+- CAG ConAgra Brands, Inc. Common Stock｜市價 15.11｜淨值比 1.137373｜合理價 11.33
+- TAP Molson Coors Beverage Company Class B Common Stock｜市價 38.48｜淨值比 0.71069735｜合理價 32.49
+- VFS VinFast Auto Ltd. Ordinary Shares｜市價 3.06｜淨值比 null｜合理價 0.00
+- AVAV AeroVironment, Inc. Common Stock｜市價 140.8｜淨值比 1.6133652｜合理價 105.60
+- NXE Nexgen Energy Ltd. Common Shares｜市價 10.64｜淨值比 5.328512｜合理價 7.98
+- LUMN Lumen Technologies, Inc. Common Stock｜市價 6.81｜淨值比 null｜合理價 0.00
+- CIFR Cipher Digital Inc. Common Stock｜市價 16.9｜淨值比 12.453942｜合理價 12.67
+- XE X-Energy, Inc. Class A Common Stock｜市價 17.26｜淨值比 null｜合理價 0.00
+- RYTM Rhythm Pharmaceuticals, Inc. Common Stock｜市價 101.06｜淨值比 67.553474｜合理價 22.44
+- CLF Cleveland-Cliffs Inc. Common Stock｜市價 12.09｜淨值比 1.2309103｜合理價 9.07
+- MBLY Mobileye Global Inc. Class A Common Stock｜市價 8.1｜淨值比 0.82872933｜合理價 6.08
+- S SentinelOne, Inc. Class A Common Stock｜市價 19.44｜淨值比 4.644052｜合理價 14.58
+- SRRK Scholar Rock Holding Corporation Common Stock｜市價 54.62｜淨值比 26.17154｜合理價 31.30
+- MAAS Maase Inc. Class A Ordinary Shares｜市價 15.02｜淨值比 9.643339｜合理價 11.27
+- NAVN Navan, Inc. Class A Common Stock｜市價 25.89｜淨值比 5.28799｜合理價 19.42
+- MAC Macerich Company (The) Common Stock｜市價 23.03｜淨值比 2.314108｜合理價 17.27
+- HIMS Hims & Hers Health, Inc. Class A Common Stock｜市價 27.9｜淨值比 20.086391｜合理價 20.84
+- MXL MaxLinear, Inc. Common Stock｜市價 71.51｜淨值比 13.376356｜合理價 53.63
+- HR Healthcare Realty Trust Incorporated Common Stock｜市價 18.91｜淨值比 1.5367736｜合理價 14.18
+- MMED MiniMed Group, Inc. Common Stock｜市價 22.76｜淨值比 1.7699666｜合理價 17.07
+- USAR USA Rare Earth, Inc. Class A Common Stock｜市價 17.06｜淨值比 1.9798074｜合理價 12.80
+- MIRM Mirum Pharmaceuticals, Inc. Common Stock｜市價 98.3｜淨值比 null｜合理價 0.00
+- CGON CG Oncology, Inc. Common stock｜市價 71.96｜淨值比 6.1747036｜合理價 53.97
+- RIG Transocean Ltd (Switzerland) Common Stock｜市價 5.71｜淨值比 0.76204455｜合理價 4.50
+- BLCO Bausch + Lomb Corporation Common Shares｜市價 17.79｜淨值比 0.98325324｜合理價 13.34
+- JOBY Joby Aviation, Inc. Common Stock｜市價 6.42｜淨值比 3.5845897｜合理價 4.82
+- QBTS D-Wave Quantum Inc. Common Stock｜市價 17.12｜淨值比 5.8811407｜合理價 12.84
+- PL Planet Labs PBC Class A Common Stock｜市價 17.22｜淨值比 13.831325｜合理價 12.91
+- TVTX Travere Therapeutics, Inc. Common Stock｜市價 66.22｜淨值比 62.00375｜合理價 16.02
+- TBBB BBB Foods Inc. Class A Common Shares｜市價 51.66｜淨值比 24.613968｜合理價 31.48
+- DPC DPC Holdings PLC Ordinary Shares｜市價 40.59｜淨值比 7.8510637｜合理價 30.44
+- ORKA Oruka Therapeutics, Inc. Common Stock｜市價 91.5｜淨值比 5.0269203｜合理價 68.63
+- CZR Caesars Entertainment, Inc. Common Stock｜市價 29.67｜淨值比 1.7933993｜合理價 22.25
+- STEP StepStone Group Inc. Class A Common Stock｜市價 49.94｜淨值比 null｜合理價 0.00
+- DNTH Dianthus Therapeutics, Inc. Common Stock｜市價 107.04｜淨值比 5.0046754｜合理價 80.28
+- LGN Legence Corp. Class A Common stock｜市價 55.22｜淨值比 7.0704226｜合理價 41.42
+- COGT Cogent Biosciences, Inc. Common Stock｜市價 34.18｜淨值比 12.547724｜合理價 25.64
+- NTSK Netskope, Inc. Class A Common Stock｜市價 14.46｜淨值比 37.65625｜合理價 5.76
+- CORZ Core Scientific, Inc. Common Stock｜市價 18.09｜淨值比 null｜合理價 0.00
+- TFX Teleflex Incorporated Common Stock｜市價 135.72｜淨值比 1.9799266｜合理價 101.79
+- UEC Uranium Energy Corp. Common Stock｜市價 11.6｜淨值比 4.0263796｜合理價 8.70
+- KOF Coca Cola Femsa S.A.B. de C.V.  American Depositary Shares, each representing 10 Units (each Unit consists of 3 Series B Shares and 5 Series L Shares)｜市價 109.16｜淨值比 2.7263906｜合理價 109.16
+- XENE Xenon Pharmaceuticals Inc. Common Shares｜市價 58.98｜淨值比 4.5931005｜合理價 44.24
+- PTCT PTC Therapeutics, Inc. Common Stock｜市價 67.57｜淨值比 null｜合理價 0.00
+- RDNT RadNet, Inc. Common Stock｜市價 70.87｜淨值比 5.1515594｜合理價 53.15
+- BBUC Brookfield Business Corporation Class A Subordinate Voting Shares｜市價 26.6｜淨值比 1.0062037｜合理價 19.95
+- ERAS Erasca, Inc. Common Stock｜市價 15.7｜淨值比 13.557858｜合理價 11.77
+- BLSH Bullish Ordinary Shares｜市價 34.34｜淨值比 2.1568997｜合理價 25.76
+- TTAN ServiceTitan, Inc. Class A Common Stock｜市價 57.12｜淨值比 3.5427651｜合理價 42.84
+- WPP WPP plc American Depositary Shares｜市價 24.89｜淨值比 7.8405056｜合理價 18.67
+- WFG West Fraser Timber Co. Ltd Common stock｜市價 68.49｜淨值比 0.95122355｜合理價 51.37
+- NIQ NIQ Global Intelligence plc Ordinary Shares｜市價 18.11｜淨值比 5.889431｜合理價 13.58
+- VRNS Varonis Systems, Inc. Common Stock｜市價 46.09｜淨值比 11.909561｜合理價 34.57
+- CRSP CRISPR Therapeutics AG Common Shares｜市價 53.45｜淨值比 2.958105｜合理價 40.09
+- PRM Perimeter Solutions, SA Common Stock｜市價 31.23｜淨值比 5.0040054｜合理價 23.42
+- GVA Granite Construction Incorporated Common Stock｜市價 116.65｜淨值比 6.7819767｜合理價 87.49
+- DFTX Definium Therapeutics, Inc. Common Shares｜市價 37.99｜淨值比 5.556531｜合理價 28.49
+- RGTI Rigetti Computing, Inc. Common Stock｜市價 15.24｜淨值比 9.459963｜合理價 11.43
+- FRVO Fervo Energy Company Class A common stock｜市價 17.24｜淨值比 1.8181818｜合理價 12.93
+- SPHR Sphere Entertainment Co. Class A Common Stock｜市價 140.94｜淨值比 2.2719433｜合理價 105.71
+- CRC California Resources Corporation Common Stock｜市價 56.7｜淨值比 1.4803406｜合理價 42.53
+- PI Impinj, Inc. Common Stock｜市價 164.7｜淨值比 21.725367｜合理價 113.72
+- PTEN Patterson-UTI Energy, Inc. Common Stock｜市價 12.93｜淨值比 1.5907972｜合理價 9.70
+- XMTR Xometry, Inc. Class A Common Stock｜市價 85.59｜淨值比 15.855872｜合理價 64.19
+- CLMT Calumet, Inc. Common Stock｜市價 55.69｜淨值比 null｜合理價 0.00
+- CE Celanese Corporation Common Stock｜市價 44.45｜淨值比 1.1706918｜合理價 33.34
+- MRCY Mercury Systems Inc Common Stock｜市價 80.76｜淨值比 3.2143285｜合理價 60.57
+- IEP Icahn Enterprises, L.P. Common Stock｜市價 6.83｜淨值比 2.6784315｜合理價 5.12
+- PBLS Parabilis Medicines, Inc. Common Stock｜市價 38.76｜淨值比 4.5696764｜合理價 29.07
+- BETA Beta Technologies, Inc. Class A Common Stock｜市價 20.15｜淨值比 2.9173303｜合理價 15.11
+- EWTX Edgewise Therapeutics, Inc. Common Stock｜市價 43.39｜淨值比 10.437816｜合理價 32.54
+- CAR Avis Budget Group, Inc. Common Stock｜市價 132.63｜淨值比 null｜合理價 0.00
+- SMR NuScale Power Corporation Class A Common Stock｜市價 10.81｜淨值比 2.9455042｜合理價 8.11
+- MARA MARA Holdings, Inc. Common Stock｜市價 11.92｜淨值比 2.7414904｜合理價 8.94
+- BC Brunswick Corporation Common Stock｜市價 70.93｜淨值比 2.7397738｜合理價 53.20
+- CECO CECO Environmental Corp. Common Stock｜市價 78.3｜淨值比 2.204516｜合理價 58.72
+- BIPC Brookfield Infrastructure Corporation Brookfield Infrastructure Corporation｜市價 37.12｜淨值比 null｜合理價 0.00
+- ALK Alaska Air Group, Inc. Common Stock｜市價 40.36｜淨值比 1.2269342｜合理價 30.27
+- LBTYB Liberty Global Ltd. Class B Common Shares｜市價 13.145｜淨值比 0.48604178｜合理價 16.23
+- DHCNL Diversified Healthcare Trust 6.25% Senior Notes Due 2046｜市價 18.52｜淨值比 2.6922517｜合理價 18.52
+- ENO Entergy New Orleans, LLC First Mortgage Bonds, 5.50% Series due April 1, 2066｜市價 20.83｜淨值比 null｜合理價 0.00
+- HP Helmerich & Payne, Inc. Common Stock｜市價 44.21｜淨值比 1.7164266｜合理價 33.16
+- CELC Celcuity Inc. Common Stock｜市價 90.08｜淨值比 null｜合理價 0.00
+- ARX Accelerant Holdings Class A Common Shares｜市價 19.84｜淨值比 5.9993954｜合理價 14.88
+- OPLN OPENLANE, Inc. Common Stock｜市價 35.24｜淨值比 2.757218｜合理價 26.43
+- ACHR Archer Aviation Inc. Class A Common Stock｜市價 5.5｜淨值比 2.2375915｜合理價 4.12
+- REGCP Regency Centers Corporation 6.25% Series A Cumulative Redeemable Preferred Stock｜市價 23.22｜淨值比 0.63796467｜合理價 29.12
+- ELVN Enliven Therapeutics, Inc. Common Stock｜市價 57.45｜淨值比 4.701309｜合理價 43.09
+- ONDS Ondas Inc. Common Stock｜市價 7.29｜淨值比 2.460344｜合理價 5.47
+- MANE Veradermics, Incorporated Common Stock｜市價 99.67｜淨值比 5.118106｜合理價 74.75
+- SKE Skeena Resources Limited Common Shares｜市價 32.95｜淨值比 33.256588｜合理價 14.86
+- RLAY Relay Therapeutics, Inc. Common Stock｜市價 18.66｜淨值比 4.5813894｜合理價 13.99
+- BILL BILL Holdings, Inc. Common Stock｜市價 47.94｜淨值比 1.2500652｜合理價 35.96
+- WBI WaterBridge Infrastructure LLC Class A Shares Representing Limited Liability Company Interests｜市價 33.02｜淨值比 2.4095154｜合理價 24.76
+- AMLX Amylyx Pharmaceuticals, Inc. Common Stock｜市價 32.4｜淨值比 15.083799｜合理價 24.30
+- LILAP Liberty Latin America Ltd. 9.0% Fixed Rate Cumulative Perpetual Redeemable Series A Preference Shares｜市價 20.725｜淨值比 7.8414683｜合理價 20.73
+- HTFL Heartflow, Inc. Common Stock｜市價 46.67｜淨值比 14.466831｜合理價 35.00
+- TNGX Tango Therapeutics, Inc.｜市價 24｜淨值比 8.836524｜合理價 18.00
+- REGCO Regency Centers Corporation 5.875% Series B Cumulative Redeemable Preferred Stock｜市價 21.9｜淨值比 0.6016979｜合理價 29.12
+- IRTC iRhythm Holdings, Inc. Common Stock｜市價 119.57｜淨值比 21.181576｜合理價 84.67
+- BWIN The Baldwin Insurance Group, Inc. Class A Common Stock｜市價 28.23｜淨值比 3.0758333｜合理價 21.17
+- TAC TransAlta Corporation Ordinary Shares｜市價 12.35｜淨值比 6.438737｜合理價 9.26
+- COLD Americold Realty Trust, Inc. Common Stock｜市價 13.67｜淨值比 1.6160303｜合理價 10.25
+- ADPT Adaptive Biotechnologies Corporation Common Stock｜市價 24.42｜淨值比 27.193764｜合理價 13.47
+- GPGI GPGI, Inc. Class A Common Stock｜市價 13.37｜淨值比 1.2217857｜合理價 10.03
+- LEGN Legend Biotech Corporation American Depositary Shares｜市價 19.91｜淨值比 3.1374092｜合理價 14.93
+- IOVA Iovance Biotherapeutics, Inc. Common Stock｜市價 8.43｜淨值比 5.1876926｜合理價 6.32
+- VKTX Viking Therapeutics, Inc. Common Stock｜市價 32.7｜淨值比 9.342857｜合理價 24.52
+- LMND Lemonade, Inc. Common Stock｜市價 49.22｜淨值比 7.619195｜合理價 36.91
+- PLSE Pulse Biosciences, Inc Common Stock (DE)｜市價 52.97｜淨值比 37.70107｜合理價 21.08
+- RUM RUM Group Inc. Class A Common Stock｜市價 7.52｜淨值比 2.2501495｜合理價 5.64
+- SLG SL Green Realty Corp Common Stock｜市價 52.43｜淨值比 1.1624504｜合理價 39.32
+- IDYA IDEAYA Biosciences, Inc. Common Stock｜市價 38.35｜淨值比 3.0827975｜合理價 28.76
+- SYNA Synaptics Incorporated Common Stock $0.001 Par Value｜市價 93.93｜淨值比 3.947468｜合理價 70.45
+- FLY Firefly Aerospace Inc. Common Stock｜市價 21.81｜淨值比 2.9641206｜合理價 16.36
+- UUUU Energy Fuels Inc Ordinary Shares (Canada)｜市價 14.55｜淨值比 4.9172015｜合理價 10.91
+- TARS Tarsus Pharmaceuticals, Inc. Common Stock｜市價 82.77｜淨值比 10.329465｜合理價 62.08
+- RCUS Arcus Biosciences, Inc. Common Stock｜市價 28.49｜淨值比 7.7969346｜合理價 21.37
+- FSLY Fastly, Inc. Class A Common Stock｜市價 22.71｜淨值比 3.64585｜合理價 17.03
+- LBTYA Liberty Global Ltd. Class A Common Shares｜市價 10.51｜淨值比 0.38861158｜合理價 16.23
+- DYN Dyne Therapeutics, Inc. Common Stock｜市價 19.19｜淨值比 4.5280795｜合理價 14.39
+- ABCL AbCellera Biologics Inc. Common Shares｜市價 11.05｜淨值比 3.77907｜合理價 8.29
+- BTU Peabody Energy Corporation Common Stock｜市價 29.36｜淨值比 1.1016886｜合理價 22.02
+- NG Novagold Resources Inc.｜市價 8.1｜淨值比 8.437501｜合理價 6.08
+- FRMI Fermi Inc. Common Stock｜市價 5.53｜淨值比 3.4199135｜合理價 4.15
+- BTE Baytex Energy Corp Common Shares｜市價 4.99｜淨值比 2.2676826｜合理價 3.74
+- LBTYK Liberty Global Ltd. Class C Common Shares｜市價 10.355｜淨值比 0.38288036｜合理價 16.23
+- BATRA Atlanta Braves Holdings, Inc. Series A Common Stock｜市價 54.91｜淨值比 6.8509045｜合理價 41.18
+- MANU Manchester United Ltd. Class A Ordinary Shares｜市價 20.42｜淨值比 14.441571｜合理價 20.42
+- WSC WillScot Holdings Corporation Class A Common Stock｜市價 19.36｜淨值比 4.024948｜合理價 14.52
+- PTRN Pattern Group Inc. Series A Common Stock｜市價 19.65｜淨值比 5.368852｜合理價 14.74
+- VAC Marriott Vacations Worldwide Corporation Common Stock｜市價 100.63｜淨值比 1.7345215｜合理價 75.47
+- GRAL GRAIL, Inc. Common Stock｜市價 77.48｜淨值比 1.3610654｜合理價 58.11
+- DNLI Denali Therapeutics Inc. Common Stock｜市價 21.57｜淨值比 4.1258607｜合理價 16.18
+- IOND Ionic Digital Inc. Class A Common Stock｜市價 76.26｜淨值比 5.5823145｜合理價 57.19
+- LUNR Intuitive Machines, Inc. Class A Common Stock｜市價 14.94｜淨值比 null｜合理價 0.00
+- HNI HNI Corporation Common Stock｜市價 47.29｜淨值比 1.8909192｜合理價 35.47
+- CLSK CleanSpark, Inc. Common Stock｜市價 13.28｜淨值比 4.478921｜合理價 9.96
+- VCRE Vicore Pharma Holding AB American Depositary Shares｜市價 12.08｜淨值比 null｜合理價 0.00
+- UCTT Ultra Clean Holdings, Inc. Common Stock｜市價 75｜淨值比 5.3510275｜合理價 56.25
+- PII Polaris Inc. Common Stock｜市價 59.26｜淨值比 4.0310183｜合理價 44.45
+- BTDR Bitdeer Technologies Group Class A Ordinary Shares｜市價 12.33｜淨值比 3.0384426｜合理價 9.25
+- SFNC Simmons First National Corporation Class A Common Stock｜市價 22.92｜淨值比 0.9508006｜合理價 17.19
+- FSK FS KKR Capital Corp. Common Stock｜市價 11.98｜淨值比 0.65468055｜合理價 10.98
+- RXO RXO, Inc. Common Stock｜市價 20.04｜淨值比 2.1944811｜合理價 15.03
+- LION Lionsgate Studios Corp Common Shares｜市價 11.06｜淨值比 null｜合理價 0.00
+- DAN Dana Incorporated Common Stock｜市價 30.45｜淨值比 1.7060736｜合理價 22.84
+- QS QuantumScape Corporation Class A Common Stock｜市價 5.22｜淨值比 3.0832841｜合理價 3.91
+- LPL LG Display Co, Ltd AMERICAN DEPOSITORY SHARES｜市價 3.22｜淨值比 0.6887188｜合理價 2.81
+- AAUC Allied Gold Corporation Common Shares｜市價 22.99｜淨值比 5.783648｜合理價 17.24
+- QURE uniQure N.V. Ordinary Shares｜市價 46｜淨值比 9.841678｜合理價 34.50
+- BATRK Atlanta Braves Holdings, Inc. Series C Common Stock｜市價 49.65｜淨值比 6.194635｜合理價 37.24
+- ATKR Atkore Inc. Common Stock｜市價 94.21｜淨值比 2.4930534｜合理價 70.66
+- XXI Twenty One Capital, Inc. Class A Common Stock｜市價 5.63｜淨值比 0.8963541｜合理價 4.22
+- PVH PVH Corp. Common Stock｜市價 68.51｜淨值比 0.6449275｜合理價 63.74
+- SLNHP Soluna Holdings, Inc 9.0% Series A Cumulative Perpetual Preferred Stock｜市價 12.65｜淨值比 18.175287｜合理價 12.65
+- AEHR Aehr Test Systems Common Stock｜市價 95.56｜淨值比 14.140278｜合理價 71.67
+- SOUN SoundHound AI, Inc Class A Common Stock｜市價 6.48｜淨值比 5.76｜合理價 4.86
+- WIX Wix.com Ltd. Ordinary Shares｜市價 74.23｜淨值比 null｜合理價 0.00
+- PPTA Perpetua Resources Corp. Common Shares｜市價 24.76｜淨值比 4.3030934｜合理價 18.57
+- PK Park Hotels & Resorts Inc. Common Stock｜市價 15.28｜淨值比 0.9956992｜合理價 11.46
+- KC Kingsoft Cloud Holdings Limited American Depositary Shares｜市價 10.21｜淨值比 2.3150718｜合理價 7.66
+- CLDX Celldex Therapeutics, Inc.｜市價 38.78｜淨值比 4.260134｜合理價 29.08
+- AMBA Ambarella, Inc. Ordinary Shares｜市價 68.8｜淨值比 4.895752｜合理價 51.60
+- DNN Denison Mines Corp Ordinary Shares (Canada)｜市價 3.35｜淨值比 14.498519｜合理價 2.51
+- PLUG Plug Power, Inc. Common Stock｜市價 2.17｜淨值比 5.2163463｜合理價 1.63
+- MBX MBX Biosciences, Inc. Common Stock｜市價 62.91｜淨值比 7.365648｜合理價 47.18
+- NVTS Navitas Semiconductor Corporation Common Stock｜市價 11.6｜淨值比 3.7785017｜合理價 8.70
+- CSQR Csquare, Inc. Common Stock｜市價 17.96｜淨值比 null｜合理價 0.00
+- INFQ Infleqtion, Inc. Common Stock｜市價 13.26｜淨值比 5.1877937｜合理價 9.95
+- IMNM Immunome, Inc. Common Stock｜市價 26.12｜淨值比 5.6414685｜合理價 19.59
+- INTA Intapp, Inc. Common Stock｜市價 38.64｜淨值比 9.306358｜合理價 28.98
+- GPCR Structure Therapeutics Inc. American Depositary Shares｜市價 41.23｜淨值比 2.167946｜合理價 30.92
+- IRON Disc Medicine, Inc. Common Stock｜市價 76.51｜淨值比 4.554438｜合理價 57.38
+- PONY Pony AI Inc. American Depositary Shares｜市價 6.76｜淨值比 1.8602091｜合理價 5.07
+- TALO Talos Energy, Inc. Common Stock｜市價 17.51｜淨值比 1.4383112｜合理價 13.13
+- NVA Nova Minerals Corp Common Stock｜市價 6.47｜淨值比 28.095469｜合理價 3.45
+- DNOW DNOW Inc. Common Stock｜市價 16.14｜淨值比 1.3951075｜合理價 12.10
+- OPEN Opendoor Technologies Inc Common Stock｜市價 3｜淨值比 3.177966｜合理價 2.25
+- BRZE Braze, Inc. Class A Common Stock｜市價 23.725｜淨值比 4.4696684｜合理價 17.79
+- BANC Banc of California, Inc. Common Stock｜市價 18.4｜淨值比 1.0011971｜合理價 13.80
+- BKD Brookdale Senior Living Inc. Common Stock｜市價 12.14｜淨值比 null｜合理價 0.00
+- AMR Alpha Metallurgical Resources, Inc. Common Stock｜市價 226.94｜淨值比 1.9207462｜合理價 170.21
+- CSAN Cosan S.A. ADS｜市價 2.89｜淨值比 2.947516｜合理價 2.17
+- SLS SELLAS Life Sciences Group, Inc. Common Stock｜市價 13.95｜淨值比 20.454546｜合理價 10.23
+- ZLAB Zai Lab Limited American Depositary Shares｜市價 25.08｜淨值比 4.6375737｜合理價 18.81
+- FTAIM FTAI Aviation Ltd. 9.500% Fixed-Rate Reset Series D Cumulative Perpetual Redeemable Preferred Shares｜市價 27.155｜淨值比 6.899136｜合理價 27.16
+- XNDU Xanadu Quantum Technologies Limited Class B Subordinate Voting Shares｜市價 9.05｜淨值比 8.794947｜合理價 6.79
+- NOG Northern Oil and Gas, Inc. Common Stock｜市價 25.73｜淨值比 1.3679621｜合理價 19.30
+- LCLN Lincoln International, Inc. Class A Common Stock｜市價 26.31｜淨值比 6.8142967｜合理價 19.73
+- NRIX Nurix Therapeutics, Inc. Common stock｜市價 26.26｜淨值比 6.7628126｜合理價 19.70
+- NAMS NewAmsterdam Pharma Company N.V. Ordinary Shares｜市價 22.79｜淨值比 4.2463202｜合理價 17.09
+- ATAI AtaiBeckley Inc. Common Stock｜市價 7.29｜淨值比 15.251046｜合理價 5.47
+- MLYS Mineralys Therapeutics, Inc. Common Stock｜市價 30.5｜淨值比 4.890956｜合理價 22.88
+- COHU Cohu, Inc. Common Stock｜市價 56.68｜淨值比 3.4641242｜合理價 42.51
+- RDW Redwire Corporation Common Stock｜市價 10.7｜淨值比 1.6293589｜合理價 8.02
+- CHRN ChronoScale Holdings Corporation Common Stock｜市價 18.18｜淨值比 14.66129｜合理價 13.63
+- SIND Sinda Ltd. Common Stock｜市價 16.61｜淨值比 11.958243｜合理價 12.46
+- PHVS Pharvaris N.V. Ordinary Shares｜市價 37.74｜淨值比 7.5749483｜合理價 28.31
+- ACHC Acadia Healthcare Company, Inc. Common Stock｜市價 28.19｜淨值比 1.2943066｜合理價 21.14
+- OUST Ouster, Inc. Common Stock｜市價 36.24｜淨值比 6.685114｜合理價 27.18
+- NN NextNav Inc. Common Stock｜市價 15.43｜淨值比 7.703445｜合理價 11.57
+- BEAM Beam Therapeutics Inc. Common Stock｜市價 25.175｜淨值比 2.3561065｜合理價 18.88
+- NEOG Neogen Corporation Common Stock｜市價 11.92｜淨值比 1.2398585｜合理價 8.94
+- WGS GeneDx Holdings Corp. Class A Common Stock｜市價 86.48｜淨值比 10.554064｜合理價 64.86
+- VRDN Viridian Therapeutics, Inc. Common Stock｜市價 22.73｜淨值比 4.6208577｜合理價 17.05
+- SSMR Sunshine Silver Mining & Refining Company Common Stock｜市價 17.88｜淨值比 7.9643655｜合理價 13.41
+- NWL Newell Brands Inc. Common Stock｜市價 6｜淨值比 1.0413051｜合理價 4.50
+- AXGN Axogen, Inc. Common Stock｜市價 47.27｜淨值比 9.897404｜合理價 35.45
+- LIFE Ethos Technologies Inc. Class A Common Stock｜市價 39.72｜淨值比 5.318693｜合理價 29.79
+- OCUL Ocular Therapeutix, Inc. Common Stock｜市價 11.47｜淨值比 4.84375｜合理價 8.60
+- DCO Ducommun Incorporated Common Stock｜市價 166.38｜淨值比 3.6385505｜合理價 124.78
+- RVMDW Revolution Medicines, Inc. Warrant｜市價 11.71｜淨值比 0.9625976｜合理價 11.71
+- NKTR Nektar Therapeutics  Common Stock｜市價 73.32｜淨值比 2.7708702｜合理價 54.99
+- ASST Strive, Inc. Class A Common Stock｜市價 26.69｜淨值比 3.384908｜合理價 20.02
+- APPN Appian Corporation Class A Common Stock｜市價 34.24｜淨值比 null｜合理價 0.00
+- SUPN Supernus Pharmaceuticals, Inc. Common Stock｜市價 42.07｜淨值比 2.3728144｜合理價 31.55
+- PGEN Precigen, Inc. Common Stock｜市價 6.8｜淨值比 55.737705｜合理價 1.83
+- VERA Vera Therapeutics, Inc. Class A Common Stock｜市價 33.78｜淨值比 5.960826｜合理價 25.34
+- WSBCO WesBanco, Inc. Depositary Shares each representing 1/40th interest in a share of 7.375% Fixed-Rate Reset Non-Cumulative Perpetual Preferred Stock, Series B｜市價 25.27｜淨值比 0.6375517｜合理價 31.71
+- DJT Trump Media & Technology Group Corp. Common Stock｜市價 8.71｜淨值比 2.3668478｜合理價 6.53
+- GENVR Gen Digital Inc. Contingent Value Rights｜市價 3.99｜淨值比 0.8998647｜合理價 3.99
+- TRVI Trevi Therapeutics, Inc. Common Stock｜市價 16.64｜淨值比 7.372618｜合理價 12.48
+- COTY Coty Inc. Class A Common Stock｜市價 2.69｜淨值比 0.7923417｜合理價 2.04
+- LASR nLIGHT, Inc. Common Stock｜市價 40.99｜淨值比 5.3722153｜合理價 30.74
+- NOVTU Novanta Inc. Tangible Equity Units｜市價 61.89｜淨值比 1.4478886｜合理價 61.89
+- WERN Werner Enterprises, Inc. Common Stock｜市價 38.89｜淨值比 1.7198071｜合理價 29.17
+- MPT Medical Properties Trust, Inc. common stock｜市價 3.9｜淨值比 0.5173786｜合理價 4.52
+- SRPT Sarepta Therapeutics, Inc. Common Stock (DE)｜市價 22.02｜淨值比 1.5222952｜合理價 16.52
+- ADAMM Adamas Trust, Inc. 7.875% Series E Fixed-to-Floating Rate Cumulative Redeemable Preferred Stock｜市價 25.65｜淨值比 2.4737196｜合理價 25.65
+- CLOV Clover Health Investments, Corp. Class A Common Stock｜市價 4.34｜淨值比 6.104079｜合理價 3.26
+- BHC Bausch Health Companies Inc. Common Stock｜市價 6.16｜淨值比 null｜合理價 0.00
+- PENN PENN Entertainment, Inc. Common Stock｜市價 17.17｜淨值比 1.1737763｜合理價 12.88
+- STUB StubHub Holdings, Inc. Class A Common Stock｜市價 6.01｜淨值比 1.4068353｜合理價 4.51
+- KEEL Keel Infrastructure Corp. Common Stock｜市價 3.71｜淨值比 6.9606004｜合理價 2.78
+- NUVB Nuvation Bio Inc. Class A Common Stock｜市價 6.52｜淨值比 8.980716｜合理價 4.89
+- NEO NeoGenomics, Inc. Common Stock｜市價 17.66｜淨值比 2.875285｜合理價 13.25
+- TRLV Trulieve Cannabis Corp. Subordinate Voting Shares｜市價 11.77｜淨值比 1.9384059｜合理價 8.83
+- BHVN Biohaven Ltd. Common Shares｜市價 15｜淨值比 null｜合理價 0.15
+- CC Chemours Company (The) Common Stock｜市價 15.04｜淨值比 null｜合理價 0.00
+- BCRX BioCryst Pharmaceuticals, Inc. Common Stock｜市價 8.805｜淨值比 null｜合理價 0.00
+- ADAMN Adamas Trust, Inc. 8.00% Series D Fixed-to-Floating Rate Cumulative Redeemable Preferred Stock｜市價 24.98｜淨值比 2.4091039｜合理價 24.98
+- ADAML Adamas Trust, Inc. 6.875% Series F Fixed-to-Floating Rate Cumulative Redeemable Preferred Stock, $0.01 par value per share｜市價 24.9599｜淨值比 2.4071655｜合理價 24.96
+- ESTA Establishment Labs Holdings Inc. Common Shares｜市價 74.51｜淨值比 null｜合理價 1.36
+- UWMC UWM Holdings Corporation Class A Common Stock｜市價 1.37｜淨值比 3.5038364｜合理價 1.03
+- URGN UroGen Pharma Ltd. Ordinary Shares｜市價 45｜淨值比 null｜合理價 0.00
+- AMC AMC Entertainment Holdings, Inc. Class A Common Stock｜市價 2.46｜淨值比 null｜合理價 0.00
+- PVLA Palvella Therapeutics, Inc. Common Stock｜市價 151.34｜淨值比 10.045801｜合理價 113.50
+- ICHR Ichor Holdings Ordinary Shares｜市價 57.88｜淨值比 2.5｜合理價 43.41
+- SEDG SolarEdge Technologies, Inc. Common Stock｜市價 35.21｜淨值比 5.256008｜合理價 26.41
+- PRCH Porch Group, Inc. Common Stock｜市價 16.38｜淨值比 null｜合理價 0.00
+- MTX Minerals Technologies Inc. Common Stock｜市價 69.22｜淨值比 1.394749｜合理價 51.91
+- XRAY DENTSPLY SIRONA Inc. Common Stock｜市價 10.72｜淨值比 1.6291794｜合理價 8.04
+- BUSEP First Busey Corporation Depositary Shares, Each Representing a 1/40thInterest in a Share of 8.25% Fixed-Rate Series B Non-Cumulative Perpetual Preferred Stock, $0.001 par value｜市價 25.85｜淨值比 0.9023633｜合理價 25.85
+- HYMC Hycroft Mining Holding Corporation Class A Common Stock｜市價 22.81｜淨值比 8.466964｜合理價 17.11
+- BRVE Braveheart Bio, Inc. Common Stock｜市價 28.91｜淨值比 null｜合理價 0.00
+- KOD Kodiak Sciences Inc Common Stock｜市價 33.78｜淨值比 34.681725｜合理價 14.61
+- RGTIW Rigetti Computing, Inc. Warrants｜市價 6.345｜淨值比 3.9385476｜合理價 6.34
+- VIA Via Transportation, Inc. Class A Common Stock｜市價 25.96｜淨值比 3.3908045｜合理價 19.47
+- RAPP Rapport Therapeutics, Inc. Common Stock｜市價 43.885｜淨值比 4.976187｜合理價 32.91
+- UAA Under Armour, Inc. Class A Common Stock｜市價 4.9｜淨值比 1.4736842｜合理價 3.67
+- ZBIO Zenas BioPharma, Inc. Common Stock｜市價 32.29｜淨值比 8.275244｜合理價 24.22
+- GNL Global Net Lease, Inc. Common Stock｜市價 9.09｜淨值比 1.2704402｜合理價 6.82
+- CMPS COMPASS Pathways Plc American Depository Shares｜市價 15.17｜淨值比 24.349918｜合理價 9.35
+- MESO Mesoblast Limited American Depositary Shares｜市價 16.14｜淨值比 3.6849313｜合理價 12.10
+- VOYG Voyager Technologies, Inc. Class A Common Stock｜市價 33.75｜淨值比 5.58405｜合理價 25.31
+- COAG Hemab Therapeutics Holdings, Inc. Common Stock｜市價 44.5｜淨值比 4.575365｜合理價 33.37
+- AGIO Agios Pharmaceuticals, Inc. Common Stock｜市價 34.63｜淨值比 2.0117347｜合理價 25.97
+- UA Under Armour, Inc. Class C Common Stock｜市價 4.8｜淨值比 1.4436091｜合理價 3.60
+- AADX Applied Aerospace & Defense, Inc. Common Stock｜市價 11.94｜淨值比 2.4864638｜合理價 8.95
+- VET Vermilion Energy Inc. Common (Canada)｜市價 13.37｜淨值比 1.2797108｜合理價 10.03
+- UTZ Utz Brands Inc Class A Common Stock｜市價 14.22｜淨值比 1.8093905｜合理價 10.66
+- PLBL Polibeli Group Ltd Class A Ordinary Shares｜市價 5.58｜淨值比 null｜合理價 0.00
+- STDN Standard Nuclear, Inc. Class A Common Stock｜市價 13.04｜淨值比 null｜合理價 0.00
+- ALVO Alvotech Ordinary Shares｜市價 5.21｜淨值比 null｜合理價 0.00
+- SHAZ SharonAI Holdings, Inc. Class A Common Stock｜市價 56.75｜淨值比 1.7983902｜合理價 42.56
+- BXDC Blackstone Digital Infrastructure Trust Inc. Common Stock｜市價 20.14｜淨值比 1.0493956｜合理價 15.11
+- TIC TIC Solutions, Inc. Common Stock｜市價 9.26｜淨值比 0.9717704｜合理價 6.95
+- PEB Pebblebrook Hotel Trust Common Shares of Beneficial Interest｜市價 17.84｜淨值比 0.8296131｜合理價 13.38
+- ALMR Alamar Biosciences, Inc. Common Stock｜市價 28.96｜淨值比 6.4227104｜合理價 21.72
+- NEXT NextDecade Corporation Common Stock｜市價 7.54｜淨值比 null｜合理價 0.00
+- ALKT Alkami Technology, Inc. Common Stock｜市價 18.65｜淨值比 5.499852｜合理價 13.99
+- GENB Generate Biomedicines, Inc. Common Stock｜市價 15.52｜淨值比 4.365682｜合理價 11.64
+- OLN Olin Corporation Common Stock｜市價 17.46｜淨值比 1.162837｜合理價 13.09
+- PRGO Perrigo Company plc Ordinary Shares｜市價 14.34｜淨值比 0.79060537｜合理價 10.88
+- EMAT Evolution Metals & Technologies Corp. Common Stock｜市價 3.2｜淨值比 null｜合理價 0.00
+- BFLY Butterfly Network, Inc. Class A Common Stock｜市價 7.46｜淨值比 10.418994｜合理價 5.59
+- UMBFO UMB Financial Corporation Depositary Shares Each Representing a 1/400th Interest in a Share of 7.750% Fixed-Rate Reset Non-Cumulative Perpetual Preferred Stock, Series B｜市價 25.95｜淨值比 0.26173258｜合理價 79.32
+- IQMX IQM Quantum Computers Oyj American Depositary Shares｜市價 10.4｜淨值比 7.8419266｜合理價 7.80
+- WRD WeRide Inc. American Depositary Shares｜市價 5.82｜淨值比 1.883424｜合理價 4.36
+- STOK Stoke Therapeutics, Inc. Common Stock｜市價 29.92｜淨值比 5.403648｜合理價 22.44
+- ZYME Zymeworks Inc. Common Stock｜市價 27.15｜淨值比 24.133333｜合理價 16.88
+- KLRA Kailera Therapeutics, Inc. Common Stock｜市價 14.84｜淨值比 1.7197822｜合理價 11.13
+- NSP Insperity, Inc. Common Stock｜市價 50.27｜淨值比 31.477772｜合理價 23.95
+- TH Target Hospitality Corp. Common Stock｜市價 19.2｜淨值比 5.201843｜合理價 14.40
+- SNDA Sonida Senior Living, Inc. Common Stock｜市價 39.57｜淨值比 2.1447153｜合理價 29.68
+- ZD Ziff Davis, Inc. Common Stock｜市價 55.32｜淨值比 0.8644425｜合理價 41.49
+- GHRS GH Research PLC Ordinary Shares｜市價 27.56｜淨值比 5.2625546｜合理價 20.67
+- ASAN Asana, Inc. Class A Common Stock｜市價 8.25｜淨值比 18.252213｜合理價 6.19
+- TMC TMC the metals company Inc. Common Stock｜市價 4.28｜淨值比 null｜合理價 0.00
+- GENI Genius Sports Limited Ordinary Shares｜市價 7.03｜淨值比 2.7503912｜合理價 5.27
+- CDZIP Cadiz, Inc. Depositary Shares｜市價 22.16｜淨值比 null｜合理價 28.45
+- FLNC Fluence Energy, Inc. Class A Common Stock｜市價 10.12｜淨值比 3.8818564｜合理價 7.59
+- NBTX Nanobiotix S.A. American Depositary Shares｜市價 36.64｜淨值比 null｜合理價 0.00
+- VNET VNET Group, Inc. American Depositary Shares｜市價 6.52｜淨值比 3.05937｜合理價 4.89
+- SBET Sharplink, Inc. Common Stock｜市價 8.54｜淨值比 1.313644｜合理價 6.40
+- XNCR Xencor, Inc. Common Stock｜市價 24.94｜淨值比 3.6838996｜合理價 18.71
+- SGRY Surgery Partners, Inc. Common Stock｜市價 14.12｜淨值比 1.096018｜合理價 10.59
+- BULLW Webull Corporation Warrants｜市價 3.41｜淨值比 1.7309645｜合理價 3.41
+- KARD Kardigan, Inc. Common Stock｜市價 19.68｜淨值比 2.9886105｜合理價 14.76
+- NHPBP National Healthcare Properties, Inc. 7.125% Series B Cumulative Redeemable Perpetual Preferred Stock｜市價 25.2113｜淨值比 1.7371529｜合理價 25.21
+- TOP TOP Financial Group Limited Class A Ordinary Shares｜市價 14.61｜淨值比 15.967213｜合理價 10.96
+- VIR Vir Biotechnology, Inc. Common Stock｜市價 10.81｜淨值比 2.1444159｜合理價 8.11
+- AESI Atlas Energy Solutions Inc. Common Stock｜市價 14.58｜淨值比 1.6374662｜合理價 10.93
+- NVCR NovoCure Limited Ordinary Shares｜市價 15.63｜淨值比 5.382231｜合理價 11.72
+- WKC World Kinect Corporation Common Stock｜市價 35.58｜淨值比 1.6041479｜合理價 26.69
+- QUBT Quantum Computing Inc. Common Stock｜市價 8.04｜淨值比 1.1430197｜合理價 6.03
+- DHC Diversified Healthcare Trust Common Shares of Beneficial Interest｜市價 7.51｜淨值比 1.1490209｜合理價 5.63
+- DEI Douglas Emmett, Inc. Common Stock｜市價 10.78｜淨值比 0.98205334｜合理價 8.08
+- MRVI Maravai LifeSciences Holdings, Inc. Class A Common Stock｜市價 6.95｜淨值比 5.058224｜合理價 5.21
+- USAS Americas Gold and Silver Corporation Common Shares, no par value｜市價 5.33｜淨值比 6.0914283｜合理價 4.00
+- IMCR Immunocore Holdings plc American Depositary Shares｜市價 34.47｜淨值比 4.226855｜合理價 25.85
+- SEPN Septerna, Inc. Common Stock｜市價 37.97｜淨值比 4.4839396｜合理價 28.48
+- SNDX Syndax Pharmaceuticals, Inc. Common Stock｜市價 19.84｜淨值比 null｜合理價 0.32
+- WTFCN Wintrust Financial Corporation Depositary Shares, Each Representing a 1/1,000th Interest in a Share of 7.875% Fixed-Rate Reset Non-Cumulative Perpetual Preferred StocK｜市價 26.19｜淨值比 0.24882193｜合理價 84.20
+- SID Companhia Siderurgica Nacional S.A. Common Stock｜市價 1.33｜淨值比 0.7545828｜合理價 1.06
+- PSNL Personalis, Inc. Common Stock｜市價 16.4｜淨值比 7.417458｜合理價 12.30
+- PSQL Pasqal Holding SA Ordinary Share｜市價 8.21｜淨值比 null｜合理價 0.00
+- TSHA Taysha Gene Therapies, Inc. Common Stock｜市價 5.34｜淨值比 7.2357726｜合理價 4.01
+- IE Ivanhoe Electric Inc. Common Stock｜市價 10.9｜淨值比 3.3080423｜合理價 8.17
+- VSTS Vestis Corporation Common Stock｜市價 13.12｜淨值比 1.9756061｜合理價 9.84
+- RXRX Recursion Pharmaceuticals, Inc. Class A Common Stock｜市價 3.215｜淨值比 1.8801168｜合理價 2.41
+- AIN Albany International Corporation Common Stock｜市價 60.58｜淨值比 2.3049119｜合理價 45.43
+- NTLA Intellia Therapeutics, Inc. Common Stock｜市價 12.21｜淨值比 2.3494325｜合理價 9.16
+- KOS Kosmos Energy Ltd. Common Shares (DE)｜市價 2.87｜淨值比 2.41786｜合理價 2.15
+- LILA Liberty Latin America Ltd. Class A Common Stock｜市價 8.65｜淨值比 3.2727962｜合理價 6.49
+- FRNM Freenome, Inc. Common stock｜市價 15.75｜淨值比 null｜合理價 0.00
+- LILAK Liberty Latin America Ltd. Class C Common Stock｜市價 8.63｜淨值比 3.265229｜合理價 6.47
+- LCID Lucid Group, Inc. Common Stock｜市價 4.27｜淨值比 null｜合理價 0.00
+- TSAT Telesat Corporation Class A Common Shares and Class B Variable Voting Shares｜市價 46.48｜淨值比 1.931039｜合理價 34.86
+- HUN Huntsman Corporation Common Stock｜市價 9.58｜淨值比 0.617109｜合理價 9.31
+- OXLC Oxford Lane Capital Corp. Common Stock｜市價 9.65｜淨值比 0.91391224｜合理價 7.24
+- SAM Boston Beer Company, Inc. (The) Common Stock｜市價 162.33｜淨值比 2.2901118｜合理價 121.75
+- ITG ITG, Inc. Class A Common Stock｜市價 13.45｜淨值比 18.943663｜合理價 10.09
+- LIND Lindblad Expeditions Holdings Inc. Common Stock｜市價 25.355｜淨值比 null｜合理價 0.00
+- AI C3.ai, Inc. Class A Common Stock｜市價 10.38｜淨值比 2.315414｜合理價 7.79
+- INBX Inhibrx Biosciences, Inc. Common Stock｜市價 112.86｜淨值比 null｜合理價 0.00
+- GT The Goodyear Tire & Rubber Company Common Stock｜市價 5.75｜淨值比 0.5826325｜合理價 5.92
+- JBLU JetBlue Airways Corporation Common Stock｜市價 4.38｜淨值比 1.0413696｜合理價 3.29
+- CNXC Concentrix Corporation Common Stock｜市價 27.07｜淨值比 0.60991824｜合理價 26.63
+- …其餘 2491 檔見 JSON

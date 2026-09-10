@@ -5,6 +5,10 @@ import { suggestAssumptions, valueStock } from "./engine";
 import { buildZones } from "./zones";
 import { shufflePick, US_UNIVERSE } from "./universe";
 import type { Fundamentals } from "./types";
+import type { AuditReport, AuditRow } from "./fetch-us";
+
+export type { AuditBucket, AuditReport, AuditRow } from "./fetch-us";
+export { auditAllUs } from "./fetch-us";
 
 export type ScanRow = {
   market: "TW" | "US";
@@ -29,31 +33,6 @@ export type ScanProgress = {
   done: number;
   total: number;
   rows: ScanRow[];
-};
-
-export type AuditBucket = "ok" | "no_data" | "no_value" | "error";
-
-export type AuditRow = {
-  ticker: string;
-  name: string;
-  price: number;
-  pe: number | null;
-  pb: number | null;
-  yieldPct: number | null;
-  blended: number | null;
-  bucket: AuditBucket;
-  reason: string;
-  error: string | null;
-};
-
-export type AuditReport = {
-  asOf: string;
-  total: number;
-  ok: number;
-  noData: number;
-  noValue: number;
-  errors: number;
-  rows: AuditRow[];
 };
 
 function twNum(raw: unknown): number | null {

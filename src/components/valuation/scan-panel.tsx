@@ -3,6 +3,7 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   auditAllTwse,
+  auditAllUs,
   runRandomScan,
   type AuditBucket,
   type AuditReport,
@@ -38,10 +39,13 @@ export function ScanPanel({ onOpen }: { onOpen: (ticker: string) => void }) {
   const [error, setError] = useState<string | null>(null);
   const [market, setMarket] = useState<"all" | "TW" | "US">("all");
 
-  const [audit, setAudit] = useState<AuditReport | null>(null);
+  const [auditTw, setAuditTw] = useState<AuditReport | null>(null);
+  const [auditUs, setAuditUs] = useState<AuditReport | null>(null);
+  const [auditMarket, setAuditMarket] = useState<"TW" | "US">("US");
   const [auditBusy, setAuditBusy] = useState(false);
   const [auditLabel, setAuditLabel] = useState<string | null>(null);
   const [auditFilter, setAuditFilter] = useState<"issues" | AuditBucket | "loss">("issues");
+  const audit = auditMarket === "TW" ? auditTw : auditUs;
 
   async function run() {
     if (running) return;
@@ -61,35 +65,42 @@ export function ScanPanel({ onOpen }: { onOpen: (ticker: string) => void }) {
     }
   }
 
-  async function runAudit(fresh: boolean) {
+  async function loadSnapshot(market: "TW" | "US"): Promise<AuditReport | null> {
+    if (market === "TW") {
+      const cached = loadCachedAudit();
+      if (cached?.rows?.length) return cached;
+    }
+    const file = market === "TW" ? "twse-audit.json" : "us-audit.json";
+    const res = await fetch(`${import.meta.env.BASE_URL}${file}`);
+    if (!res.ok) return null;
+    return (await res.json()) as AuditReport;
+  }
+
+  async function runAudit(fresh: boolean, market: "TW" | "US" = auditMarket) {
     if (auditBusy) return;
     setAuditBusy(true);
-    setAuditLabel(fresh ? "正在重掃全部台股…" : "讀取掃描紀錄…");
+    if (fresh) setAuditMarket(market);
+    setAuditLabel(fresh ? `正在重掃全部${market === "TW" ? "台股" : "美股"}…` : "讀取掃描紀錄…");
     try {
       if (!fresh) {
-        const cached = loadCachedAudit();
-        if (cached?.rows?.length) {
-          setAudit(cached);
-          setAuditLabel(`快取 ${cached.asOf} · ${cached.total} 檔`);
-          setAuditBusy(false);
-          return;
-        }
-        const url = `${import.meta.env.BASE_URL}twse-audit.json`;
-        const res = await fetch(url);
-        if (res.ok) {
-          const report = (await res.json()) as AuditReport;
-          setAudit(report);
-          saveCachedAudit(report);
-          setAuditLabel(`紀錄 ${report.asOf} · ${report.total} 檔`);
-          setAuditBusy(false);
+        const report = await loadSnapshot(market);
+        if (report) {
+          if (market === "TW") {
+            setAuditTw(report);
+            saveCachedAudit(report);
+          } else setAuditUs(report);
+          setAuditLabel(`${market === "TW" ? "台股" : "美股"}紀錄 ${report.asOf} · ${report.total} 檔`);
           return;
         }
       }
-      const report = await auditAllTwse((done, total) => {
-        setAuditLabel(`掃描 ${done}／${total}`);
-      });
-      setAudit(report);
-      saveCachedAudit(report);
+      const report =
+        market === "TW"
+          ? await auditAllTwse((done, total) => setAuditLabel(`台股 ${done}／${total}`))
+          : await auditAllUs((done, total, label) => setAuditLabel(label));
+      if (market === "TW") {
+        setAuditTw(report);
+        saveCachedAudit(report);
+      } else setAuditUs(report);
       setAuditLabel(`完成 ${report.asOf} · ${report.total} 檔`);
     } catch (err) {
       setAuditLabel(err instanceof Error ? err.message : "掃描失敗");
@@ -99,7 +110,10 @@ export function ScanPanel({ onOpen }: { onOpen: (ticker: string) => void }) {
   }
 
   useEffect(() => {
-    void runAudit(false);
+    void (async () => {
+      await runAudit(false, "US");
+      void runAudit(false, "TW");
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -111,25 +125,26 @@ export function ScanPanel({ onOpen }: { onOpen: (ticker: string) => void }) {
   const issueRows = useMemo(() => {
     if (!audit) return [];
     if (auditFilter === "issues") {
-      return audit.rows.filter((r) => r.bucket !== "ok" || r.reason.includes("虧損"));
+      return audit.rows.filter((r) => r.bucket !== "ok");
     }
     if (auditFilter === "loss") {
       return audit.rows.filter((r) => r.reason.includes("虧損"));
     }
     return audit.rows.filter((r) => r.bucket === auditFilter);
   }, [audit, auditFilter]);
+  const shownIssues = issueRows.slice(0, 400);
 
   return (
     <div className="space-y-4">
       <div className="rounded-xl border border-line bg-surface p-4 sm:p-5">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h2 className="font-display text-xl">台股全市場紀錄</h2>
+            <h2 className="font-display text-xl">全市場紀錄</h2>
             <p className="mt-1 text-sm text-muted">
-              證交所當日全部上市股票。分開記：無資料、算不出合理價、計算錯誤。
+              台股走證交所；美股走 Nasdaq 全部上市名單再配 Yahoo 倍數。分開記無資料、算不出、錯誤。
             </p>
           </div>
-          <Button type="button" variant="ghost" onClick={() => void runAudit(true)} disabled={auditBusy}>
+          <Button type="button" variant="ghost" onClick={() => void runAudit(true, auditMarket)} disabled={auditBusy}>
             {auditBusy ? (
               <span className="inline-flex items-center gap-2">
                 <Loader2 className="size-4 animate-spin" />
@@ -141,6 +156,25 @@ export function ScanPanel({ onOpen }: { onOpen: (ticker: string) => void }) {
           </Button>
         </div>
         {auditLabel ? <p className="mt-3 text-sm text-muted">{auditLabel}</p> : null}
+        <div className="mt-3 flex flex-wrap gap-2 text-xs">
+          {(
+            [
+              ["US", `美股${auditUs ? ` ${auditUs.total}` : ""}`],
+              ["TW", `台股${auditTw ? ` ${auditTw.total}` : ""}`],
+            ] as const
+          ).map(([id, text]) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => setAuditMarket(id)}
+              className={`h-9 rounded-full px-3 ${
+                auditMarket === id ? "bg-accent text-accent-fg" : "border border-line text-muted"
+              }`}
+            >
+              {text}
+            </button>
+          ))}
+        </div>
         {audit ? (
           <>
             <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -195,7 +229,7 @@ export function ScanPanel({ onOpen }: { onOpen: (ticker: string) => void }) {
                     </tr>
                   </thead>
                   <tbody>
-                    {issueRows.map((row) => (
+                    {shownIssues.map((row) => (
                       <tr key={row.ticker} className="border-t border-line">
                         <td className="py-2">
                           <button type="button" className="text-left" onClick={() => onOpen(row.ticker)}>
@@ -227,7 +261,8 @@ export function ScanPanel({ onOpen }: { onOpen: (ticker: string) => void }) {
               )}
             </div>
             <p className="mt-3 text-xs text-muted">
-              完整名冊也寫在「台股掃描紀錄」檔。虧損股仍算得出時，合理價多半貼近市價，因為只用自己的淨值比。
+              {issueRows.length > 400 ? `表上只列前 400 檔，這一欄共 ${issueRows.length} 檔。` : null}
+              美股清單來自 Nasdaq 全部上市股票；無報價多半是特別股代號。虧損股若有淨值比仍會算出。
             </p>
           </>
         ) : null}
