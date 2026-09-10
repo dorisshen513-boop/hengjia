@@ -59,36 +59,31 @@ export function Studio() {
     const id = ++runId.current;
     const started = Date.now();
     startRun(q);
-    await new Promise<void>((resolve) => {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => resolve());
-      });
-    });
-    if (runId.current !== id) return;
     const timers = [
       window.setTimeout(() => {
         if (runId.current === id) setProgress("正在向證交所／公開行情站抓最新財報…");
       }, 400),
       window.setTimeout(() => {
-        if (runId.current === id) setProgress("正在抓公司、母公司與產業新聞…");
+        if (runId.current === id) setProgress("來源較慢，還在等公開行情…");
       }, 4000),
       window.setTimeout(() => {
-        if (runId.current === id) setProgress("還在計算，請稍候…");
-      }, 9000),
+        if (runId.current === id) {
+          runId.current += 1;
+          setError("來源沒有在時限內回應，請再試一次");
+          setLoading(false);
+          setProgress(null);
+        }
+      }, 10000),
     ];
     try {
       const data = await Promise.race([
         fetchQuoteData(q),
         new Promise<never>((_, reject) => {
-          window.setTimeout(() => reject(new Error("計算逾時，請再試一次")), 18000);
+          window.setTimeout(() => reject(new Error("計算逾時，請再試一次")), 9000);
         }),
       ]);
       if (runId.current !== id) return;
-      try {
-        applyQuote(data);
-      } catch (inner) {
-        throw inner instanceof Error ? inner : new Error(String(inner));
-      }
+      applyQuote(data);
     } catch (err) {
       if (runId.current !== id) return;
       const msg = friendlyError(err, q);
@@ -99,7 +94,7 @@ export function Studio() {
     } finally {
       timers.forEach((t) => window.clearTimeout(t));
       if (runId.current === id) {
-        const remain = 450 - (Date.now() - started);
+        const remain = 300 - (Date.now() - started);
         if (remain > 0) await new Promise((r) => window.setTimeout(r, remain));
         setLoading(false);
         setProgress(null);
@@ -107,12 +102,19 @@ export function Studio() {
     }
   }
 
+  function cancelRun() {
+    runId.current += 1;
+    setLoading(false);
+    setProgress(null);
+    setError("已取消");
+  }
+
   function restoreRow(row: HistoryRow) {
     void run(row.ticker);
   }
 
   return (
-    <div className="min-h-dvh bg-bg text-fg">
+    <div className="min-h-dvh overflow-x-hidden bg-bg text-fg">
       <header className="border-b border-line">
         <div className="mx-auto flex max-w-6xl flex-col gap-5 px-4 py-6 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between gap-4">
@@ -135,35 +137,47 @@ export function Studio() {
             className="flex flex-col gap-3 sm:flex-row"
             onSubmit={(e) => {
               e.preventDefault();
-              void run();
+              const typed = String(new FormData(e.currentTarget).get("ticker") ?? "");
+              void run(typed || tickerInput);
             }}
           >
             <div className="relative min-w-0 flex-1">
               <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-subtle" />
               <Input
+                name="ticker"
                 value={tickerInput}
                 onChange={(e) => setTickerInput(e.target.value)}
                 placeholder="AAPL、SATL、2330.TW"
                 className="pl-10 uppercase"
                 autoCapitalize="characters"
+                autoComplete="off"
+                enterKeyHint="search"
                 aria-label="股票代號"
               />
             </div>
-            <Button
-              type="submit"
-              size="lg"
-              className="sm:min-w-36"
-              aria-busy={loading}
-            >
+            <div className="flex gap-2">
+              <Button
+                type="submit"
+                size="lg"
+                className="flex-1 sm:min-w-36"
+                aria-busy={loading}
+                disabled={loading}
+              >
+                {loading ? (
+                  <span className="inline-flex items-center gap-2">
+                    <Loader2 className="size-4 animate-spin" />
+                    計算中
+                  </span>
+                ) : (
+                  "開始計算"
+                )}
+              </Button>
               {loading ? (
-                <span className="inline-flex items-center gap-2">
-                  <Loader2 className="size-4 animate-spin" />
-                  計算中
-                </span>
-              ) : (
-                "開始計算"
-              )}
-            </Button>
+                <Button type="button" size="lg" variant="quiet" onClick={cancelRun}>
+                  取消
+                </Button>
+              ) : null}
+            </div>
           </form>
           <HistoryStrip current={tickerInput} onRestore={restoreRow} />
           {loading ? (
@@ -178,7 +192,7 @@ export function Studio() {
                   正在計算 {tickerInput.toUpperCase() || "…"}，請稍候
                 </p>
                 <p className="mt-1 text-sm text-muted">
-                  {progress ?? "正在向證交所／公開行情站抓最新財報與新聞…"}。每次都重新上網，大約 3–12 秒。
+                  {progress ?? "正在向證交所／公開行情站抓最新財報…"}。超過 10 秒會自動停，可按取消。
                 </p>
               </div>
             </div>

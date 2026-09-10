@@ -1,4 +1,5 @@
 import type { Fundamentals } from "./types";
+import { abortAfter, netFetch } from "./http";
 
 function twNum(raw: unknown): number | null {
   if (typeof raw === "number" && Number.isFinite(raw)) return raw;
@@ -33,11 +34,14 @@ function nameFromTitle(title: string, code: string): string {
 
 async function twseJson(url: string, ms = 5000): Promise<Record<string, unknown> | null> {
   try {
-    const res = await fetch(url, {
-      credentials: "omit",
-      cache: "no-store",
-      signal: AbortSignal.timeout(ms),
-    });
+    const res =
+      typeof window === "undefined"
+        ? await fetch(url, {
+            credentials: "omit",
+            cache: "no-store",
+            signal: abortAfter(ms),
+          })
+        : await netFetch(url);
     if (!res.ok) return null;
     return (await res.json()) as Record<string, unknown>;
   } catch {

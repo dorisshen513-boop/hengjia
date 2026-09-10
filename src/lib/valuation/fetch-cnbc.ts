@@ -1,4 +1,5 @@
 import type { Fundamentals } from "./types";
+import { abortAfter, netFetch } from "./http";
 
 /** CNBC quote JSON sends Access-Control-Allow-Origin: *. Works on GitHub Pages. */
 
@@ -68,6 +69,11 @@ function scaleEbitda(raw: unknown, view?: unknown): number {
   return scaled || v;
 }
 
+function operatingEbit(ebitda: number, netIncome: number): number {
+  if (ebitda !== 0) return ebitda > 0 ? ebitda * 0.82 : ebitda;
+  return netIncome;
+}
+
 type CnbcQuote = {
   symbol?: string;
   last?: string;
@@ -78,34 +84,47 @@ type CnbcQuote = {
   FundamentalData?: Record<string, string>;
 };
 
+function quoteUrl(sym: string): string {
+  return (
+    `https://quote.cnbc.com/quote-html-webservice/quote.htm?symbols=${encodeURIComponent(sym)}` +
+    `&partnerId=2&requestMethod=quick&exthrs=1&noform=1&fund=1&extended=1&output=json`
+  );
+}
+
+async function readCnbc(url: string): Promise<CnbcQuote | null> {
+  const onServer = typeof window === "undefined";
+  const headers: Record<string, string> = { Accept: "application/json" };
+  if (onServer) {
+    headers["User-Agent"] =
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
+    headers.Referer = "https://www.cnbc.com/";
+  }
+  const res = onServer
+    ? await fetch(url, {
+        credentials: "omit",
+        cache: "no-store",
+        headers,
+        signal: abortAfter(6000),
+      })
+    : await netFetch(url);
+  if (!res.ok) return null;
+  const data = (await res.json()) as {
+    QuickQuoteResult?: { QuickQuote?: CnbcQuote | CnbcQuote[] };
+  };
+  const raw = data.QuickQuoteResult?.QuickQuote;
+  const row = Array.isArray(raw) ? raw[0] : raw;
+  if (!row || row.code === "1" || !row.last) return null;
+  return row;
+}
+
 export async function fetchCnbc(ticker: string): Promise<Partial<Fundamentals> | null> {
   const rawSym = ticker.replace(/\.(US|NASDAQ|NYSE)$/i, "").toUpperCase();
   const aliases: Record<string, string> = { "BRK-B": "BRK.B", "BRK-A": "BRK.A" };
   const sym = aliases[rawSym] ?? rawSym;
   if (!sym || sym.includes("/") || /\.(TW|TWO)$/i.test(sym)) return null;
   try {
-    const url =
-      `https://quote.cnbc.com/quote-html-webservice/quote.htm?symbols=${encodeURIComponent(sym)}` +
-      `&partnerId=2&requestMethod=quick&exthrs=1&noform=1&fund=1&extended=1&output=json`;
-    const headers: Record<string, string> = { Accept: "application/json" };
-    if (typeof window === "undefined") {
-      headers["User-Agent"] =
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
-      headers.Referer = "https://www.cnbc.com/";
-    }
-    const res = await fetch(url, {
-      credentials: "omit",
-      cache: "no-store",
-      headers,
-      signal: AbortSignal.timeout(7000),
-    });
-    if (!res.ok) return null;
-    const data = (await res.json()) as {
-      QuickQuoteResult?: { QuickQuote?: CnbcQuote | CnbcQuote[] };
-    };
-    const raw = data.QuickQuoteResult?.QuickQuote;
-    const row = Array.isArray(raw) ? raw[0] : raw;
-    if (!row || row.code === "1" || !row.last) return null;
+    const row = await readCnbc(quoteUrl(sym));
+    if (!row) return null;
     const price = n(row.last);
     if (price <= 0) return null;
     const fd = row.FundamentalData ?? {};
@@ -129,12 +148,7 @@ export async function fetchCnbc(ticker: string): Promise<Partial<Fundamentals> |
     const eps = epsReported || (sharesOut > 0 && netIncome ? netIncome / sharesOut : 0);
     const dps = n(fd.dividend);
     const pe = n(fd.pe);
-    const ebit =
-      ebitda !== 0
-        ? ebitda > 0
-          ? ebitda * 0.82
-          : ebitda
-        : netIncome;
+    const ebit = operatingEbit(ebitda, netIncome);
     const op = revenue > 0 && ebit ? ebit / revenue : netMargin || null;
     const notes = ["美股行情取自 CNBC 公開報價（不經 Yahoo 代理）。"];
     if (sharesRaw > 0 && Math.abs(sharesOut / sharesRaw - 1) > 0.2) {
@@ -179,16 +193,9 @@ export async function fetchCnbc(ticker: string): Promise<Partial<Fundamentals> |
 
 export async function fetchCnbcRf(): Promise<number | null> {
   try {
-    const res = await fetch(
+    const row = await readCnbc(
       "https://quote.cnbc.com/quote-html-webservice/quote.htm?symbols=US10Y&partnerId=2&requestMethod=quick&output=json",
-      { credentials: "omit", cache: "no-store", signal: AbortSignal.timeout(4000) },
     );
-    if (!res.ok) return null;
-    const data = (await res.json()) as {
-      QuickQuoteResult?: { QuickQuote?: { last?: string } | Array<{ last?: string }> };
-    };
-    const raw = data.QuickQuoteResult?.QuickQuote;
-    const row = Array.isArray(raw) ? raw[0] : raw;
     const y = n(row?.last);
     if (y > 0.5 && y < 20) return y / 100;
     return null;
@@ -196,4 +203,3 @@ export async function fetchCnbcRf(): Promise<number | null> {
     return null;
   }
 }
-

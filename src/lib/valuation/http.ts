@@ -2,6 +2,21 @@
 
 const BROWSER = typeof window !== "undefined";
 
+/** iOS 15 沒有 AbortSignal.timeout，沒中止的 fetch 會讓畫面一直轉。 */
+export function abortAfter(ms: number): AbortSignal {
+  try {
+    if (typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function") {
+      return AbortSignal.timeout(ms);
+    }
+  } catch {
+    /* fall through */
+  }
+  const c = new AbortController();
+  const timer = setTimeout(() => c.abort(), ms);
+  c.signal.addEventListener("abort", () => clearTimeout(timer), { once: true });
+  return c.signal;
+}
+
 function asResponse(contents: string, contentType: string, code = 200): Response {
   if (code >= 400) throw new Error(`HTTP ${code}`);
   if (/^\s*</.test(contents) && !/^\s*\{/.test(contents) && !/^\s*\[/.test(contents)) {
@@ -60,7 +75,7 @@ async function corsGet(url: string, timeoutMs: number): Promise<Response> {
     method: "GET",
     credentials: "omit",
     cache: "no-store",
-    signal: AbortSignal.timeout(timeoutMs),
+    signal: abortAfter(timeoutMs),
   });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const text = await res.text();
@@ -73,13 +88,13 @@ async function corsGet(url: string, timeoutMs: number): Promise<Response> {
   });
 }
 
-async function tryDirect(url: string): Promise<Response | null> {
+async function tryDirect(url: string, timeoutMs = 2500): Promise<Response | null> {
   try {
     const res = await fetch(url, {
       method: "GET",
       credentials: "omit",
       cache: "no-store",
-      signal: AbortSignal.timeout(2500),
+      signal: abortAfter(timeoutMs),
     });
     if (!res.ok) return null;
     const text = await res.text();
@@ -111,10 +126,10 @@ async function enqueue<T>(fn: () => Promise<T>): Promise<T> {
 
 async function viaProxy(url: string): Promise<Response> {
   try {
-    return await jsonpAllorigins(url, 10000);
+    return await jsonpAllorigins(url, 6000);
   } catch {
     const encoded = encodeURIComponent(url);
-    const wrapped = await corsGet(`https://api.allorigins.win/get?url=${encoded}`, 10000);
+    const wrapped = await corsGet(`https://api.allorigins.win/get?url=${encoded}`, 6000);
     return unwrapAllorigins(JSON.parse(await wrapped.text()) as unknown);
   }
 }
@@ -122,7 +137,7 @@ async function viaProxy(url: string): Promise<Response> {
 async function browserGet(url: string): Promise<Response> {
   const canDirect = !/finance\.yahoo\.com|query[12]\.finance|news\.google\.com/i.test(url);
   if (canDirect) {
-    const direct = await tryDirect(url);
+    const direct = await tryDirect(url, 4000);
     if (direct) return direct;
   }
   return enqueue(() => viaProxy(url));
@@ -133,7 +148,7 @@ export async function netFetch(url: string, init?: RequestInit): Promise<Respons
     const res = await fetch(url, {
       ...init,
       cache: init?.cache ?? "no-store",
-      signal: init?.signal ?? AbortSignal.timeout(12000),
+      signal: init?.signal ?? abortAfter(12000),
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res;

@@ -520,14 +520,19 @@ export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload>
   const tw = isTw(ticker);
   const onServer = typeof window === "undefined";
   let fundamentals: Fundamentals | null = null;
+  let rf = tw ? 0.016 : 0.043;
 
   if (tw) {
-    const twse = await withTimeout(fetchTwse(ticker), 8000, null);
+    const twse = await withTimeout(fetchTwse(ticker), 7000, null);
     if (twse?.price) {
       fundamentals = mergeFundamentals(blankFundamentals(ticker), twse);
     }
   } else {
-    const cnbc = await withTimeout(fetchCnbc(ticker), 8000, null);
+    const [cnbc, rfLive] = await Promise.all([
+      withTimeout(fetchCnbc(ticker), 7000, null),
+      withTimeout(fetchCnbcRf(), 2500, null),
+    ]);
+    if (rfLive) rf = rfLive;
     if (cnbc?.price) {
       fundamentals = mergeFundamentals(blankFundamentals(ticker), cnbc);
     }
@@ -559,20 +564,19 @@ export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload>
     throw new Error(`暫時連不到 ${ticker} 的行情，請再試一次`);
   }
 
-  const rf = tw
-    ? 0.016
-    : (await withTimeout(fetchCnbcRf(), 3500, null)) ?? 0.043;
   const baseAssumptions = suggestAssumptions(fundamentals, rf);
-  const newsPack = await withTimeout(
-    gatherNews({
-      ticker,
-      name: fundamentals.name,
-      sector: fundamentals.sector,
-      industry: fundamentals.industry,
-    }),
-    4000,
-    { items: [] as NewsItem[], parentName: "", aiNote: null as string | null },
-  );
+  const newsPack = onServer
+    ? await withTimeout(
+        gatherNews({
+          ticker,
+          name: fundamentals.name,
+          sector: fundamentals.sector,
+          industry: fundamentals.industry,
+        }),
+        4000,
+        { items: [] as NewsItem[], parentName: "", aiNote: null as string | null },
+      )
+    : { items: [] as NewsItem[], parentName: "", aiNote: null as string | null };
   const applied = applyNewsToAssumptions(baseAssumptions, newsPack.items, {
     parentName: newsPack.parentName,
     aiNote: newsPack.aiNote,

@@ -9,8 +9,9 @@ const ZONE_TONE: Record<string, { bar: string; ink: string }> = {
   tail: { bar: "bg-zone-tail text-fg", ink: "text-fg" },
 };
 
-function pinLeft(p: number, min: number, span: number) {
-  return `${((p - min) / span) * 100}%`;
+function pinPct(p: number, min: number, span: number) {
+  const raw = ((p - min) / span) * 100;
+  return Math.min(92, Math.max(8, raw));
 }
 
 export function ZoneBar({ compact = false }: { compact?: boolean }) {
@@ -20,35 +21,24 @@ export function ZoneBar({ compact = false }: { compact?: boolean }) {
   const min = Math.min(z.zones[0].low, f.price, z.mid);
   const max = Math.max(z.zones[4].high, f.price, z.mid);
   const span = max - min || 1;
-  const priceLeft = pinLeft(f.price, min, span);
-  const midLeft = pinLeft(z.mid, min, span);
-  const pricePct = ((f.price - min) / span) * 100;
-  const midPct = ((z.mid - min) / span) * 100;
-  const overlap = Math.abs(pricePct - midPct) < 14;
   return (
-    <div>
+    <div className="min-w-0">
       <div className={`relative ${compact ? "h-11" : "h-14"}`}>
-        <div className="flex h-full overflow-hidden rounded-full border border-line">
-          {min < z.zones[0].low ? (
-            <div
-              className="h-full bg-raised"
-              style={{ width: `${((z.zones[0].low - min) / span) * 100}%` }}
-            />
-          ) : null}
+        <div className="flex h-full min-w-0 overflow-hidden rounded-full border border-line">
           {z.zones.map((band) => {
-            const w = ((band.high - band.low) / span) * 100;
+            const w = Math.max(((band.high - band.low) / span) * 100, 1);
             const on = z.current === band.id;
             const tone = ZONE_TONE[band.id] ?? ZONE_TONE.body;
             return (
               <div
                 key={band.id}
-                className={`relative flex h-full min-w-0 flex-col items-center justify-center px-1 ${tone.bar} ${
+                className={`relative flex min-w-0 flex-col items-center justify-center px-0.5 ${tone.bar} ${
                   on ? "ring-2 ring-inset ring-fg" : ""
                 }`}
-                style={{ width: `${Math.max(w, 8)}%` }}
+                style={{ flex: `${w} 1 0` }}
                 title={`${band.name} ${fmtPrice(band.low)}–${fmtPrice(band.high)} · ${band.action}`}
               >
-                <span className={`truncate text-[11px] font-medium leading-none ${tone.ink}`}>
+                <span className={`truncate text-[10px] font-medium leading-none sm:text-[11px] ${tone.ink}`}>
                   {band.name}
                 </span>
                 {!compact ? (
@@ -59,34 +49,22 @@ export function ZoneBar({ compact = false }: { compact?: boolean }) {
               </div>
             );
           })}
-          {max > z.zones[4].high ? (
-            <div
-              className="h-full bg-raised"
-              style={{ width: `${((max - z.zones[4].high) / span) * 100}%` }}
-            />
-          ) : null}
         </div>
         <span
           className="pointer-events-none absolute top-0 z-10 h-full w-0.5 bg-fg"
-          style={{ left: priceLeft }}
+          style={{ left: `${pinPct(f.price, min, span)}%` }}
         />
         <span
           className="pointer-events-none absolute top-0 z-10 h-full w-0.5 bg-accent-fg/70"
-          style={{ left: midLeft }}
+          style={{ left: `${pinPct(z.mid, min, span)}%` }}
         />
       </div>
-      <div className="relative mt-2 h-8">
-        <span
-          className="absolute -translate-x-1/2 rounded-full bg-fg px-2 py-0.5 font-mono text-[10px] text-bg"
-          style={{ left: priceLeft, top: overlap && pricePct >= midPct ? 14 : 0 }}
-        >
+      <div className="mt-2 flex flex-wrap gap-2">
+        <span className="rounded-full bg-fg px-2 py-0.5 font-mono text-[10px] text-bg">
           市價 {fmtPrice(f.price)}
         </span>
-        <span
-          className="absolute -translate-x-1/2 rounded-full border border-line bg-surface px-2 py-0.5 font-mono text-[10px] text-muted"
-          style={{ left: midLeft, top: overlap && pricePct < midPct ? 14 : 0 }}
-        >
-          合理核 {fmtPrice(z.mid)}
+        <span className="rounded-full border border-line bg-surface px-2 py-0.5 font-mono text-[10px] text-muted">
+          {r.thinBooks ? "營收地板" : "合理核"} {fmtPrice(z.mid)}
         </span>
       </div>
       {compact ? (
@@ -94,7 +72,7 @@ export function ZoneBar({ compact = false }: { compact?: boolean }) {
           現價在{z.currentLabel} · {z.currentHint}
         </p>
       ) : (
-        <div className="mt-3 grid grid-cols-5 gap-1">
+        <div className="mt-3 grid grid-cols-2 gap-1 sm:grid-cols-5">
           {z.zones.map((band) => {
             const on = z.current === band.id;
             return (
