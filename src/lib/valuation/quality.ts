@@ -93,7 +93,7 @@ function psOf(f: Fundamentals): number {
   return 0;
 }
 
-export function scoreQuality(f: Fundamentals): QualityReport {
+export function scoreQuality(f: Fundamentals, ke = 0.1): QualityReport {
   const ccy = f.currency || "USD";
   const revUsd = toUsd(f.revenue, ccy);
   const mcapUsd = toUsd(f.marketCap, ccy);
@@ -106,6 +106,16 @@ export function scoreQuality(f: Fundamentals): QualityReport {
   const fcfM = f.revenue > 0 ? f.fcf / f.revenue : 0;
   const lite = f.revenue <= 0 && (f.eps > 0 || ((f.trailingPE ?? 0) > 0));
   const profitable = f.eps > 0 && op >= 0;
+  const book = f.bookEquity;
+  const roe =
+    book > 0 && Number.isFinite(f.netIncome) && f.netIncome !== 0
+      ? f.netIncome / book
+      : f.priceToBook && f.priceToBook > 0 && f.eps && f.price > 0
+        ? f.eps / (f.price / f.priceToBook)
+        : null;
+  const roeDistorted =
+    roe != null && (Math.abs(roe) > 0.8 || (book > 0 && f.marketCap > 0 && f.marketCap / book > 25 && Math.abs(roe) > 0.4));
+  const spread = roe != null && !roeDistorted ? roe - ke : null;
   const burn = Math.max(-f.fcf, -f.ebitda, 0);
   const runwayYears =
     !profitable && burn > 0 && f.totalCash > 0 ? f.totalCash / burn : profitable ? Infinity : null;
@@ -291,16 +301,53 @@ export function scoreQuality(f: Fundamentals): QualityReport {
     }。`,
   });
 
+  let fPts = 10;
+  let fRule = "無法計算 ROE → 中性 10";
+  if (roeDistorted) {
+    fPts = 2;
+    fRule = "ROE 被庫藏股／過薄淨值扭曲 → 2（不當成超額報酬）";
+  } else if (spread != null && spread >= 0.08) {
+    fPts = 20;
+    fRule = "ROE − Ke ≥ 8 個百分點 → 20";
+  } else if (spread != null && spread >= 0.03) {
+    fPts = 16;
+    fRule = "ROE − Ke ≥ 3 個百分點 → 16";
+  } else if (spread != null && spread >= 0) {
+    fPts = 12;
+    fRule = "ROE ≥ Ke → 12";
+  } else if (roe != null && roe > 0 && spread != null && spread > -0.04) {
+    fPts = 8;
+    fRule = "ROE 略低於 Ke → 8";
+  } else if (roe != null && roe > 0) {
+    fPts = 4;
+    fRule = "ROE 為正但明顯低於 Ke → 4";
+  } else if (roe != null && roe <= 0) {
+    fPts = 0;
+    fRule = "ROE ≤ 0 → 0";
+  }
   lines.push({
-    id: "shares",
-    name: "F 每股穩定",
-    points: 10,
+    id: "roe",
+    name: "F 超額權益報酬",
+    points: fPts,
     max: 20,
-    rule: "流通股年增資料不足 → 中性 10",
-    why: "沒有股數年增序列時不假裝穩定，也不誤判稀釋。",
+    rule: fRule,
+    why:
+      roe == null
+        ? "沒有淨值或淨利，無法算 ROE。"
+        : `ROE ${pct(roe)} · Ke ${pct(ke)} · 超額 ${spread == null ? "n.m." : pct(spread)}。股東要不要把錢留在公司，看的是這段差。`,
   });
 
   const traps: QualityLine[] = [];
+  if (roeDistorted) {
+    traps.push({
+      id: "trap-roe",
+      name: "扭曲 ROE",
+      points: -8,
+      max: 0,
+      rule: "ROE > 80% 或市值／淨值 > 25 且 ROE > 40% → −8",
+      why: `ROE ${roe != null ? pct(roe) : "n.m."}。多半是庫藏股削薄淨值，不是事業突然變強。`,
+    });
+  }
   if (ps >= 15 && revUsd < 5e7) {
     traps.push({
       id: "trap-ps",

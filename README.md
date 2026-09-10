@@ -1,6 +1,6 @@
 # 衡價
 
-用 DCF、股利折現與相對倍數估算股票內在價值。輸入代號即可從公開行情帶入財報，再依新聞風險微調假設。
+用 DCF、剩餘收益 RIM、股利折現與相對倍數估算股票內在價值。輸入代號即可從公開行情帶入財報，再依新聞風險微調假設。
 
 **公開站：** [https://dorisshen513-boop.github.io/hengjia/](https://dorisshen513-boop.github.io/hengjia/)
 

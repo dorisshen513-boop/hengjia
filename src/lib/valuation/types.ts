@@ -71,6 +71,7 @@ export type Assumptions = {
   weightTwoStage: number;
   weightDcf: number;
   weightRelative: number;
+  weightRim: number;
   ddmYieldFloor: number;
   ddmYieldFull: number;
   regime: CompanyRegime;
@@ -129,6 +130,15 @@ export type ValuationResult = {
   impliedPb: number | null;
   impliedPs: number | null;
   impliedEvEbitda: number | null;
+  justifiedPb: number | null;
+  roe: number | null;
+  rim: number | null;
+  rimBook: number;
+  rimSpread: number | null;
+  rimExplicitPv: number;
+  rimDistorted: boolean;
+  rimReason: string;
+  rimYears: RimYear[];
   blended: number | null;
   upside: number | null;
   status: string;
@@ -171,8 +181,16 @@ export type ZoneCard = {
   zones: PriceZone[];
 };
 
+export type RimYear = {
+  year: number;
+  book: number;
+  roe: number;
+  ri: number;
+  pv: number;
+};
+
 export type ModelLine = {
-  id: "gordon" | "twoStage" | "dcf" | "relative";
+  id: "gordon" | "twoStage" | "dcf" | "rim" | "relative";
   label: string;
   price: number | null;
   weight: number;

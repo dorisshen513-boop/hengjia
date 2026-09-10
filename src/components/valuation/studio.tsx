@@ -7,7 +7,7 @@ import { HistoryButton, HistoryStrip } from "@/components/valuation/history-pad"
 import { ZoneBar, ZoneBoard } from "@/components/valuation/zone-bar";
 import { fetchQuoteData } from "@/lib/valuation/fetch-quote";
 import { GUIDE } from "@/lib/valuation/guide";
-import { REGIME_META } from "@/lib/valuation/engine";
+import { REGIME_META, ROE_PRICE_SHARE } from "@/lib/valuation/engine";
 import { useValuation } from "@/lib/valuation/store";
 import { type HistoryRow } from "@/lib/valuation/history";
 import { fmtMoney, fmtMult, fmtPct, fmtPctAbs, fmtPrice } from "@/lib/utils";
@@ -21,6 +21,7 @@ const TABS = [
   { id: "quality", label: "品質" },
   { id: "dcf", label: "DCF" },
   { id: "ddm", label: "股利折現" },
+  { id: "rim", label: "剩餘收益" },
   { id: "relative", label: "相對估值" },
   { id: "option", label: "選擇權" },
   { id: "sensitivity", label: "敏感度" },
@@ -223,6 +224,7 @@ export function Studio() {
             {tab === "quality" && <QualityPanel />}
             {tab === "dcf" && <DcfPanel />}
             {tab === "ddm" && <DdmPanel />}
+            {tab === "rim" && <RimPanel />}
             {tab === "relative" && <RelativePanel />}
             {tab === "option" && <OptionPanel />}
             {tab === "sensitivity" && <SensitivityPanel cells={sensitivity} />}
@@ -322,6 +324,9 @@ function Hero({
           <p className="mt-2 text-sm text-fg">
             判定：{REGIME_META[a.regime]?.label ?? "未分類"}
             <span className="text-muted"> · {REGIME_META[a.regime]?.why}</span>
+            {r.rimDistorted ? (
+              <span className="text-muted"> 此檔 ROE 被淨值／庫藏股扭曲，RIM 這次沒投票。</span>
+            ) : null}
           </p>
           {r.impliedG1 != null ? (
             <p className="mt-2 text-sm text-muted">
@@ -393,7 +398,9 @@ function Hero({
       </div>
       {r.zones ? <div className="mt-5"><ZoneBar compact /></div> : null}
       <p className="mt-3 font-mono text-xs text-muted">
-        Ke {fmtPctAbs(r.ke)} · WACC {fmtPctAbs(r.wacc)} · 市值 {fmtMoney(f.marketCap, 2)} · 股數{" "}
+        Ke {fmtPctAbs(r.ke)} · ROE {fmtPctAbs(r.roe)}
+        {r.rimSpread != null ? ` · ROE−Ke ${fmtPct(r.rimSpread)}` : ""}
+        {" "}· WACC {fmtPctAbs(r.wacc)} · 市值 {fmtMoney(f.marketCap, 2)} · 股數{" "}
         {fmtMoney(f.sharesOut, 0)}
       </p>
       {r.option.kind !== "normal" ? (
@@ -506,6 +513,7 @@ function Overview() {
     { name: "Gordon", v: r.gordon, market: false },
     { name: "兩階段", v: r.twoStage, market: false },
     { name: "DCF", v: r.dcf, market: false },
+    { name: "RIM", v: r.rim, market: false },
     { name: "相對", v: r.relativeBase, market: false },
     { name: "加權", v: r.blended, market: false },
     { name: "選擇權", v: r.option.expected, market: false },
@@ -528,7 +536,7 @@ function Overview() {
             return (
               <div
                 key={row.name}
-                className="grid grid-cols-[4.75rem_minmax(0,1fr)_5.5rem] items-center gap-2"
+                className="grid grid-cols-[5.25rem_minmax(0,1fr)_5.5rem] items-center gap-2"
               >
                 <span className="text-xs text-muted">{row.name}</span>
                 <div className="h-7 overflow-hidden rounded-sm bg-raised">
@@ -549,7 +557,7 @@ function Overview() {
       <div className="rounded-xl border border-line bg-surface p-4 sm:p-5">
         <h3 className="font-display text-xl">各模型怎麼算、怎麼加權</h3>
         <p className="mt-2 text-sm text-muted">
-          加權合理價 = Σ（有效權重 × 每股價值）。不適用的模型權重歸零後重分。
+          加權合理價 = Σ（有效權重 × 每股價值）。不適用的模型權重歸零後重分。ROE 透過 RIM 與合理 P/B 進股價，不是另開第六票。
         </p>
         <div className="mt-4 overflow-x-auto">
           <table className="w-full text-sm">
@@ -616,10 +624,14 @@ function Overview() {
         <p>
           不刪模型，依公司類型調比重。判定為「{REGIME_META[a.regime]?.label}」：
           {REGIME_META[a.regime]?.why}
-          殖利率低於 1% 時股利模型仍會歸零。單一模型高於中位數 2.5 倍會再降權。
+          殖利率低於 1% 時股利模型仍會歸零。高選擇權／尚未獲利的 RIM 權重為 0。單一模型高於中位數 2.5 倍會再降權。
+          此檔 ROE 約佔合理價 {ROE_PRICE_SHARE[a.regime]?.total}（RIM {ROE_PRICE_SHARE[a.regime]?.rim} + 相對裡的合理 P/B {ROE_PRICE_SHARE[a.regime]?.viaPb}）。
         </p>
         <p>
-          相對區間 {fmtPrice(r.relativeLow)} – {fmtPrice(r.relativeHigh)}。Ke = Rf + β×ERP + 特定風險 ={" "}
+          相對區間 {fmtPrice(r.relativeLow)} – {fmtPrice(r.relativeHigh)}。
+          ROE {fmtPctAbs(r.roe)}
+          {r.justifiedPb != null ? ` · 合理 P/B ${r.justifiedPb.toFixed(1)}×` : ""}
+          。Ke = Rf + β×ERP + 特定風險 ={" "}
           {fmtPctAbs(a.rf)} + {a.beta.toFixed(2)}×{fmtPctAbs(a.erp)} + {fmtPctAbs(a.specificRisk)} ={" "}
           {fmtPctAbs(r.ke)}。
         </p>
@@ -865,6 +877,12 @@ function AssumptionsPanel({
             onChange={(v) => onChange({ weightRelative: v })}
           />
           <NumberField
+            label="剩餘收益 RIM"
+            pct
+            value={a.weightRim}
+            onChange={(v) => onChange({ weightRim: v })}
+          />
+          <NumberField
             label="股利權重下限（低於此為 0）"
             pct
             value={a.ddmYieldFloor}
@@ -893,8 +911,8 @@ function AssumptionsPanel({
       </div>
       <MethodNote title="假設為什麼存在" formula="黃格是看法，不是財報事實">
         <p>抓到的營收、股價、β 是公開資料；成長率、目標利潤、ERP 仍是你的判斷。</p>
-        <p>虧損成長股預設：稅率 0、DDM 權重 0、終端用離場倍數、相對估值權重較高。</p>
-        <p>成熟配息股預設提高 DDM 與永續 DCF 權重。</p>
+        <p>虧損成長股與高選擇權：稅率 0、DDM 與 RIM 權重 0、終端用離場倍數、相對估值權重較高。</p>
+        <p>低股利且 ROE 高過 Ke：RIM 與 DCF 並重。成熟配息股打開股利折現，RIM 仍吃淨值溢價。</p>
       </MethodNote>
     </div>
   );
@@ -1043,6 +1061,110 @@ function DdmPanel() {
   );
 }
 
+function RimPanel() {
+  const { result: r, fundamentals: f, assumptions: a } = useValuation();
+  if (!r || !f || !a) return null;
+  const last = r.rimYears[r.rimYears.length - 1];
+  const share = ROE_PRICE_SHARE[a.regime];
+  return (
+    <div className="grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
+      <div className="overflow-x-auto rounded-xl border border-line bg-surface p-5">
+        <h3 className="font-display text-xl">剩餘收益</h3>
+        <p className="mt-2 font-mono text-3xl tabular-nums">
+          {r.rim != null ? `${fmtPrice(r.rim)} ${f.currency}` : "不適用"}
+        </p>
+        <p className="mt-2 font-mono text-xs text-accent">
+          P = 每股淨值 + Σ (ROE_t − Ke) × 淨值_{"{t−1}"} / (1+Ke)^t
+        </p>
+        <p className="mt-3 text-sm text-muted">{r.rimReason || "沒有足夠淨值或 ROE。"}</p>
+        {r.rim == null ? (
+          <p className="mt-3 rounded-md bg-raised p-3 text-sm text-muted">
+            這次沒有投票權。高選擇權、尚未獲利、或庫藏股扭曲的 ROE，都不該用帳面去追市價。
+          </p>
+        ) : null}
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <Mini label="ROE" value={fmtPctAbs(r.roe)} />
+          <Mini label="Ke" value={fmtPctAbs(r.ke)} />
+          <Mini label="ROE − Ke" value={fmtPct(r.rimSpread)} />
+          <Mini label="每股淨值" value={fmtPrice(r.rimBook)} />
+          <Mini label="剩餘收益現值" value={fmtPrice(r.rimExplicitPv)} />
+          <Mini
+            label="合理 P/B"
+            value={r.justifiedPb != null ? `${r.justifiedPb.toFixed(1)}x` : "n.m."}
+          />
+        </div>
+        {r.rimYears.length ? (
+          <table className="mt-5 w-full min-w-[28rem] text-left text-xs">
+            <thead className="text-muted">
+              <tr>
+                {["年", "期初淨值", "ROE", "剩餘收益", "現值"].map((h) => (
+                  <th key={h} className="pb-2 font-medium">
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="tabular-nums font-mono">
+              {r.rimYears.map((y) => (
+                <tr key={y.year} className="border-t border-line">
+                  <td className="py-2">Y{y.year}</td>
+                  <td>{fmtPrice(y.book)}</td>
+                  <td>{fmtPctAbs(y.roe)}</td>
+                  <td>{fmtPrice(y.ri)}</td>
+                  <td>{fmtPrice(y.pv)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : null}
+        {last ? (
+          <p className="mt-3 text-xs text-muted">
+            第 {a.nYears} 年 ROE 收到 {fmtPctAbs(last.roe)}（目標 Ke）。終端剩餘收益趨近 0，避免永遠維持超額 ROE。
+          </p>
+        ) : null}
+        <h3 className="mt-8 font-display text-xl">ROE 怎麼進股價</h3>
+        <p className="mt-2 text-sm text-muted">
+          ROE 不是第六票。它透過 RIM 投票，以及相對估值裡的合理 P/B。品質分數看 ROE−Ke，那是好不好，不是價格。
+        </p>
+        <table className="mt-4 w-full text-left text-sm">
+          <thead className="text-xs text-muted">
+            <tr>
+              <th className="pb-2 font-medium">類型</th>
+              <th className="pb-2 font-medium">RIM</th>
+              <th className="pb-2 font-medium">經 P/B</th>
+              <th className="pb-2 font-medium">合計</th>
+            </tr>
+          </thead>
+          <tbody>
+            {(Object.keys(ROE_PRICE_SHARE) as Array<keyof typeof ROE_PRICE_SHARE>).map((key) => {
+              const row = ROE_PRICE_SHARE[key];
+              const on = key === a.regime;
+              return (
+                <tr key={key} className="border-t border-line">
+                  <td className={`py-2 ${on ? "font-medium text-fg" : "text-muted"}`}>
+                    {REGIME_META[key].label}
+                    {on ? "（此檔）" : ""}
+                  </td>
+                  <td className="py-2 font-mono tabular-nums">{row.rim}</td>
+                  <td className="py-2 font-mono tabular-nums">{row.viaPb}</td>
+                  <td className="py-2 font-mono tabular-nums">{row.total}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <p className="mt-3 text-xs text-muted">{share?.note}</p>
+      </div>
+      <MethodNote title="為什麼看 ROE" formula="超額報酬 = ROE − Ke">
+        <p>股東把錢留在公司，要求至少賺到 Ke。ROE 高過 Ke，帳面每一塊都在幫股東賺錢，合理價可以高於淨值。</p>
+        <p>RIM 把這段差折現。高選擇權、尚未獲利、或庫藏股把淨值削到 ROE 爆炸時，權重自動為 0。</p>
+        <p>低股利複利股權重最高（約 36%），因為錢留在公司，該問的就是 ROE 能不能蓋過 Ke。</p>
+        <p>庫藏股造成的超高 ROE（超過 80%）不當成超額，否則蘋果這類會被淨值削薄騙到。</p>
+      </MethodNote>
+    </div>
+  );
+}
+
 function RelativePanel() {
   const { result: r, fundamentals: f, assumptions: a, patchAssumptions } =
     useValuation();
@@ -1059,6 +1181,10 @@ function RelativePanel() {
           <Mini label="目前 P/E" value={fmtMult(f.trailingPE)} />
           <Mini label="目前 P/S" value={fmtMult(f.priceToSales)} />
           <Mini label="目前 P/B" value={fmtMult(f.priceToBook)} />
+          <Mini
+            label="合理 P/B（ROE、Ke、g2）"
+            value={r.justifiedPb != null ? `${r.justifiedPb.toFixed(1)}x` : "n.m."}
+          />
           <Mini label="目前 EV/EBITDA" value={fmtMult(f.evToEbitda)} />
           <Mini
             label={`P/E 隱含 = ${a.peBase.toFixed(1)} × EPS`}
@@ -1107,7 +1233,9 @@ function RelativePanel() {
       </div>
       <MethodNote title="倍數交叉檢查" formula="目標價 = 可比倍數 × 每股基本面">
         <p>負 EPS 時 P/E 自動排除。EV 倍數會扣每股淨債務。</p>
-        <p>預設倍數由該股自身與常見區間推估，請依同業改基準 P/S、P/B。</p>
+        <p>
+          已獲利公司的基準 P/B 有一半來自合理倍數 (ROE−g)/(Ke−g)，不是只跟熱市自己的 P/B。高選擇權股仍用市場倍數。
+        </p>
       </MethodNote>
     </div>
   );
@@ -1140,7 +1268,8 @@ function GapNote() {
           ，EV/EBITDA 基準 {a.evEbitdaBase.toFixed(1)}×。用自己的未截斷倍數去乘 TTM，相對價會接近市價，那是恆等式，證明不了貴或便宜。
         </li>
         <li>
-          此檔：DCF {dcfGap != null ? fmtPct(dcfGap) : "—"}、相對{" "}
+          此檔：DCF {dcfGap != null ? fmtPct(dcfGap) : "—"}、RIM{" "}
+          {r.rim != null ? fmtPct(r.rim / f.price - 1) : "—"}、相對{" "}
           {relGap != null ? fmtPct(relGap) : "—"}、加權 {r.upside != null ? fmtPct(r.upside) : "—"} vs 市價。
         </li>
       </ul>
@@ -1229,7 +1358,7 @@ function QualityPanel() {
           </tbody>
         </table>
       </div>
-      <MethodNote title="分數怎麼判斷" formula="Q = A規模 + B引擎 + C單位經濟 + D成長品質 + E資產負債 + F股數 − 陷阱">
+      <MethodNote title="分數怎麼判斷" formula="Q = A規模 + B引擎 + C單位經濟 + D成長品質 + E資產負債 + F超額ROE − 陷阱">
         <ul className="list-disc space-y-2 pl-4">
           {q.bands.map((b) => (
             <li key={b.name}>

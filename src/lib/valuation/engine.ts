@@ -5,6 +5,7 @@ import type {
   OptionCard,
   OptionFlag,
   QualityReport,
+  RimYear,
   SensitivityCell,
   ValuationResult,
   YearRow,
@@ -44,68 +45,257 @@ function normalizeWeights(a: Assumptions): {
   t: number;
   d: number;
   r: number;
+  m: number;
 } {
   const raw = [
     Math.max(0, a.weightGordon),
     Math.max(0, a.weightTwoStage),
     Math.max(0, a.weightDcf),
     Math.max(0, a.weightRelative),
+    Math.max(0, a.weightRim ?? 0),
   ];
   const sum = raw.reduce((s, v) => s + v, 0);
-  if (sum <= 0) return { g: 0, t: 0, d: 1, r: 0 };
+  if (sum <= 0) return { g: 0, t: 0, d: 1, r: 0, m: 0 };
   return {
     g: raw[0] / sum,
     t: raw[1] / sum,
     d: raw[2] / sum,
     r: raw[3] / sum,
+    m: raw[4] / sum,
   };
 }
+
+export const ROE_PRICE_SHARE: Record<
+  CompanyRegime,
+  { rim: string; viaPb: string; total: string; note: string }
+> = {
+  optionality: {
+    rim: "0%",
+    viaPb: "0%",
+    total: "0%",
+    note: "市場在買未來選擇權。帳面 ROE 解釋不了溢價，不當成價格。",
+  },
+  preProfit: {
+    rim: "0%",
+    viaPb: "0%",
+    total: "0%",
+    note: "還沒有穩定 ROE，股利與剩餘收益都關。",
+  },
+  lowMargin: {
+    rim: "30%",
+    viaPb: "約 10%",
+    total: "約 40%",
+    note: "代工／通路淨值真實。ROE 決定能不能高於帳面。",
+  },
+  growthProfit: {
+    rim: "20%",
+    viaPb: "約 10%",
+    total: "約 30%",
+    note: "成長仍以 DCF／P/S 為主，RIM 只交叉檢查 ROE−Ke。",
+  },
+  dividend: {
+    rim: "30%",
+    viaPb: "約 4%",
+    total: "約 34%",
+    note: "現金股利是真的；RIM 另外估淨值溢價。",
+  },
+  compounder: {
+    rim: "36%",
+    viaPb: "約 7%",
+    total: "約 43%",
+    note: "低股利、錢留在公司。股東要不要繼續投資，看的就是 ROE 能不能蓋過 Ke。",
+  },
+};
 
 export const REGIME_META: Record<
   CompanyRegime,
   {
     label: string;
     why: string;
-    weights: { g: number; t: number; d: number; r: number };
+    weights: { g: number; t: number; d: number; r: number; m: number };
   }
 > = {
   optionality: {
     label: "高成長選擇權",
-    why: "市場在買未來選擇權。拉長預測、成長遞減、放寬 P/S，並反推市價隱含成長。",
-    weights: { g: 0, t: 0, d: 0.4, r: 0.6 },
+    why: "市場在買未來選擇權。帳面與 ROE 解釋不了溢價，RIM 權重 0。加權看現有事業，情境期望另開。",
+    weights: { g: 0, t: 0, d: 0.38, r: 0.62, m: 0 },
   },
   preProfit: {
     label: "尚未穩定獲利",
-    why: "主看 P/S 與離場倍數 DCF。股利模型關閉。",
-    weights: { g: 0, t: 0, d: 0.25, r: 0.75 },
+    why: "沒有穩定 ROE。主看 P/S 與離場倍數 DCF。股利與 RIM 都關。",
+    weights: { g: 0, t: 0, d: 0.28, r: 0.72, m: 0 },
   },
   lowMargin: {
     label: "低利潤規模事業",
-    why: "代工、通路。主看相對估值；DCF 易被一年高成長灌爆。",
-    weights: { g: 0.05, t: 0.08, d: 0.22, r: 0.65 },
+    why: "代工、通路。FCF 一年吵一年，RIM 吃淨值與 ROE；相對估值仍是最大票。",
+    weights: { g: 0.04, t: 0.06, d: 0.18, r: 0.42, m: 0.3 },
   },
   growthProfit: {
     label: "高利潤成長股",
-    why: "已獲利且利潤高。DCF 與相對估值並重，象徵性股利不計。",
-    weights: { g: 0, t: 0, d: 0.45, r: 0.55 },
+    why: "已獲利且利潤高。DCF 與相對並重；ROE 超額用 RIM 交叉，象徵性股利不計。",
+    weights: { g: 0, t: 0, d: 0.38, r: 0.42, m: 0.2 },
   },
   dividend: {
     label: "穩定配息股",
-    why: "殖利率夠高，股利折現才有資訊量。",
-    weights: { g: 0.2, t: 0.25, d: 0.35, r: 0.2 },
+    why: "殖利率夠高，股利折現才有資訊量。RIM 把 ROE−Ke 寫進淨值溢價。",
+    weights: { g: 0.14, t: 0.18, d: 0.22, r: 0.16, m: 0.3 },
   },
   compounder: {
     label: "現金流複利股",
-    why: "庫藏股／高 ROE。主看 DCF 與相對估值，Gordon 關閉。",
-    weights: { g: 0, t: 0, d: 0.55, r: 0.45 },
+    why: "低股利、高 ROE，錢留在公司。RIM 與 DCF 並重，Gordon 關閉。",
+    weights: { g: 0, t: 0, d: 0.36, r: 0.28, m: 0.36 },
   },
 };
+
+export function bookPerShare(f: Fundamentals): number {
+  if (f.sharesOut > 0 && f.bookEquity > 0) return f.bookEquity / f.sharesOut;
+  if (f.priceToBook && f.priceToBook > 0 && f.price > 0) return f.price / f.priceToBook;
+  return 0;
+}
+
+/** TTM ROE。淨值過薄時仍回數字，由 rimUsable 決定要不要用。 */
+export function trailingRoe(f: Fundamentals): number | null {
+  if (f.bookEquity > 0 && Number.isFinite(f.netIncome) && f.netIncome !== 0) {
+    const r = f.netIncome / f.bookEquity;
+    if (Number.isFinite(r)) return r;
+  }
+  const bps = bookPerShare(f);
+  if (bps > 0 && Number.isFinite(f.eps) && f.eps !== 0) {
+    const r = f.eps / bps;
+    if (Number.isFinite(r)) return r;
+  }
+  if (
+    f.trailingPE != null &&
+    f.trailingPE > 0 &&
+    f.priceToBook != null &&
+    f.priceToBook > 0
+  ) {
+    const r = f.priceToBook / f.trailingPE;
+    if (Number.isFinite(r) && r !== 0) return r;
+  }
+  return null;
+}
+
+/** 庫藏股把淨值削到接近 0 時，ROE 與 P/B 會同時爆炸，RIM 不能用。 */
+export function rimDistorted(f: Fundamentals, roe: number | null): boolean {
+  if (roe == null || !Number.isFinite(roe)) return true;
+  if (Math.abs(roe) > 0.8) return true;
+  const book = f.bookEquity;
+  if (book > 0 && f.marketCap > 0 && f.marketCap / book > 25 && Math.abs(roe) > 0.4) {
+    return true;
+  }
+  return false;
+}
+
+export function rimUsable(f: Fundamentals, regime: CompanyRegime, roe: number | null): boolean {
+  if (regime === "optionality" || regime === "preProfit") return false;
+  if (bookPerShare(f) <= 0) return false;
+  if (roe == null || !Number.isFinite(roe)) return false;
+  if (rimDistorted(f, roe)) return false;
+  return true;
+}
+
+/** 剩餘收益永續：P/B = (ROE − g) / (Ke − g)。這是 ROE 進相對估值的入口。 */
+export function justifiedPb(roe: number | null, ke: number, g: number): number | null {
+  if (roe == null || !Number.isFinite(roe) || Math.abs(roe) > 0.8) return null;
+  if (!(ke > g) || ke <= 0) return null;
+  const pb = (roe - g) / (ke - g);
+  if (!Number.isFinite(pb)) return null;
+  if (pb <= 0) return clamp(roe / ke, 0.3, 1.2);
+  return clamp(pb, 0.4, 16);
+}
+
+function runRim(
+  f: Fundamentals,
+  a: Assumptions,
+  ke: number,
+): {
+  price: number | null;
+  book0: number;
+  roe0: number | null;
+  spread: number | null;
+  distorted: boolean;
+  applicable: boolean;
+  reason: string;
+  years: RimYear[];
+  explicitPv: number;
+  payout: number;
+} {
+  const bps = bookPerShare(f);
+  const roe0 = trailingRoe(f);
+  const spread = roe0 != null ? roe0 - ke : null;
+  const blank = {
+    price: null as number | null,
+    book0: bps,
+    roe0,
+    spread,
+    distorted: false,
+    applicable: false,
+    reason: "",
+    years: [] as RimYear[],
+    explicitPv: 0,
+    payout: 0,
+  };
+  if (bps <= 0) return { ...blank, reason: "沒有每股淨值，剩餘收益無解。" };
+  if (roe0 == null) return { ...blank, reason: "沒有淨利或淨值，算不出 ROE。" };
+  if (rimDistorted(f, roe0)) {
+    return {
+      ...blank,
+      distorted: true,
+      reason: "ROE 被庫藏股或過薄淨值扭曲（>80% 或市值／淨值過高），RIM 不納入加權。",
+    };
+  }
+
+  const n = Math.max(1, Math.min(12, Math.round(a.nYears)));
+  const payout =
+    f.eps > 0 && f.dps > 0
+      ? clamp(f.dps / f.eps, 0, 0.9)
+      : clamp(a.payoutStable || (f.dps > 0 ? 0.4 : 0.2), 0, 0.9);
+  const retention = 1 - payout;
+  const years: RimYear[] = [];
+  let book = bps;
+  let explicitPv = 0;
+  for (let t = 1; t <= n; t++) {
+    const w = n <= 1 ? 1 : (t - 1) / (n - 1);
+    const roeT = roe0 + (ke - roe0) * w;
+    const ri = (roeT - ke) * book;
+    const df = 1 / Math.pow(1 + ke, t);
+    const pv = ri * df;
+    explicitPv += pv;
+    years.push({ year: t, book, roe: roeT, ri, pv });
+    book = book * (1 + roeT * retention);
+  }
+  const raw = bps + explicitPv;
+  if (!finite(raw)) return { ...blank, reason: "RIM 數值無解。" };
+  const price = raw > 0 ? raw : Math.max(0.05, 0.2 * bps);
+  const pct = (n: number) => `${(n * 100).toFixed(1)}%`;
+  return {
+    price,
+    book0: bps,
+    roe0,
+    spread,
+    distorted: false,
+    applicable: true,
+    reason:
+      raw <= 0
+        ? `剩餘收益大幅為負，推算價已低於 0，改用 20% 淨值當下限。`
+        : roe0 > ke
+          ? `ROE ${pct(roe0)} 高於 Ke ${pct(ke)}，剩餘收益為正，合理價高於淨值。n 年內 ROE 收到 Ke。`
+          : `ROE ${pct(roe0)} 低於 Ke ${pct(ke)}，剩餘收益為負，合理價低於淨值。`,
+    years,
+    explicitPv,
+    payout,
+  };
+}
 
 export function classifyRegime(f: Fundamentals): CompanyRegime {
   const op = f.operatingMargin ?? (f.revenue ? f.ebit / f.revenue : 0);
   const profitable = f.eps > 0 && op >= 0 && f.revenue > 0;
   const dy = f.price > 0 ? f.dps / f.price : 0;
   const g = f.revenueGrowth ?? 0;
+  const roe = trailingRoe(f);
+  const distorted = rimDistorted(f, roe);
+  const highRoe = roe != null && !distorted && roe >= 0.12;
   const ps =
     f.priceToSales && f.priceToSales > 0
       ? f.priceToSales
@@ -115,6 +305,7 @@ export function classifyRegime(f: Fundamentals): CompanyRegime {
   const scale = f.revenue >= 5e9 || f.marketCap >= 8e10;
   if (f.revenue <= 0) {
     if (f.eps > 0 || (f.trailingPE != null && f.trailingPE > 0) || (f.priceToBook != null && f.priceToBook > 0)) {
+      if (highRoe && dy < 0.035) return "compounder";
       return dy >= 0.025 ? "dividend" : "compounder";
     }
     return "preProfit";
@@ -125,7 +316,10 @@ export function classifyRegime(f: Fundamentals): CompanyRegime {
   if (!profitable) return "preProfit";
   if (op < 0.08) return "lowMargin";
   if (g >= 0.15 && op >= 0.15) return "growthProfit";
-  if (dy >= 0.025) return "dividend";
+  if (dy >= 0.025) {
+    if (highRoe && dy < 0.04) return "compounder";
+    return "dividend";
+  }
   return "compounder";
 }
 
@@ -422,12 +616,8 @@ export function valueStock(
   }
 
   const eps = f.eps;
-  const bps =
-    f.sharesOut > 0 && f.bookEquity > 0
-      ? f.bookEquity / f.sharesOut
-      : f.priceToBook && f.priceToBook > 0 && f.price > 0
-        ? f.price / f.priceToBook
-        : 0;
+  const bps = bookPerShare(f);
+  const roe = trailingRoe(f);
   const sps = f.sharesOut > 0 ? f.revenue / f.sharesOut : 0;
   const ebitdaPs = f.sharesOut > 0 ? f.ebitda / f.sharesOut : 0;
   const ndPs = f.sharesOut > 0 ? f.netDebt / f.sharesOut : 0;
@@ -436,10 +626,24 @@ export function valueStock(
   const evOk = ebitdaPs > 0;
   const eveDistorted = (f.evToEbitda ?? 0) > 40;
   const skipEve = regime === "optionality" || eveDistorted;
+  const pbJ = justifiedPb(roe, ke, a.g2);
   const impliedPe = peOk ? a.peBase * eps : null;
   const impliedPb = bps > 0 ? a.pbBase * bps : null;
   const impliedPs = sps > 0 ? a.psBase * sps : null;
   const impliedEvEbitda = evOk ? a.evEbitdaBase * ebitdaPs - ndPs : null;
+
+  const rim = runRim(f, a, ke);
+  const rimOk = rimUsable(f, regime, roe) && rim.applicable && !rim.distorted;
+  let rimReason = rim.reason;
+  if (!rimOk) {
+    if (regime === "optionality" || regime === "preProfit") {
+      rimReason = "高成長選擇權或尚未獲利：帳面解釋不了市價，剩餘收益不納入加權。";
+    } else if (rim.distorted) {
+      rimReason = rim.reason;
+    } else if (!rimReason) {
+      rimReason = "RIM 不適用。";
+    }
+  }
 
   const relParts = (pe: number, pb: number, ps: number, eve: number) => {
     const vals: number[] = [];
@@ -461,6 +665,7 @@ export function valueStock(
     weightTwoStage: ddmApplicable ? a.weightTwoStage * ddmScale : 0,
     weightDcf: Number.isFinite(a.weightDcf) ? a.weightDcf : 0.5,
     weightRelative: Number.isFinite(a.weightRelative) ? a.weightRelative : 0.35,
+    weightRim: rimOk ? Math.max(0, a.weightRim ?? 0) : 0,
   });
 
   const spsTxt = sps > 0 ? sps.toFixed(2) : "n.m.";
@@ -504,13 +709,26 @@ export function valueStock(
           : "缺少流通股數，無法換成每股",
     },
     {
+      id: "rim",
+      label: "剩餘收益 RIM",
+      price: rimOk ? rim.price : null,
+      weight: w.m,
+      used: false,
+      formula: "P = 每股淨值 + Σ (ROE_t − Ke) × 淨值_{t−1} 的折現",
+      calc: rimOk
+        ? `淨值 ${bps.toFixed(2)} + 剩餘收益現值 ${rim.explicitPv.toFixed(2)}；ROE ${(roe! * 100).toFixed(1)}% → Ke ${(ke * 100).toFixed(1)}%`
+        : rimReason,
+    },
+    {
       id: "relative",
       label: "相對估值",
       price: relativeBase,
       weight: w.r,
       used: false,
       formula: "可用倍數隱含價的平均",
-      calc: `P/S ${a.psBase.toFixed(1)}× × ${spsTxt}；P/B ${a.pbBase.toFixed(1)}×；P/E ${peOk ? a.peBase.toFixed(1) + "×" : "n.m."}；EV/EBITDA ${a.evEbitdaBase.toFixed(1)}×`,
+      calc: `P/S ${a.psBase.toFixed(1)}× × ${spsTxt}；P/B ${a.pbBase.toFixed(1)}×${
+        pbJ != null ? `（合理 P/B ${pbJ.toFixed(1)}×）` : ""
+      }；P/E ${peOk ? a.peBase.toFixed(1) + "×" : "n.m."}；EV/EBITDA ${a.evEbitdaBase.toFixed(1)}×`,
     },
   ];
 
@@ -617,7 +835,21 @@ export function valueStock(
     warnings.push("市價高於模型 DCF 上界，包含敘事／選擇權溢價，不是 TTM 現金流能解釋的。");
   }
 
-  const quality = scoreQuality(f);
+  if (roe != null && rim.distorted) {
+    warnings.push(
+      `ROE ${(roe * 100).toFixed(0)}% 看起來很高，但淨值過薄（庫藏股常見），不當成超額報酬。RIM 權重為 0。`,
+    );
+  } else if (rimOk && rim.spread != null) {
+    warnings.push(
+      rim.spread >= 0
+        ? `ROE ${(roe! * 100).toFixed(1)}% − Ke ${(ke * 100).toFixed(1)}% = 超額 ${(rim.spread * 100).toFixed(1)} 個百分點。RIM 估股東留在公司划不划算。`
+        : `ROE ${(roe! * 100).toFixed(1)}% 低於 Ke ${(ke * 100).toFixed(1)}%，RIM 會把合理價壓到淨值以下。`,
+    );
+  } else if (!rimOk && (regime === "optionality" || regime === "preProfit")) {
+    warnings.push("高成長選擇權或尚未獲利：帳面解釋不了市價，剩餘收益不納入加權。");
+  }
+
+  const quality = scoreQuality(f, ke);
   const option = buildOptionCard(f, a, dcf, relativeHigh, quality);
   if (option.kind === "optionality") {
     warnings.push(
@@ -652,6 +884,15 @@ export function valueStock(
     impliedPb,
     impliedPs,
     impliedEvEbitda,
+    justifiedPb: pbJ,
+    roe,
+    rim: rimOk ? rim.price : null,
+    rimBook: rim.book0,
+    rimSpread: rim.spread,
+    rimExplicitPv: rim.explicitPv,
+    rimDistorted: rim.distorted,
+    rimReason,
+    rimYears: rim.years,
     blended,
     upside,
     status,
@@ -751,6 +992,19 @@ export function suggestAssumptions(
   const psBase = optionality
     ? clamp(0.55 * psJustified + 0.45 * Math.min(psOwn, 50), 8, 42)
     : clamp(psOwn * (preProfit ? 0.75 : 1), 0.05, psCap);
+  const roe = trailingRoe(f);
+  const keEst = rf + beta * 0.05 + specific;
+  const pbJ = justifiedPb(roe, keEst, g2);
+  const useJustifiedPb =
+    pbJ != null &&
+    !rimDistorted(f, roe) &&
+    (regime === "compounder" ||
+      regime === "dividend" ||
+      regime === "lowMargin" ||
+      regime === "growthProfit");
+  const pbBase = useJustifiedPb
+    ? clamp(0.45 * pbOwn + 0.55 * pbJ, 0.5, 18)
+    : clamp(pbOwn, 0.8, 20);
 
   return {
     nYears: optionality ? 8 : 5,
@@ -779,15 +1033,16 @@ export function suggestAssumptions(
     weightTwoStage: w.t,
     weightDcf: w.d,
     weightRelative: w.r,
+    weightRim: w.m,
     ddmYieldFloor: 0.01,
     ddmYieldFull: 0.025,
     regime,
     peBase: clamp(peOwn, 8, peCap),
     peLow: clamp(peOwn * 0.7, 6, Math.min(25, peCap)),
     peHigh: clamp(peOwn * 1.3, 10, Math.min(55, peCap + 10)),
-    pbBase: clamp(pbOwn, 0.8, 20),
-    pbLow: clamp(pbOwn * 0.65, 0.5, 12),
-    pbHigh: clamp(pbOwn * 1.3, 1, 28),
+    pbBase,
+    pbLow: clamp((useJustifiedPb ? pbBase : pbOwn) * 0.65, 0.5, 12),
+    pbHigh: clamp((useJustifiedPb ? pbBase : pbOwn) * 1.3, 1, 28),
     psBase,
     psLow: optionality ? clamp(psBase * 0.7, 6, 30) : clamp(psOwn * 0.7, 0.03, 12),
     psHigh: optionality

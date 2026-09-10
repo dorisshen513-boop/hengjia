@@ -50,6 +50,7 @@ export function buildZones(
     pos(fail) ? fail * 1.1 : null,
     r.relativeLow,
     pos(r.dcf) && r.dcf < mid ? r.dcf : null,
+    pos(r.rim) && r.rim < mid ? r.rim : null,
     mid * 0.78,
   ].filter(pos);
   const rawLow = Math.min(...candidatesLow);
@@ -61,6 +62,7 @@ export function buildZones(
     r.relativeHigh,
     bull,
     pos(r.dcf) && r.dcf > mid ? r.dcf : null,
+    pos(r.rim) && r.rim > mid ? r.rim : null,
     mid * 1.22,
   ].filter(pos);
   const rawHigh = Math.max(...candidatesHigh);

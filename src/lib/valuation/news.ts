@@ -282,6 +282,13 @@ export function applyNewsToAssumptions(
     if (down > 0.45) {
       push("weightDcf", "DCF 權重", Math.max(0.15, base.weightDcf * 0.75), "現金流路徑更不穩", true);
       push(
+        "weightRim",
+        "剩餘收益權重",
+        Math.max(0, (base.weightRim ?? 0) * 0.75),
+        "ROE 路徑更不穩",
+        true,
+      );
+      push(
         "weightRelative",
         "相對估值權重",
         Math.min(0.8, base.weightRelative + 0.1),
