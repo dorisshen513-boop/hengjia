@@ -2,11 +2,11 @@ import { useValuation } from "@/lib/valuation/store";
 import { fmtPrice } from "@/lib/utils";
 
 const ZONE_TONE: Record<string, { bar: string; ink: string }> = {
-  head: { bar: "bg-zone-head text-fg", ink: "text-fg" },
-  lower: { bar: "bg-zone-lower text-fg", ink: "text-fg" },
-  body: { bar: "bg-zone-body text-accent-fg", ink: "text-accent-fg" },
-  upper: { bar: "bg-zone-upper text-fg", ink: "text-fg" },
-  tail: { bar: "bg-zone-tail text-fg", ink: "text-fg" },
+  head: { bar: "bg-zone-head", ink: "text-zone-ink-dark" },
+  lower: { bar: "bg-zone-lower", ink: "text-zone-ink-dark" },
+  body: { bar: "bg-zone-body", ink: "text-zone-ink-light" },
+  upper: { bar: "bg-zone-upper", ink: "text-zone-ink-light" },
+  tail: { bar: "bg-zone-tail", ink: "text-zone-ink-light" },
 };
 
 function pinPct(p: number, min: number, span: number) {
@@ -32,88 +32,78 @@ export function ZoneBar({ compact = false }: { compact?: boolean }) {
   const midLabel = r.thinBooks ? "營收地板" : "合理核";
   return (
     <div className="min-w-0">
-      <div className="relative pt-10">
+      <div className="relative pt-9">
         <div
           className="pointer-events-none absolute top-0 z-20"
           style={{ left: `${pricePct}%`, transform: `translateX(${hangX(pricePct)})` }}
         >
-          <div className="flex flex-col items-center">
-            <span className="whitespace-nowrap rounded-md bg-accent-fg px-2.5 py-1 font-mono text-xs font-medium text-accent">
-              市價 {fmtPrice(f.price)}
-            </span>
-            <span className="-mt-1 size-2 rotate-45 bg-accent-fg" />
-          </div>
+          <span className="whitespace-nowrap rounded-md bg-zone-ink-dark px-2.5 py-1 font-mono text-xs font-medium text-zone-ink-light">
+            市價 {fmtPrice(f.price)}
+          </span>
         </div>
 
-        <div className={`relative overflow-hidden rounded-full border border-line ${compact ? "h-12" : "h-14"}`}>
-          <div className="flex h-full min-w-0">
-            {z.zones.map((band) => {
-              const w = Math.max(((band.high - band.low) / span) * 100, 1);
-              const on = z.current === band.id;
-              const tone = ZONE_TONE[band.id] ?? ZONE_TONE.body;
-              return (
-                <div
-                  key={band.id}
-                  className={`relative flex min-w-0 flex-col items-center justify-center px-0.5 ${tone.bar}`}
-                  style={{ flex: `${w} 1 0` }}
-                  title={`${band.name} ${fmtPrice(band.low)}–${fmtPrice(band.high)} · ${band.action}`}
-                >
-                  <span className={`truncate text-xs font-medium leading-none ${tone.ink}`}>
-                    {band.name}
+        <div className={`flex min-w-0 overflow-hidden rounded-full ${compact ? "h-12" : "h-14"}`}>
+          {z.zones.map((band) => {
+            const w = Math.max(((band.high - band.low) / span) * 100, 1);
+            const on = z.current === band.id;
+            const tone = ZONE_TONE[band.id] ?? ZONE_TONE.body;
+            return (
+              <div
+                key={band.id}
+                className={`relative flex min-w-0 flex-col items-center justify-center px-1 ${tone.bar}`}
+                style={{ flex: `${w} 1 0` }}
+                title={`${band.name} ${fmtPrice(band.low)}–${fmtPrice(band.high)} · ${band.action}`}
+              >
+                <span className={`relative z-10 truncate text-xs font-medium leading-none ${tone.ink}`}>
+                  {band.name}
+                </span>
+                {!compact ? (
+                  <span className={`relative z-10 mt-1 hidden truncate font-mono text-xs leading-none opacity-80 sm:block ${tone.ink}`}>
+                    {fmtPrice(band.low)}
                   </span>
-                  {!compact ? (
-                    <span className={`mt-1 hidden truncate font-mono text-xs leading-none opacity-80 sm:block ${tone.ink}`}>
-                      {fmtPrice(band.low)}
-                    </span>
-                  ) : null}
-                  {on ? (
-                    <span className="pointer-events-none absolute inset-x-0 bottom-0 h-1 bg-accent-fg" />
-                  ) : null}
-                </div>
-              );
-            })}
-          </div>
-          <span
-            className="pointer-events-none absolute top-0 z-10 h-full w-1 -translate-x-1/2 bg-accent-fg shadow-[0_0_0_1px_var(--color-bg)]"
-            style={{ left: `${pricePct}%` }}
-            aria-hidden
-          />
-          <span
-            className="pointer-events-none absolute top-1/2 z-20 size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-accent-fg bg-bg"
-            style={{ left: `${midPct}%` }}
-            aria-hidden
-          />
+                ) : null}
+                {on ? (
+                  <span
+                    className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_0_0_2px_var(--color-fg),inset_0_0_0_4px_var(--color-zone-ink-dark)]"
+                    aria-hidden
+                  />
+                ) : null}
+              </div>
+            );
+          })}
         </div>
       </div>
 
-      <div className="relative mt-2 h-8">
+      <div className="relative mt-8">
         <div
-          className="absolute z-10"
+          className="absolute -top-6 z-10"
           style={{ left: `${midPct}%`, transform: `translateX(${hangX(midPct)})` }}
         >
-          <span className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-2 border-accent-fg bg-bg px-2.5 py-1 font-mono text-xs font-medium text-fg">
-            <span className="size-2.5 shrink-0 rounded-full border-2 border-accent-fg bg-bg" />
+          <span className="whitespace-nowrap rounded-md border border-fg bg-surface px-2.5 py-1 font-mono text-xs font-medium text-fg">
             {midLabel} {fmtPrice(z.mid)}
           </span>
         </div>
+        <p className="text-xs text-muted">
+          淺藍是魚頭、深藍是魚尾。淺色雙框是市價所在格。
+          {compact ? ` 現價在${z.currentLabel}。` : ""}
+        </p>
+        {compact ? <p className="mt-1 text-xs text-muted">{z.currentHint}</p> : null}
       </div>
 
-      <p className="mt-1 text-xs text-muted">
-        深針＝現價所在　空心圓＝{midLabel}
-        {compact ? ` · 現價在${z.currentLabel}` : ""}
-      </p>
-      {compact ? (
-        <p className="mt-1 text-xs text-muted">{z.currentHint}</p>
-      ) : (
+      {compact ? null : (
         <div className="mt-3 grid grid-cols-2 gap-1 sm:grid-cols-5">
           {z.zones.map((band) => {
             const on = z.current === band.id;
+            const tone = ZONE_TONE[band.id] ?? ZONE_TONE.body;
             return (
               <div
                 key={band.id}
                 className={`rounded-md px-2 py-2 ${on ? "bg-raised" : ""}`}
               >
-                <p className="text-xs font-medium">{band.name}</p>
+                <p className="flex items-center gap-1.5 text-xs font-medium">
+                  <span className={`inline-block size-2.5 rounded-sm ${tone.bar}`} />
+                  {band.name}
+                </p>
                 <p className="font-mono text-xs tabular-nums text-muted">
                   {fmtPrice(band.low)}–{fmtPrice(band.high)}
                 </p>
