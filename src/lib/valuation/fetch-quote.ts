@@ -534,11 +534,11 @@ export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload>
     throw new Error(`找不到股票：${rawTicker.trim() || "?"}`);
   }
 
-  const [chart, series, search, twse] = await Promise.all([
-    withTimeout(fetchChart(ticker), 12000, null),
-    withTimeout(fetchTimeseries(ticker), 12000, null),
-    withTimeout(fetchSearchMeta(ticker), 10000, null),
-    withTimeout(fetchTwse(ticker), 10000, null),
+  const chart = await withTimeout(fetchChart(ticker), 10000, null);
+  const [series, search, twse] = await Promise.all([
+    withTimeout(fetchTimeseries(ticker), 10000, null),
+    withTimeout(fetchSearchMeta(ticker), 8000, null),
+    withTimeout(fetchTwse(ticker), 8000, null),
   ]);
 
   const inferredPrice =

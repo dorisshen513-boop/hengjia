@@ -82,7 +82,7 @@ export function Studio() {
       const data = await Promise.race([
         fetchQuoteData(q),
         new Promise<never>((_, reject) => {
-          window.setTimeout(() => reject(new Error("計算逾時，請再試一次")), 22000);
+          window.setTimeout(() => reject(new Error("計算逾時，請再試一次")), 35000);
         }),
       ]);
       if (runId.current !== id) return;
