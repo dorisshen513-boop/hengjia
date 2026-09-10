@@ -234,4 +234,32 @@ describe("RIM / ROE", () => {
     assert.ok(r.ddmApplicable);
     assert.ok(r.rim != null);
   });
+
+  it("TWSE-lite compounder does not inherit startup assumptions; unused DDM is blank; DCF weight goes to relative", () => {
+    const f = base({
+      ticker: "2330.TW",
+      price: 100,
+      eps: 4,
+      dps: 0.8,
+      trailingPE: 25,
+      priceToBook: 6,
+      dividendYield: 0.008,
+    });
+    assert.equal(classifyRegime(f), "compounder");
+    const a = suggestAssumptions(f, 0.016);
+    assert.ok(a.g1 <= 0.08, `g1 ${a.g1}`);
+    assert.ok(a.gDiv1 <= 0.06, `gDiv1 ${a.gDiv1}`);
+    assert.ok(a.specificRisk < 0.02, `specific ${a.specificRisk}`);
+    const r = valueStock(f, a, { lite: true });
+    const gordon = r.models.find((m) => m.id === "gordon");
+    const dcf = r.models.find((m) => m.id === "dcf");
+    const rel = r.models.find((m) => m.id === "relative");
+    const rim = r.models.find((m) => m.id === "rim");
+    assert.equal(gordon?.used, false);
+    assert.equal(gordon?.price, null);
+    assert.equal(dcf?.used, false);
+    assert.equal(rel?.used, true);
+    assert.equal(rim?.used, true);
+    assert.ok((rel?.weight ?? 0) > (rim?.weight ?? 0));
+  });
 });

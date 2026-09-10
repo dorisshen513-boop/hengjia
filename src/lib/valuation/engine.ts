@@ -593,6 +593,8 @@ export function valueStock(
   const ddmScale = ddmYieldScale(divYield, a.ddmYieldFloor ?? 0.01, a.ddmYieldFull ?? 0.025);
   const ddmMathOk = f.dps > 0 && a.gDiv2 < ke;
   const ddmApplicable = ddmMathOk && ddmScale > 0;
+  const dcfOk = dcf != null && finite(dcf) && dcf > 0 && f.sharesOut > 0 && f.revenue > 0;
+  const dcfFragile = dcfOk && tvShare != null && tvShare > 0.7;
 
   if (a.g2 >= wacc && a.terminalMethod === "perpetuity") {
     warnings.push("終端成長率 ≥ WACC，永續成長公式無解，已改用離場倍數。");
@@ -663,8 +665,10 @@ export function valueStock(
     ...a,
     weightGordon: ddmApplicable ? a.weightGordon * ddmScale : 0,
     weightTwoStage: ddmApplicable ? a.weightTwoStage * ddmScale : 0,
-    weightDcf: Number.isFinite(a.weightDcf) ? a.weightDcf : 0.5,
-    weightRelative: Number.isFinite(a.weightRelative) ? a.weightRelative : 0.35,
+    weightDcf: dcfOk ? (dcfFragile ? a.weightDcf * 0.5 : a.weightDcf) : 0,
+    weightRelative:
+      (Number.isFinite(a.weightRelative) ? a.weightRelative : 0.35) +
+      (dcfOk ? 0 : Math.max(0, a.weightDcf)),
     weightRim: rimOk ? Math.max(0, a.weightRim ?? 0) : 0,
   });
 
@@ -673,27 +677,27 @@ export function valueStock(
     {
       id: "gordon",
       label: "Gordon 股利折現",
-      price: gordon,
+      price: ddmApplicable ? gordon : null,
       weight: w.g,
       used: false,
       formula: "P = D1 / (Ke − g2)",
       calc: ddmApplicable
         ? `${(f.dps * (1 + a.gDiv2)).toFixed(3)} / (${(ke * 100).toFixed(1)}% − ${(a.gDiv2 * 100).toFixed(1)}%)`
         : ddmMathOk
-          ? `殖利率 ${(divYield * 100).toFixed(2)}% ≤ 下限 ${((a.ddmYieldFloor ?? 0.01) * 100).toFixed(1)}%，權重為 0`
+          ? `殖利率 ${(divYield * 100).toFixed(2)}% ≤ 下限 ${((a.ddmYieldFloor ?? 0.01) * 100).toFixed(1)}%，只算現金股利約 ${gordon != null ? gordon.toFixed(2) : "—"}，未納入（買回與留存不在此式）`
           : "無穩定股利或 Ke ≤ g，不納入加權",
     },
     {
       id: "twoStage",
       label: "兩階段股利折現",
-      price: twoStage,
+      price: ddmApplicable ? twoStage : null,
       weight: w.t,
       used: false,
       formula: "P = Σ Dt/(1+Ke)^t + 終端股利現值",
       calc: ddmApplicable
         ? `明確期 ${divPv.toFixed(2)} + 終端 ${twoStageTvPv.toFixed(2)}`
         : ddmMathOk
-          ? `殖利率 ${(divYield * 100).toFixed(2)}% ≤ 下限 ${((a.ddmYieldFloor ?? 0.01) * 100).toFixed(1)}%，權重為 0`
+          ? `殖利率 ${(divYield * 100).toFixed(2)}% ≤ 下限 ${((a.ddmYieldFloor ?? 0.01) * 100).toFixed(1)}%，只算現金股利約 ${twoStage != null ? twoStage.toFixed(2) : "—"}，未納入`
           : "無穩定股利或 Ke ≤ g，不納入加權",
     },
     {
@@ -749,9 +753,9 @@ export function valueStock(
   }
 
   const usable = models.filter(
-    (m) => m.price != null && finite(m.price) && m.weight > 0,
+    (m) => m.price != null && finite(m.price) && m.price > 0 && m.weight > 0,
   );
-  const fallback = models.filter((m) => m.price != null && finite(m.price!));
+  const fallback = models.filter((m) => m.price != null && finite(m.price!) && m.price! > 0);
   const pool = usable.length ? usable : fallback;
   const rawW = pool.map((m) => (usable.length ? m.weight : 1));
   const wSum = rawW.reduce((s, x) => s + x, 0);
@@ -780,9 +784,11 @@ export function valueStock(
   }
 
   const last = years[years.length - 1];
-  const dcfFragile = tvShare != null && tvShare > 0.7;
   if (dcfFragile) {
-    warnings.push("終端價值佔企業價值超過 70%，DCF 對折現率與終端假設極度敏感。");
+    warnings.push("終端價值佔企業價值超過 70%，DCF 對折現率與終端假設極度敏感，權重已減半。");
+  }
+  if (!dcfOk && a.weightDcf > 0) {
+    warnings.push("缺少營收或股數，DCF 無解。其權重已併入相對估值，避免剩餘收益吃掉缺票。");
   }
   if (upside != null && upside < -0.2) {
     warnings.push(
@@ -951,11 +957,11 @@ export function suggestAssumptions(
   rf: number,
 ): Assumptions {
   const op = f.operatingMargin ?? (f.revenue ? f.ebit / f.revenue : 0);
-  const profitable = f.eps > 0 && op >= 0 && f.revenue > 0;
-  const preProfit = !profitable;
-  const lowMargin = op < 0.08;
   const regime = classifyRegime(f);
   const optionality = regime === "optionality";
+  const preProfit = regime === "preProfit";
+  const lowMargin = regime === "lowMargin";
+  const lite = f.revenue <= 0 && !preProfit && !optionality;
   const gHist = f.revenueGrowth;
   const gCap = optionality ? 0.4 : preProfit ? 0.45 : lowMargin ? 0.12 : 0.25;
   const g1 = clamp(gHist != null ? gHist : optionality ? 0.25 : preProfit ? 0.2 : 0.06, 0.02, gCap);
@@ -973,11 +979,13 @@ export function suggestAssumptions(
     ? f.marketCap > 1e11 ? 0.015 : 0.025
     : preProfit
       ? 0.035
-      : f.marketCap < 2e9
-        ? 0.02
-        : f.fcf < 0
-          ? 0.01
-          : 0.005;
+      : lite
+        ? 0.008
+        : f.marketCap > 0 && f.marketCap < 2e9
+          ? 0.02
+          : f.fcf < 0
+            ? 0.01
+            : 0.005;
   const dpsOn = f.dps > 0.01;
   const psOwn = f.priceToSales && f.priceToSales > 0 ? f.priceToSales : 4;
   const pbOwn = f.priceToBook && f.priceToBook > 0 ? f.priceToBook : 2.5;

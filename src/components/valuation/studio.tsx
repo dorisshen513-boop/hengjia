@@ -510,11 +510,20 @@ function Overview() {
   const { fundamentals: f, result: r, assumptions: a } = useValuation();
   if (!f || !r || !a) return null;
   const rows = [
-    { name: "Gordon", v: r.gordon, market: false },
-    { name: "兩階段", v: r.twoStage, market: false },
-    { name: "DCF", v: r.dcf, market: false },
-    { name: "RIM", v: r.rim, market: false },
-    { name: "相對", v: r.relativeBase, market: false },
+    ...r.models.map((m) => ({
+      name:
+        m.id === "gordon"
+          ? "Gordon"
+          : m.id === "twoStage"
+            ? "兩階段"
+            : m.id === "dcf"
+              ? "DCF"
+              : m.id === "rim"
+                ? "RIM"
+                : "相對",
+      v: m.price,
+      market: false,
+    })),
     { name: "加權", v: r.blended, market: false },
     { name: "選擇權", v: r.option.expected, market: false },
     { name: "市價", v: f.price, market: true },
@@ -1024,9 +1033,17 @@ function DcfPanel() {
 function DdmPanel() {
   const { result: r, assumptions: a, fundamentals: f } = useValuation();
   if (!r || !a || !f) return null;
+  const dy = f.price > 0 ? f.dps / f.price : 0;
   return (
     <div className="grid gap-5 lg:grid-cols-2">
       <div className="rounded-xl border border-line bg-surface p-5">
+        {!r.ddmApplicable ? (
+          <p className="mb-4 rounded-md bg-raised px-3 py-2 text-sm text-muted">
+            殖利率 {fmtPctAbs(dy)}，低於 {fmtPctAbs(a.ddmYieldFloor)} 下限，
+            <span className="text-fg">未納入加權</span>
+            。下面是只折現現金股利的參考價，不含庫藏股與留存盈餘，所以會遠低於市價。這不是當目標價。
+          </p>
+        ) : null}
         <h3 className="font-display text-xl">Gordon</h3>
         <p className="mt-2 font-mono text-3xl tabular-nums">
           {r.gordon != null ? `${fmtPrice(r.gordon)} ${f.currency}` : "不適用"}
@@ -1052,10 +1069,9 @@ function DdmPanel() {
       <MethodNote title="股利折現" formula="P0 = D1 / (Ke − g)">
         <p>股東長期持有真正拿到的是股利（或等價的自由現金流給股東）。</p>
         <p>
-          目前 Ke = {fmtPctAbs(r.ke)}。若公司不配息，此模型權重應為 0，改看 DCF
-          或 P/S。
+          目前 Ke = {fmtPctAbs(r.ke)}。低殖利率或無配息時權重為 0，改看 DCF、RIM 或相對估值。
         </p>
-        <p>適用：穩定配息、成長接近經濟成長的成熟公司。</p>
+        <p>適用：穩定配息、成長接近經濟成長的成熟公司。蘋果、台積電這種低股利複利股不該用 Gordon 當目標價。</p>
       </MethodNote>
     </div>
   );
@@ -1271,6 +1287,10 @@ function GapNote() {
           此檔：DCF {dcfGap != null ? fmtPct(dcfGap) : "—"}、RIM{" "}
           {r.rim != null ? fmtPct(r.rim / f.price - 1) : "—"}、相對{" "}
           {relGap != null ? fmtPct(relGap) : "—"}、加權 {r.upside != null ? fmtPct(r.upside) : "—"} vs 市價。
+        </li>
+        <li>
+          Gordon／兩階段在低殖利率時會算出很小的數字，因為只折現現金股利、不含買回。殖利率低於{" "}
+          {fmtPctAbs(a.ddmYieldFloor)} 時權重為 0，不會拉低加權價。
         </li>
       </ul>
       <p className="mt-3 text-xs text-muted">
