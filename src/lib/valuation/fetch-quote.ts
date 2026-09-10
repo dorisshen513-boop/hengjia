@@ -6,6 +6,7 @@ import {
   fetchNasdaq,
   mergeFundamentals,
 } from "./fetch-alt";
+import { fetchTwse } from "./fetch-twse";
 import { netFetch } from "./http";
 import { applyNewsToAssumptions, gatherNews, type NewsBrief, type NewsItem } from "./news";
 import type { Assumptions, Fundamentals } from "./types";
@@ -533,10 +534,11 @@ export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload>
     throw new Error(`找不到股票：${rawTicker.trim() || "?"}`);
   }
 
-  const [chart, series, search] = await Promise.all([
-    fetchChart(ticker),
-    fetchTimeseries(ticker),
-    fetchSearchMeta(ticker),
+  const [chart, series, search, twse] = await Promise.all([
+    withTimeout(fetchChart(ticker), 12000, null),
+    withTimeout(fetchTimeseries(ticker), 12000, null),
+    withTimeout(fetchSearchMeta(ticker), 10000, null),
+    withTimeout(fetchTwse(ticker), 10000, null),
   ]);
 
   const inferredPrice =
@@ -566,8 +568,12 @@ export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload>
     fundamentals = buildFundamentals(ticker, chartOrPrice, summary, series, search);
   }
 
-  if (!isComplete(fundamentals)) {
-    const nasdaq = await fetchNasdaq(ticker);
+  if (twse?.price) {
+    fundamentals = mergeFundamentals(fundamentals ?? blankFundamentals(ticker), twse);
+  }
+
+  if (!isComplete(fundamentals) && !ticker.includes(".")) {
+    const nasdaq = await withTimeout(fetchNasdaq(ticker), 8000, null);
     if (nasdaq?.price) {
       fundamentals = mergeFundamentals(fundamentals ?? blankFundamentals(ticker), nasdaq);
     }
@@ -581,6 +587,9 @@ export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload>
   }
 
   if (!fundamentals?.price) {
+    if (search?.name) {
+      throw new Error(`暫時連不到 ${ticker} 的行情，請再試一次`);
+    }
     throw new Error(`找不到股票：${ticker}`);
   }
 

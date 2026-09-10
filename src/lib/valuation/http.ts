@@ -74,28 +74,17 @@ async function corsGet(url: string, timeoutMs: number): Promise<Response> {
 
 async function browserGet(url: string): Promise<Response> {
   const encoded = encodeURIComponent(url);
-  const errors: string[] = [];
-  try {
-    return await jsonpAllorigins(url, 16000);
-  } catch (err) {
-    errors.push(err instanceof Error ? err.message : String(err));
-  }
-  const fallbacks = [
-    () => corsGet(`https://api.allorigins.win/get?url=${encoded}`, 14000).then(async (res) => {
-      const data = JSON.parse(await res.text()) as unknown;
-      return unwrapAllorigins(data);
-    }),
-    () => corsGet(`https://corsproxy.io/?${encoded}`, 8000),
-    () => corsGet(`https://api.allorigins.win/raw?url=${encoded}`, 10000),
-  ];
-  for (const run of fallbacks) {
-    try {
-      return await run();
-    } catch (err) {
-      errors.push(err instanceof Error ? err.message : String(err));
-    }
-  }
-  throw new Error(errors[0] || "網路請求失敗");
+  return Promise.any([
+    corsGet(`https://corsproxy.io/?${encoded}`, 6000),
+    corsGet(`https://api.allorigins.win/get?url=${encoded}`, 10000).then(async (res) =>
+      unwrapAllorigins(JSON.parse(await res.text()) as unknown),
+    ),
+    jsonpAllorigins(url, 8000),
+    corsGet(`https://api.allorigins.win/raw?url=${encoded}`, 10000),
+  ]).catch((err: unknown) => {
+    if (err instanceof AggregateError && err.errors[0] instanceof Error) throw err.errors[0];
+    throw new Error("網路請求失敗");
+  });
 }
 
 export async function netFetch(url: string, init?: RequestInit): Promise<Response> {

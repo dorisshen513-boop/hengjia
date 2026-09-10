@@ -256,8 +256,8 @@ function friendlyError(err: unknown, ticker: string): string {
   ) {
     return `找不到股票：${ticker.toUpperCase()}`;
   }
-  if (/timeout|timed out|abort|逾時|failed to fetch|networkerror|網路請求/.test(lower)) {
-    return "抓不到財報（網路或來源被擋），請再試一次";
+  if (/暫時連不到|抓不到財報|timeout|timed out|abort|逾時|failed to fetch|networkerror|網路請求/.test(lower)) {
+    return msg.includes("暫時連不到") ? msg : "抓不到財報（網路或來源被擋），請再試一次";
   }
   return msg.replace(/^.*?Error:\s*/i, "") || "計算失敗，請再試一次";
 }
