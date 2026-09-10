@@ -23,38 +23,6 @@ function unwrapAllorigins(data: unknown): Response {
   return asResponse(contents, row.status?.content_type || "application/json", row.status?.http_code ?? 200);
 }
 
-function jsonpAllorigins(url: string, timeoutMs: number): Promise<Response> {
-  return new Promise((resolve, reject) => {
-    const cb = `hjcb_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
-    const script = document.createElement("script");
-    let settled = false;
-    const finish = (err?: Error, data?: unknown) => {
-      if (settled) return;
-      settled = true;
-      window.clearTimeout(timer);
-      script.remove();
-      try {
-        delete (window as unknown as Record<string, unknown>)[cb];
-      } catch {
-        /* ignore */
-      }
-      if (err) reject(err);
-      else {
-        try {
-          resolve(unwrapAllorigins(data));
-        } catch (e) {
-          reject(e instanceof Error ? e : new Error(String(e)));
-        }
-      }
-    };
-    const timer = window.setTimeout(() => finish(new Error("代理逾時")), timeoutMs);
-    (window as unknown as Record<string, unknown>)[cb] = (data: unknown) => finish(undefined, data);
-    script.onerror = () => finish(new Error("代理失敗"));
-    script.src = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}&callback=${encodeURIComponent(cb)}&_t=${Date.now()}`;
-    document.head.appendChild(script);
-  });
-}
-
 async function corsGet(url: string, timeoutMs: number): Promise<Response> {
   const res = await fetch(url, {
     method: "GET",
@@ -73,16 +41,43 @@ async function corsGet(url: string, timeoutMs: number): Promise<Response> {
   });
 }
 
+function withBust(url: string): string {
+  const join = url.includes("?") ? "&" : "?";
+  return `${url}${join}_hj=${Date.now()}`;
+}
+
+async function tryDirect(url: string): Promise<Response | null> {
+  try {
+    const res = await fetch(url, {
+      method: "GET",
+      credentials: "omit",
+      cache: "no-store",
+      signal: AbortSignal.timeout(3500),
+    });
+    if (!res.ok) return null;
+    const text = await res.text();
+    if (/^\s*<!doctype/i.test(text) || /^\s*<html/i.test(text)) return null;
+    return new Response(text, {
+      status: 200,
+      headers: { "Content-Type": res.headers.get("content-type") || "application/json" },
+    });
+  } catch {
+    return null;
+  }
+}
+
 async function browserGet(url: string): Promise<Response> {
-  const encoded = encodeURIComponent(url);
-  const bust = Date.now().toString();
+  const canDirect = !/finance\.yahoo\.com|query[12]\.finance|news\.google\.com/i.test(url);
+  if (canDirect) {
+    const direct = await tryDirect(url);
+    if (direct) return direct;
+  }
+  const encoded = encodeURIComponent(withBust(url));
   return Promise.any([
-    corsGet(`https://corsproxy.io/?${encoded}&_t=${bust}`, 6000),
-    corsGet(`https://api.allorigins.win/get?url=${encoded}&_t=${bust}`, 10000).then(async (res) =>
+    corsGet(`https://api.allorigins.win/get?url=${encoded}`, 8000).then(async (res) =>
       unwrapAllorigins(JSON.parse(await res.text()) as unknown),
     ),
-    jsonpAllorigins(url, 8000),
-    corsGet(`https://api.allorigins.win/raw?url=${encoded}&_t=${bust}`, 10000),
+    corsGet(`https://api.allorigins.win/raw?url=${encoded}`, 9000),
   ]).catch((err: unknown) => {
     if (err instanceof AggregateError && err.errors[0] instanceof Error) throw err.errors[0];
     throw new Error("網路請求失敗");

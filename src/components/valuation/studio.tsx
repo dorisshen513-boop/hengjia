@@ -82,7 +82,7 @@ export function Studio() {
       const data = await Promise.race([
         fetchQuoteData(q),
         new Promise<never>((_, reject) => {
-          window.setTimeout(() => reject(new Error("計算逾時，請再試一次")), 45000);
+          window.setTimeout(() => reject(new Error("計算逾時，請再試一次")), 22000);
         }),
       ]);
       if (runId.current !== id) return;
@@ -156,6 +156,7 @@ export function Studio() {
               size="lg"
               className="sm:min-w-36"
               aria-busy={loading}
+              disabled={loading}
             >
               {loading ? (
                 <span className="inline-flex items-center gap-2">
