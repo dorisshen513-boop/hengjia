@@ -11,17 +11,44 @@ function n(v: unknown): number {
 function pct(v: unknown): number {
   const x = n(v);
   if (x === 0) return 0;
-  return x > 1 ? x / 100 : x;
+  return Math.abs(x) > 1 ? x / 100 : x;
 }
 
-/** Raw dollars if already large; otherwise scale from the "*M"/"*B" view string. */
-function money(raw: unknown, view?: unknown): number {
+/**
+ * CNBC 常同時給完整數字與「3949.55M」這種縮寫。
+ * 若 raw 已經是完整單位（約為 view 數字的 1e6／1e9 倍），不要再乘一次。
+ */
+export function scaleCnbcMoney(raw: unknown, view?: unknown): number {
   const v = n(raw);
   if (v === 0) return 0;
-  const vs = String(view ?? "").trim();
-  if (/B$/i.test(vs) && v < 1e8) return v * 1e9;
-  if (/M$/i.test(vs) && v < 1e10) return v * 1e6;
+  const vs = String(view ?? "").replace(/,/g, "").trim();
+  const viewNum = n(vs);
+  const abs = Math.abs(v);
+  if (viewNum > 0 && abs / viewNum > 50) return v;
+  const suffix = vs.match(/([TBM])\s*$/i)?.[1]?.toUpperCase() ?? "";
+  if (suffix === "T") return abs >= 1e11 ? v : v * 1e12;
+  if (suffix === "B") return abs >= 1e8 ? v : v * 1e9;
+  if (suffix === "M") return abs >= 1e8 ? v : v * 1e6;
   return v;
+}
+
+export function reconcileShares(shares: number, price: number, marketCap: number): number {
+  if (!(price > 0)) return shares;
+  const fromCap = marketCap > 0 ? marketCap / price : 0;
+  const capSane = fromCap > 1e5 && fromCap < 5e11;
+  const sharesSane = shares > 1e5 && shares < 5e11;
+  if (capSane && (!sharesSane || shares / fromCap > 10 || fromCap / Math.max(shares, 1) > 10)) {
+    return fromCap;
+  }
+  return shares;
+}
+
+function scaleEbitda(raw: unknown, view?: unknown): number {
+  const scaled = scaleCnbcMoney(raw, view);
+  if (Math.abs(scaled) >= 1e8) return scaled;
+  const v = n(raw);
+  if (Math.abs(v) > 1 && Math.abs(v) < 1e6) return v * 1e6;
+  return scaled || v;
 }
 
 type CnbcQuote = {
@@ -56,10 +83,12 @@ export async function fetchCnbc(ticker: string): Promise<Partial<Fundamentals> |
     const price = n(row.last);
     if (price <= 0) return null;
     const fd = row.FundamentalData ?? {};
-    const sharesOut = money(fd.sharesout, fd.sharesoutView) || n(fd.sharesout);
-    const marketCap = money(fd.mktcap, fd.mktcapView) || (sharesOut > 0 ? sharesOut * price : 0);
-    const revenue = money(fd.revenuettm, fd.revenuettmView);
-    const ebitda = money(fd.TTMEBITD, `${fd.TTMEBITD ?? ""}M`);
+    const sharesRaw = scaleCnbcMoney(fd.sharesout, fd.sharesoutView) || n(fd.sharesout);
+    const marketCap =
+      scaleCnbcMoney(fd.mktcap, fd.mktcapView) || (sharesRaw > 0 ? sharesRaw * price : 0);
+    const sharesOut = reconcileShares(sharesRaw, price, marketCap);
+    const revenue = scaleCnbcMoney(fd.revenuettm, fd.revenuettmView);
+    const ebitda = scaleEbitda(fd.TTMEBITD, fd.TTMEBITDView);
     const netMargin = pct(fd.NETPROFTTM);
     const netIncome = netMargin && revenue ? netMargin * revenue : 0;
     const roe = pct(fd.ROETTM);
@@ -72,6 +101,10 @@ export async function fetchCnbc(ticker: string): Promise<Partial<Fundamentals> |
     const ps = n(fd.psales);
     const ebit = ebitda > 0 ? ebitda * 0.82 : netIncome;
     const op = revenue > 0 && ebit ? ebit / revenue : netMargin || null;
+    const notes = ["美股行情取自 CNBC 公開報價（不經 Yahoo 代理）。"];
+    if (sharesRaw > 0 && Math.abs(sharesOut / sharesRaw - 1) > 0.2) {
+      notes.push("流通股單位已用市值／股價校正，避免百萬／十億被乘兩次。");
+    }
     return {
       ticker: ticker.toUpperCase(),
       name: row.name || ticker.toUpperCase(),
@@ -99,7 +132,7 @@ export async function fetchCnbc(ticker: string): Promise<Partial<Fundamentals> |
       priceToSales: ps || (revenue > 0 && marketCap > 0 ? marketCap / revenue : null),
       evToEbitda: ebitda > 0 ? (marketCap + totalDebt) / ebitda : null,
       source: "CNBC 公開報價／財報",
-      notes: ["美股行情取自 CNBC 公開報價（不經 Yahoo 代理）。"],
+      notes,
     };
   } catch {
     return null;
@@ -125,3 +158,4 @@ export async function fetchCnbcRf(): Promise<number | null> {
     return null;
   }
 }
+

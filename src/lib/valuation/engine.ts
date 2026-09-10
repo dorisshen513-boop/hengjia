@@ -303,12 +303,17 @@ export function classifyRegime(f: Fundamentals): CompanyRegime {
         ? f.marketCap / f.revenue
         : 0;
   const scale = f.revenue >= 5e9 || f.marketCap >= 8e10;
+  const pe = f.trailingPE ?? (f.eps > 0 && f.price > 0 ? f.price / f.eps : 0);
+  const expensive = ps >= 12 || pe > 50;
   if (f.revenue <= 0) {
     if (f.eps > 0 || (f.trailingPE != null && f.trailingPE > 0) || (f.priceToBook != null && f.priceToBook > 0)) {
       if (highRoe && dy < 0.035) return "compounder";
       return dy >= 0.025 ? "dividend" : "compounder";
     }
     return "preProfit";
+  }
+  if (scale && expensive && !highRoe && dy < 0.02) {
+    return "optionality";
   }
   if (!(profitable && op >= 0.15) && scale && g >= 0.2 && ps >= 12) {
     return "optionality";
@@ -593,7 +598,13 @@ export function valueStock(
   const ddmScale = ddmYieldScale(divYield, a.ddmYieldFloor ?? 0.01, a.ddmYieldFull ?? 0.025);
   const ddmMathOk = f.dps > 0 && a.gDiv2 < ke;
   const ddmApplicable = ddmMathOk && ddmScale > 0;
-  const dcfOk = dcf != null && finite(dcf) && dcf > 0 && f.sharesOut > 0 && f.revenue > 0;
+  const dcfOk =
+    dcf != null &&
+    finite(dcf) &&
+    dcf > 0 &&
+    f.sharesOut > 0 &&
+    f.revenue > 0 &&
+    (f.price <= 0 || dcf >= f.price * 0.01);
   const dcfFragile = dcfOk && tvShare != null && tvShare > 0.7;
 
   if (a.g2 >= wacc && a.terminalMethod === "perpetuity") {
@@ -635,7 +646,13 @@ export function valueStock(
   const impliedEvEbitda = evOk ? a.evEbitdaBase * ebitdaPs - ndPs : null;
 
   const rim = runRim(f, a, ke);
-  const rimOk = rimUsable(f, regime, roe) && rim.applicable && !rim.distorted;
+  const rimOk =
+    rimUsable(f, regime, roe) &&
+    rim.applicable &&
+    !rim.distorted &&
+    rim.price != null &&
+    rim.price > 0 &&
+    (f.price <= 0 || rim.price >= f.price * 0.01);
   let rimReason = rim.reason;
   if (!rimOk) {
     if (regime === "optionality" || regime === "preProfit") {

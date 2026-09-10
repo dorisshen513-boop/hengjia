@@ -262,4 +262,31 @@ describe("RIM / ROE", () => {
     assert.equal(rim?.used, true);
     assert.ok((rel?.weight ?? 0) > (rim?.weight ?? 0));
   });
+
+  it("expensive low-ROE scale name is optionality; RIM does not vote", () => {
+    const f = base({
+      ticker: "TSLA",
+      price: 370,
+      sharesOut: 3.95e9,
+      marketCap: 1.46e12,
+      revenue: 1.04e11,
+      ebit: 9e9,
+      ebitda: 1.12e10,
+      netIncome: 3.6e9,
+      bookEquity: 8.4e10,
+      eps: 1,
+      fcf: 2e9,
+      operatingMargin: 0.09,
+      priceToSales: 14,
+      trailingPE: 370,
+      priceToBook: 17,
+    });
+    assert.equal(classifyRegime(f), "optionality");
+    const a = suggestAssumptions(f, 0.043);
+    assert.equal(a.weightRim, 0);
+    const r = valueStock(f, a, { lite: true });
+    const rim = r.models.find((m) => m.id === "rim");
+    assert.equal(rim?.used, false);
+    assert.ok(r.blended != null && r.blended > 20);
+  });
 });
