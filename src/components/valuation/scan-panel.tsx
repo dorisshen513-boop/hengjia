@@ -1,8 +1,35 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { runRandomScan, type ScanRow } from "@/lib/valuation/scan";
+import {
+  auditAllTwse,
+  runRandomScan,
+  type AuditBucket,
+  type AuditReport,
+  type ScanRow,
+} from "@/lib/valuation/scan";
 import { fmtPct, fmtPrice } from "@/lib/utils";
+
+const AUDIT_KEY = "hengjia-twse-audit";
+
+function loadCachedAudit(): AuditReport | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(AUDIT_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw) as AuditReport;
+  } catch {
+    return null;
+  }
+}
+
+function saveCachedAudit(report: AuditReport) {
+  try {
+    window.localStorage.setItem(AUDIT_KEY, JSON.stringify(report));
+  } catch {
+    /* quota */
+  }
+}
 
 export function ScanPanel({ onOpen }: { onOpen: (ticker: string) => void }) {
   const [rows, setRows] = useState<ScanRow[]>([]);
@@ -10,6 +37,11 @@ export function ScanPanel({ onOpen }: { onOpen: (ticker: string) => void }) {
   const [label, setLabel] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [market, setMarket] = useState<"all" | "TW" | "US">("all");
+
+  const [audit, setAudit] = useState<AuditReport | null>(null);
+  const [auditBusy, setAuditBusy] = useState(false);
+  const [auditLabel, setAuditLabel] = useState<string | null>(null);
+  const [auditFilter, setAuditFilter] = useState<"issues" | AuditBucket | "loss">("issues");
 
   async function run() {
     if (running) return;
@@ -29,9 +61,45 @@ export function ScanPanel({ onOpen }: { onOpen: (ticker: string) => void }) {
     }
   }
 
+  async function runAudit(fresh: boolean) {
+    if (auditBusy) return;
+    setAuditBusy(true);
+    setAuditLabel(fresh ? "正在重掃全部台股…" : "讀取掃描紀錄…");
+    try {
+      if (!fresh) {
+        const cached = loadCachedAudit();
+        if (cached?.rows?.length) {
+          setAudit(cached);
+          setAuditLabel(`快取 ${cached.asOf} · ${cached.total} 檔`);
+          setAuditBusy(false);
+          return;
+        }
+        const url = `${import.meta.env.BASE_URL}twse-audit.json`;
+        const res = await fetch(url);
+        if (res.ok) {
+          const report = (await res.json()) as AuditReport;
+          setAudit(report);
+          saveCachedAudit(report);
+          setAuditLabel(`紀錄 ${report.asOf} · ${report.total} 檔`);
+          setAuditBusy(false);
+          return;
+        }
+      }
+      const report = await auditAllTwse((done, total) => {
+        setAuditLabel(`掃描 ${done}／${total}`);
+      });
+      setAudit(report);
+      saveCachedAudit(report);
+      setAuditLabel(`完成 ${report.asOf} · ${report.total} 檔`);
+    } catch (err) {
+      setAuditLabel(err instanceof Error ? err.message : "掃描失敗");
+    } finally {
+      setAuditBusy(false);
+    }
+  }
+
   useEffect(() => {
-    void run();
-    // first paint: auto-sample 50+50
+    void runAudit(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -40,103 +108,222 @@ export function ScanPanel({ onOpen }: { onOpen: (ticker: string) => void }) {
   const twN = rows.filter((r) => r.market === "TW" && r.ok).length;
   const usN = rows.filter((r) => r.market === "US" && r.ok).length;
 
+  const issueRows = useMemo(() => {
+    if (!audit) return [];
+    if (auditFilter === "issues") {
+      return audit.rows.filter((r) => r.bucket !== "ok" || r.reason.includes("虧損"));
+    }
+    if (auditFilter === "loss") {
+      return audit.rows.filter((r) => r.reason.includes("虧損"));
+    }
+    return audit.rows.filter((r) => r.bucket === auditFilter);
+  }, [audit, auditFilter]);
+
   return (
-    <div className="rounded-xl border border-line bg-surface p-4 sm:p-5">
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h2 className="font-display text-xl">隨機抽樣</h2>
-          <p className="mt-1 text-sm text-muted">
-            台股 50 檔走證交所；美股 50 檔走 Yahoo。只算輕量模型，點列可開完整計算。
-          </p>
+    <div className="space-y-4">
+      <div className="rounded-xl border border-line bg-surface p-4 sm:p-5">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 className="font-display text-xl">台股全市場紀錄</h2>
+            <p className="mt-1 text-sm text-muted">
+              證交所當日全部上市股票。分開記：無資料、算不出合理價、計算錯誤。
+            </p>
+          </div>
+          <Button type="button" variant="ghost" onClick={() => void runAudit(true)} disabled={auditBusy}>
+            {auditBusy ? (
+              <span className="inline-flex items-center gap-2">
+                <Loader2 className="size-4 animate-spin" />
+                掃描中
+              </span>
+            ) : (
+              "重新掃描全部"
+            )}
+          </Button>
         </div>
-        <Button type="button" onClick={() => void run()} disabled={running}>
-          {running ? (
-            <span className="inline-flex items-center gap-2">
-              <Loader2 className="size-4 animate-spin" />
-              抽樣中
-            </span>
-          ) : rows.length ? (
-            "再抽一次"
-          ) : (
-            "抽台股 50 + 美股 50"
-          )}
-        </Button>
+        {auditLabel ? <p className="mt-3 text-sm text-muted">{auditLabel}</p> : null}
+        {audit ? (
+          <>
+            <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+              {[
+                ["全部", audit.total],
+                ["算得出", audit.ok],
+                ["無資料", audit.noData],
+                ["算不出", audit.noValue],
+                ["錯誤", audit.errors],
+              ].map(([k, v]) => (
+                <div key={String(k)} className="rounded-lg border border-line bg-raised px-3 py-2">
+                  <p className="text-[11px] text-muted">{k}</p>
+                  <p className="font-mono text-lg tabular-nums">{v}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 flex flex-wrap gap-2 text-xs">
+              {(
+                [
+                  ["issues", "問題與虧損股"],
+                  ["no_data", `無資料 ${audit.noData}`],
+                  ["no_value", `算不出 ${audit.noValue}`],
+                  ["error", `錯誤 ${audit.errors}`],
+                  ["loss", "虧損改用淨值比"],
+                  ["ok", "全部算得出"],
+                ] as const
+              ).map(([id, text]) => (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => setAuditFilter(id)}
+                  className={`h-9 rounded-full px-3 ${
+                    auditFilter === id ? "bg-accent text-accent-fg" : "border border-line text-muted"
+                  }`}
+                >
+                  {text}
+                </button>
+              ))}
+            </div>
+            <div className="mt-3 max-h-80 overflow-auto">
+              {issueRows.length === 0 ? (
+                <p className="text-sm text-muted">這一欄是空的，沒有需要記的錯誤。</p>
+              ) : (
+                <table className="w-full min-w-[640px] text-left text-sm">
+                  <thead className="text-xs text-muted">
+                    <tr>
+                      <th className="pb-2 font-medium">代號</th>
+                      <th className="pb-2 font-medium">分類</th>
+                      <th className="pb-2 font-medium">市價</th>
+                      <th className="pb-2 font-medium">合理價</th>
+                      <th className="pb-2 font-medium">原因</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {issueRows.map((row) => (
+                      <tr key={row.ticker} className="border-t border-line">
+                        <td className="py-2">
+                          <button type="button" className="text-left" onClick={() => onOpen(row.ticker)}>
+                            <span className="font-mono">{row.ticker.replace(".TW", "")}</span>
+                            <span className="ml-2 text-xs text-muted">{row.name}</span>
+                          </button>
+                        </td>
+                        <td className="py-2 text-xs">
+                          {row.bucket === "ok"
+                            ? "已算出"
+                            : row.bucket === "no_data"
+                              ? "無資料"
+                              : row.bucket === "no_value"
+                                ? "算不出"
+                                : "錯誤"}
+                        </td>
+                        <td className="py-2 font-mono tabular-nums">{row.price ? fmtPrice(row.price) : "—"}</td>
+                        <td className="py-2 font-mono tabular-nums">
+                          {row.blended != null ? fmtPrice(row.blended) : "—"}
+                        </td>
+                        <td className="py-2 text-xs text-muted">
+                          {row.reason}
+                          {row.error ? `｜${row.error}` : ""}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
+            <p className="mt-3 text-xs text-muted">
+              完整名冊也寫在「台股掃描紀錄」檔。虧損股仍算得出時，合理價多半貼近市價，因為只用自己的淨值比。
+            </p>
+          </>
+        ) : null}
       </div>
-      {label ? <p className="mt-3 text-sm text-muted">{label}</p> : null}
-      {error ? <p className="mt-2 text-sm text-down">{error}</p> : null}
-      {rows.length ? (
-        <>
-          <div className="mt-4 flex flex-wrap gap-2 text-xs">
-            {(
-              [
-                ["all", `全部 ${ok.length}`],
-                ["TW", `台股 ${twN}`],
-                ["US", `美股 ${usN}`],
-              ] as const
-            ).map(([id, text]) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => setMarket(id)}
-                className={`h-9 rounded-full px-3 ${
-                  market === id ? "bg-accent text-accent-fg" : "border border-line text-muted"
-                }`}
-              >
-                {text}
-              </button>
-            ))}
+
+      <div className="rounded-xl border border-line bg-surface p-4 sm:p-5">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 className="font-display text-xl">隨機抽樣</h2>
+            <p className="mt-1 text-sm text-muted">
+              台股 50 檔走證交所；美股 50 檔走 Yahoo。只算輕量模型，點列可開完整計算。
+            </p>
           </div>
-          <div className="mt-3 overflow-x-auto">
-            <table className="w-full min-w-[720px] text-left text-sm">
-              <thead className="text-xs text-muted">
-                <tr>
-                  <th className="pb-2 font-medium">市場</th>
-                  <th className="pb-2 font-medium">代號</th>
-                  <th className="pb-2 font-medium">市價</th>
-                  <th className="pb-2 font-medium">合理價</th>
-                  <th className="pb-2 font-medium">魚帶</th>
-                  <th className="pb-2 font-medium">安全邊際</th>
-                  <th className="pb-2 font-medium">品質</th>
-                </tr>
-              </thead>
-              <tbody>
-                {shown.map((row) => (
-                  <tr key={`${row.market}-${row.ticker}`} className="border-t border-line">
-                    <td className="py-2 text-xs text-muted">{row.market === "TW" ? "台" : "美"}</td>
-                    <td className="py-2">
-                      <button
-                        type="button"
-                        className="text-left"
-                        onClick={() => onOpen(row.ticker)}
-                      >
-                        <span className="font-mono">{row.ticker.replace(".TW", "")}</span>
-                        <span className="ml-2 text-xs text-muted">{row.name}</span>
-                      </button>
-                    </td>
-                    <td className="py-2 font-mono tabular-nums">
-                      {row.ok ? fmtPrice(row.price) : "—"}
-                    </td>
-                    <td className="py-2 font-mono tabular-nums">
-                      {row.blended != null ? fmtPrice(row.blended) : "—"}
-                    </td>
-                    <td className="py-2 text-xs">{row.zoneLabel}</td>
-                    <td
-                      className={`py-2 font-mono tabular-nums ${
-                        row.upside == null ? "text-muted" : row.upside >= 0 ? "text-up" : "text-down"
-                      }`}
-                    >
-                      {row.upside != null ? fmtPct(row.upside) : "—"}
-                    </td>
-                    <td className="py-2 text-xs text-muted">
-                      {row.ok ? `${row.qualityQ} · ${row.qualityLabel}` : row.error}
-                    </td>
+          <Button type="button" onClick={() => void run()} disabled={running}>
+            {running ? (
+              <span className="inline-flex items-center gap-2">
+                <Loader2 className="size-4 animate-spin" />
+                抽樣中
+              </span>
+            ) : rows.length ? (
+              "再抽一次"
+            ) : (
+              "抽台股 50 + 美股 50"
+            )}
+          </Button>
+        </div>
+        {label ? <p className="mt-3 text-sm text-muted">{label}</p> : null}
+        {error ? <p className="mt-2 text-sm text-down">{error}</p> : null}
+        {rows.length ? (
+          <>
+            <div className="mt-4 flex flex-wrap gap-2 text-xs">
+              {(
+                [
+                  ["all", `全部 ${ok.length}`],
+                  ["TW", `台股 ${twN}`],
+                  ["US", `美股 ${usN}`],
+                ] as const
+              ).map(([id, text]) => (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => setMarket(id)}
+                  className={`h-9 rounded-full px-3 ${
+                    market === id ? "bg-accent text-accent-fg" : "border border-line text-muted"
+                  }`}
+                >
+                  {text}
+                </button>
+              ))}
+            </div>
+            <div className="mt-3 overflow-x-auto">
+              <table className="w-full min-w-[720px] text-left text-sm">
+                <thead className="text-xs text-muted">
+                  <tr>
+                    <th className="pb-2 font-medium">市場</th>
+                    <th className="pb-2 font-medium">代號</th>
+                    <th className="pb-2 font-medium">市價</th>
+                    <th className="pb-2 font-medium">合理價</th>
+                    <th className="pb-2 font-medium">魚帶</th>
+                    <th className="pb-2 font-medium">安全邊際</th>
+                    <th className="pb-2 font-medium">品質</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
-      ) : null}
+                </thead>
+                <tbody>
+                  {shown.map((row) => (
+                    <tr key={`${row.market}-${row.ticker}`} className="border-t border-line">
+                      <td className="py-2 text-xs text-muted">{row.market === "TW" ? "台" : "美"}</td>
+                      <td className="py-2">
+                        <button type="button" className="text-left" onClick={() => onOpen(row.ticker)}>
+                          <span className="font-mono">{row.ticker.replace(".TW", "")}</span>
+                          <span className="ml-2 text-xs text-muted">{row.name}</span>
+                        </button>
+                      </td>
+                      <td className="py-2 font-mono tabular-nums">{row.ok ? fmtPrice(row.price) : "—"}</td>
+                      <td className="py-2 font-mono tabular-nums">
+                        {row.blended != null ? fmtPrice(row.blended) : "—"}
+                      </td>
+                      <td className="py-2 text-xs">{row.zoneLabel}</td>
+                      <td
+                        className={`py-2 font-mono tabular-nums ${
+                          row.upside == null ? "text-muted" : row.upside >= 0 ? "text-up" : "text-down"
+                        }`}
+                      >
+                        {row.upside != null ? fmtPct(row.upside) : "—"}
+                      </td>
+                      <td className="py-2 text-xs text-muted">
+                        {row.ok ? `${row.qualityQ} · ${row.qualityLabel}` : row.error}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        ) : null}
+      </div>
     </div>
   );
 }

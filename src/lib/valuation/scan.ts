@@ -31,6 +31,31 @@ export type ScanProgress = {
   rows: ScanRow[];
 };
 
+export type AuditBucket = "ok" | "no_data" | "no_value" | "error";
+
+export type AuditRow = {
+  ticker: string;
+  name: string;
+  price: number;
+  pe: number | null;
+  pb: number | null;
+  yieldPct: number | null;
+  blended: number | null;
+  bucket: AuditBucket;
+  reason: string;
+  error: string | null;
+};
+
+export type AuditReport = {
+  asOf: string;
+  total: number;
+  ok: number;
+  noData: number;
+  noValue: number;
+  errors: number;
+  rows: AuditRow[];
+};
+
 function twNum(raw: unknown): number | null {
   if (typeof raw === "number" && Number.isFinite(raw) && raw > 0) return raw;
   return null;
@@ -243,46 +268,26 @@ async function scanUs(onTick: (rows: ScanRow[], label: string, done: number, tot
   const rows = await poolMap(pick, 3, async (sym) => {
     const meta = spark.get(sym);
     const price = twNum(meta?.regularMarketPrice);
-    const row = !price
-      ? failRow("US", sym, "沒有市價")
-      : valueRow(
-          "US",
-          fromSnap({
-            ticker: sym,
-            name: meta?.shortName || meta?.longName || sym,
-            price,
-            pe: null,
-            pb: null,
-            yieldPct: null,
-            currency: meta?.currency || "USD",
-            exchange: meta?.fullExchangeName || meta?.exchangeName || "",
-            source: "Yahoo Finance",
-            notes: ["抽樣：Yahoo spark 行情。"],
-          }),
-        );
-    if (price) {
+    let row: ScanRow;
+    if (!price) {
+      row = failRow("US", sym, "沒有市價");
+    } else {
       const ts = await fetchTimeseriesLite(sym);
-      if (ts) {
-        const f = fromSnap({
-          ticker: sym,
-          name: meta?.shortName || meta?.longName || sym,
-          price,
-          pe: ts.pe,
-          pb: ts.pb,
-          yieldPct: ts.yieldPct,
-          currency: meta?.currency || "USD",
-          exchange: meta?.fullExchangeName || meta?.exchangeName || "",
-          shares: ts.shares,
-          marketCap: ts.marketCap,
-          source: "Yahoo Finance",
-          notes: ["抽樣：Yahoo spark 行情 + 時間序列倍數。"],
-        });
-        const valued = valueRow("US", f);
-        finished += 1;
-        acc.push(valued);
-        onTick(acc.slice(), `美股財報 ${finished}/${pick.length}`, pick.length + finished, pick.length * 2);
-        return valued;
-      }
+      const f = fromSnap({
+        ticker: sym,
+        name: meta?.shortName || meta?.longName || sym,
+        price,
+        pe: ts?.pe ?? null,
+        pb: ts?.pb ?? null,
+        yieldPct: ts?.yieldPct ?? null,
+        currency: meta?.currency || "USD",
+        exchange: meta?.fullExchangeName || meta?.exchangeName || "",
+        shares: ts?.shares,
+        marketCap: ts?.marketCap,
+        source: "Yahoo Finance",
+        notes: ["抽樣：Yahoo spark 行情 + 時間序列倍數。"],
+      });
+      row = valueRow("US", f);
     }
     finished += 1;
     acc.push(row);
@@ -314,4 +319,79 @@ export async function runRandomScan(
   const rows = [...tw, ...us];
   onProgress({ label: `完成 ${rows.filter((r) => r.ok).length}／${rows.length} 檔`, done: 100, total: 100, rows });
   return rows;
+}
+
+function classifyTwse(s: TwseSnap): AuditRow {
+  const base = {
+    ticker: s.ticker,
+    name: s.name,
+    price: s.price,
+    pe: s.pe,
+    pb: s.pb,
+    yieldPct: s.yieldPct,
+    blended: null as number | null,
+    error: null as string | null,
+  };
+  if (!s.price || s.price <= 0) {
+    return { ...base, bucket: "no_data", reason: "證交所沒有收盤價" };
+  }
+  const lacksPe = s.pe == null || s.pe <= 0;
+  const lacksPb = s.pb == null || s.pb <= 0;
+  const lacksY = s.yieldPct == null || s.yieldPct <= 0;
+  try {
+    const f = fromSnap({
+      ...s,
+      currency: "TWD",
+      exchange: "TWSE",
+      source: "臺灣證交所公開資訊",
+      notes: ["全市場掃描"],
+    });
+    const a = suggestAssumptions(f, 0.043);
+    const result = valueStock(f, a, { lite: true });
+    if (result.blended == null || !Number.isFinite(result.blended)) {
+      const why = [
+        lacksPe ? "無本益比（虧損或未公布）" : null,
+        lacksPb ? "無淨值比" : null,
+        lacksY ? "無股息" : null,
+        "模型加權為空",
+      ]
+        .filter(Boolean)
+        .join("；");
+      return { ...base, bucket: "no_value", reason: why };
+    }
+    const note = lacksPe
+      ? "虧損無本益比，改用淨值比"
+      : lacksY
+        ? "無股息，未用股利折現"
+        : "本益比／淨值比／殖利率齊全";
+    return { ...base, blended: result.blended, bucket: "ok", reason: note };
+  } catch (err) {
+    return {
+      ...base,
+      bucket: "error",
+      reason: "計算過程丟出例外",
+      error: err instanceof Error ? err.message : String(err),
+    };
+  }
+}
+
+export async function auditAllTwse(
+  onProgress?: (done: number, total: number) => void,
+): Promise<AuditReport> {
+  const all = await fetchTwseAll();
+  const rows: AuditRow[] = [];
+  const total = all.length;
+  for (let i = 0; i < all.length; i++) {
+    rows.push(classifyTwse(all[i]));
+    if (onProgress && (i % 50 === 0 || i === all.length - 1)) onProgress(i + 1, total);
+  }
+  return {
+    asOf: new Date().toISOString().slice(0, 10),
+    total: rows.length,
+    ok: rows.filter((r) => r.bucket === "ok").length,
+    noData: rows.filter((r) => r.bucket === "no_data").length,
+    noValue: rows.filter((r) => r.bucket === "no_value").length,
+    errors: rows.filter((r) => r.bucket === "error").length,
+    rows,
+  };
 }
