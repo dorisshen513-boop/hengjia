@@ -1,87 +1,111 @@
-/** Browser-safe fetch. GitHub Pages has no server, so Yahoo/Nasdaq need CORS proxies. */
+/** Browser-safe GET. GitHub Pages has no server; Yahoo has no CORS. */
 
 const BROWSER = typeof window !== "undefined";
 
-type Kind = "direct" | "allorigins";
-
-function stripBrowserHeaders(headers: Headers) {
-  if (!BROWSER) return headers;
-  for (const key of ["user-agent", "cookie", "origin", "referer"]) {
-    headers.delete(key);
-  }
-  return headers;
-}
-
-function proxyAttempts(url: string): Array<{ url: string; kind: Kind }> {
-  if (!BROWSER) return [{ url, kind: "direct" }];
-  return [
-    { url, kind: "direct" },
-    { url: `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, kind: "allorigins" },
-    { url: `https://corsproxy.io/?${encodeURIComponent(url)}`, kind: "direct" },
-    { url: `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`, kind: "direct" },
-  ];
-}
-
-async function readAsData(res: Response, kind: Kind): Promise<Response> {
-  if (kind === "allorigins") {
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = (await res.json()) as {
-      contents?: unknown;
-      status?: { http_code?: number; content_type?: string };
-    };
-    const code = data.status?.http_code ?? 200;
-    const contents =
-      typeof data.contents === "string" ? data.contents : JSON.stringify(data.contents ?? "");
-    if (code >= 400) throw new Error(`HTTP ${code}`);
-    if (/^\s*</.test(contents)) throw new Error("代理回了網頁而非資料");
-    return new Response(contents, {
-      status: 200,
-      headers: { "Content-Type": data.status?.content_type || "application/json" },
-    });
-  }
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const buf = await res.arrayBuffer();
-  const head = new TextDecoder().decode(buf.slice(0, 96));
-  const ct = res.headers.get("content-type") || "";
-  if (ct.includes("text/html") || /^\s*<!doctype/i.test(head) || /^\s*<html/i.test(head)) {
+function asResponse(contents: string, contentType: string, code = 200): Response {
+  if (code >= 400) throw new Error(`HTTP ${code}`);
+  if (/^\s*</.test(contents) && !/^\s*\{/.test(contents) && !/^\s*\[/.test(contents)) {
     throw new Error("代理回了網頁而非資料");
   }
-  return new Response(buf, { status: res.status, headers: res.headers });
+  return new Response(contents, {
+    status: 200,
+    headers: { "Content-Type": contentType || "application/json" },
+  });
 }
 
-async function hit(
-  target: string,
-  init: RequestInit | undefined,
-  kind: Kind,
-  timeoutMs: number,
-): Promise<Response> {
-  const headers = stripBrowserHeaders(new Headers(init?.headers));
-  const res = await fetch(target, {
-    ...init,
-    headers,
+function unwrapAllorigins(data: unknown): Response {
+  const row = (data ?? {}) as {
+    contents?: unknown;
+    status?: { http_code?: number; content_type?: string };
+  };
+  const contents =
+    typeof row.contents === "string" ? row.contents : JSON.stringify(row.contents ?? "");
+  return asResponse(contents, row.status?.content_type || "application/json", row.status?.http_code ?? 200);
+}
+
+function jsonpAllorigins(url: string, timeoutMs: number): Promise<Response> {
+  return new Promise((resolve, reject) => {
+    const cb = `hjcb_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+    const script = document.createElement("script");
+    let settled = false;
+    const finish = (err?: Error, data?: unknown) => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timer);
+      script.remove();
+      try {
+        delete (window as unknown as Record<string, unknown>)[cb];
+      } catch {
+        /* ignore */
+      }
+      if (err) reject(err);
+      else {
+        try {
+          resolve(unwrapAllorigins(data));
+        } catch (e) {
+          reject(e instanceof Error ? e : new Error(String(e)));
+        }
+      }
+    };
+    const timer = window.setTimeout(() => finish(new Error("代理逾時")), timeoutMs);
+    (window as unknown as Record<string, unknown>)[cb] = (data: unknown) => finish(undefined, data);
+    script.onerror = () => finish(new Error("代理失敗"));
+    script.src = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}&callback=${encodeURIComponent(cb)}`;
+    document.head.appendChild(script);
+  });
+}
+
+async function corsGet(url: string, timeoutMs: number): Promise<Response> {
+  const res = await fetch(url, {
+    method: "GET",
+    credentials: "omit",
     signal: AbortSignal.timeout(timeoutMs),
   });
-  return readAsData(res, kind);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const text = await res.text();
+  if (/^\s*<!doctype/i.test(text) || /^\s*<html/i.test(text)) {
+    throw new Error("代理回了網頁而非資料");
+  }
+  return new Response(text, {
+    status: 200,
+    headers: { "Content-Type": res.headers.get("content-type") || "application/json" },
+  });
+}
+
+async function browserGet(url: string): Promise<Response> {
+  const encoded = encodeURIComponent(url);
+  const errors: string[] = [];
+  try {
+    return await jsonpAllorigins(url, 16000);
+  } catch (err) {
+    errors.push(err instanceof Error ? err.message : String(err));
+  }
+  const fallbacks = [
+    () => corsGet(`https://api.allorigins.win/get?url=${encoded}`, 14000).then(async (res) => {
+      const data = JSON.parse(await res.text()) as unknown;
+      return unwrapAllorigins(data);
+    }),
+    () => corsGet(`https://corsproxy.io/?${encoded}`, 8000),
+    () => corsGet(`https://api.allorigins.win/raw?url=${encoded}`, 10000),
+  ];
+  for (const run of fallbacks) {
+    try {
+      return await run();
+    } catch (err) {
+      errors.push(err instanceof Error ? err.message : String(err));
+    }
+  }
+  throw new Error(errors[0] || "網路請求失敗");
 }
 
 export async function netFetch(url: string, init?: RequestInit): Promise<Response> {
-  const attempts = proxyAttempts(url);
-  const first = attempts[0];
-  let last: Error | null = null;
-  try {
-    return await hit(first.url, init, first.kind, BROWSER ? 4000 : 12000);
-  } catch (err) {
-    last = err instanceof Error ? err : new Error(String(err));
+  if (!BROWSER) {
+    const res = await fetch(url, {
+      ...init,
+      signal: init?.signal ?? AbortSignal.timeout(12000),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res;
   }
-  const rest = attempts.slice(1);
-  if (!rest.length) throw last ?? new Error("網路請求失敗");
-  try {
-    return await Promise.any(rest.map((a) => hit(a.url, init, a.kind, 9000)));
-  } catch (err) {
-    if (err instanceof AggregateError && err.errors.length) {
-      const inner = err.errors[0];
-      throw inner instanceof Error ? inner : last ?? new Error("網路請求失敗");
-    }
-    throw last ?? (err instanceof Error ? err : new Error("網路請求失敗"));
-  }
+  return browserGet(url);
 }
