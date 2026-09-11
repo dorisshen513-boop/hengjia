@@ -556,10 +556,11 @@ export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload>
       });
     }
   } else {
-    const [cnbc, rfLive, yahooUs] = await Promise.all([
-      withTimeout(fetchCnbc(ticker), 7000, null),
+    const [cnbc, rfLive, meta, yahooUs] = await Promise.all([
+      withTimeout(fetchCnbc(ticker), 6000, null),
       withTimeout(fetchCnbcRf(), 2500, null),
-      withTimeout(fetchYahooBundle(ticker), onServer ? 10000 : 5500, null),
+      withTimeout(fetchSearchMeta(ticker), 3000, null),
+      withTimeout(fetchYahooBundle(ticker), onServer ? 8000 : 3000, null),
     ]);
     if (rfLive) rf = rfLive;
     if (cnbc?.price) {
@@ -568,11 +569,19 @@ export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload>
     if (yahooUs && (yahooUs.price || yahooUs.revenue || yahooUs.sharesOut)) {
       fundamentals = mergeFundamentals(fundamentals ?? blankFundamentals(ticker), yahooUs);
     }
+    if (meta) {
+      fundamentals = mergeFundamentals(fundamentals ?? blankFundamentals(ticker), {
+        sector: meta.sector,
+        industry: meta.industry,
+        name: fundamentals?.name || meta.name,
+        exchange: fundamentals?.exchange || meta.exchange,
+      });
+    }
   }
 
   if (fundamentals?.price && !(fundamentals.sector || fundamentals.industry)) {
     const metaKey = fundamentals.ticker || ticker;
-    const meta = await withTimeout(fetchSearchMeta(metaKey), 4000, null);
+    const meta = await withTimeout(fetchSearchMeta(metaKey), 2500, null);
     if (meta) {
       fundamentals = mergeFundamentals(fundamentals, {
         sector: meta.sector,
