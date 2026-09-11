@@ -3,11 +3,13 @@ import { Loader2, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MethodNote, NumberField, Stat } from "@/components/valuation/field";
+import { HistoryButton, HistoryStrip } from "@/components/valuation/history-pad";
 import { ZoneBar, ZoneBoard } from "@/components/valuation/zone-bar";
 import { fetchQuoteData } from "@/lib/valuation/fetch-quote";
 import { GUIDE } from "@/lib/valuation/guide";
 import { REGIME_META, ROE_PRICE_SHARE } from "@/lib/valuation/engine";
 import { useValuation } from "@/lib/valuation/store";
+import { type HistoryRow } from "@/lib/valuation/history";
 import { fmtMoney, fmtMult, fmtPct, fmtPctAbs, fmtPrice } from "@/lib/utils";
 import type { Assumptions } from "@/lib/valuation/types";
 
@@ -137,6 +139,10 @@ export function Studio() {
     setError("已取消");
   }
 
+  function restoreRow(row: HistoryRow) {
+    void run(row.ticker);
+  }
+
   return (
     <div className="min-h-dvh overflow-x-hidden bg-bg text-fg">
       <header className="border-b border-line">
@@ -153,6 +159,7 @@ export function Studio() {
                 輸入代號，查詢公司財報與產業新聞。不是投資建議。
               </p>
             </div>
+            <HistoryButton onRerun={(t) => void run(t)} onRestore={restoreRow} />
           </div>
           <form
             className="flex flex-col gap-3 sm:flex-row"
@@ -199,7 +206,7 @@ export function Studio() {
               ) : null}
             </div>
           </form>
-          <p className="text-xs text-muted">還沒有紀錄。</p>
+          <HistoryStrip current={tickerInput} onRestore={restoreRow} />
           {loading ? (
             <div
               role="status"

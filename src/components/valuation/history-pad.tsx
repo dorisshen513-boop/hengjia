@@ -71,7 +71,7 @@ export function HistoryStrip({
   if (!shown.length) {
     return (
       <p className="text-xs text-muted">
-        還沒有紀錄。點過的股票會留在這裡，再點會重新上網抓最新財報，不會沿用上次測算。
+        還沒有紀錄。
       </p>
     );
   }
@@ -146,7 +146,7 @@ function HistoryPanel({
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto p-4">
           {rows.length === 0 ? (
-            <p className="text-sm text-muted">還沒有計算過。</p>
+            <p className="text-sm text-muted">還沒有紀錄。</p>
           ) : (
             <ul className="space-y-3">
               {rows.map((row) => (
