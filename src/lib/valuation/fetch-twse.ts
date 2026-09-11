@@ -21,7 +21,7 @@ function ymd(offsetDays = 0): string {
 }
 
 function codeOf(ticker: string): string | null {
-  const m = ticker.trim().toUpperCase().match(/^(\d{4})\.(TW|TWO)$/);
+  const m = ticker.trim().toUpperCase().match(/^(\d{4})(?:\.(TW|TWO))?$/);
   return m ? m[1] : null;
 }
 
@@ -115,27 +115,63 @@ function snapToPartial(ticker: string, snap: TwseSnap): Partial<Fundamentals> {
   };
 }
 
+async function fetchMis(code: string): Promise<Partial<Fundamentals> | null> {
+  const exCh = `tse_${code}.tw|otc_${code}.tw|esb_${code}.tw`;
+  const url = `https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=${encodeURIComponent(exCh)}&json=1&delay=0`;
+  const data = await twseJson(url, 6000);
+  const rows = (data?.msgArray as Array<Record<string, string>> | undefined) ?? [];
+  const row = rows.find((r) => r.c === code && ((twNum(r.z) ?? 0) > 0 || (twNum(r.y) ?? 0) > 0));
+  if (!row) return null;
+  const price = twNum(row.z) || twNum(row.y) || 0;
+  if (price <= 0) return null;
+  const board = (row.ex || "").toLowerCase();
+  const otc = board === "otc" || board === "esb";
+  const emerging = board === "esb";
+  const ticker = `${code}.${otc ? "TWO" : "TW"}`;
+  const industry = otc ? "" : twseIndustry(code);
+  return {
+    ticker,
+    name: (row.n || row.nf || code).trim(),
+    currency: "TWD",
+    exchange: emerging ? "興櫃" : otc ? "TPEx" : "TWSE",
+    sector: industry,
+    industry,
+    price,
+    source: emerging ? "興櫃即時行情" : otc ? "櫃買中心即時行情" : "證交所即時行情",
+    notes: [
+      otc
+        ? "此檔是上櫃或興櫃，不是上市。已改查櫃買／興櫃行情，不是只查你以前問過的股票。"
+        : "台股行情取自證交所即時揭示。",
+    ],
+  };
+}
+
 /** Direct TWSE JSON (CORS *). Works on GitHub Pages without a proxy. */
 export async function fetchTwse(ticker: string): Promise<Partial<Fundamentals> | null> {
   const code = codeOf(ticker);
   if (!code) return null;
+  const forceOtc = /\.TWO$/i.test(ticker);
   try {
-    const [day, ratios] = await Promise.all([stockDay(code), bwibbu(code)]);
-    if (day?.price) {
-      return snapToPartial(ticker, {
-        ticker,
-        name: day.name || ticker,
-        price: day.price,
-        pe: ratios.pe,
-        pb: ratios.pb,
-        yieldPct: ratios.yieldPct,
-      });
+    if (!forceOtc) {
+      const [day, ratios] = await Promise.all([stockDay(code), bwibbu(code)]);
+      if (day?.price) {
+        return snapToPartial(`${code}.TW`, {
+          ticker: `${code}.TW`,
+          name: day.name || ticker,
+          price: day.price,
+          pe: ratios.pe,
+          pb: ratios.pb,
+          yieldPct: ratios.yieldPct,
+        });
+      }
     }
-    const all = await fetchTwseAll();
-    const hit = all.find((r) => r.ticker === `${code}.TW`);
-    return hit ? snapToPartial(ticker, hit) : null;
+    return await fetchMis(code);
   } catch {
-    return null;
+    try {
+      return await fetchMis(code);
+    } catch {
+      return null;
+    }
   }
 }
 

@@ -117,8 +117,13 @@ async function yahooGet(url: string, authed = true): Promise<unknown> {
 
 function normalizeTicker(raw: string): string {
   const t = raw.trim().toUpperCase().replace(/\s+/g, "");
-  if (/^\d{4}$/.test(t)) return `${t}.TW`;
+  if (/^\d{4}$/.test(t)) return t;
   return t;
+}
+
+function twCode(ticker: string): string | null {
+  const m = ticker.match(/^(\d{4})(?:\.(TW|TWO))?$/i);
+  return m ? m[1] : null;
 }
 
 function num(v: unknown): number | null {
@@ -334,10 +339,12 @@ async function fetchSearchMeta(ticker: string): Promise<SearchMeta | null> {
         exchDisp?: string;
         sector?: string;
         industry?: string;
+        quoteType?: string;
       }>;
     };
     const hit =
       data.quotes?.find((q) => (q.symbol ?? "").toUpperCase() === ticker.toUpperCase()) ??
+      data.quotes?.find((q) => (q.quoteType ?? "").toUpperCase() === "EQUITY") ??
       data.quotes?.[0];
     if (!hit) return null;
     return {
@@ -508,7 +515,7 @@ async function fetchYahooBundle(ticker: string): Promise<Fundamentals | null> {
 }
 
 function isTw(ticker: string): boolean {
-  return /\.(TW|TWO)$/i.test(ticker);
+  return /^\d{4}(\.(TW|TWO))?$/i.test(ticker);
 }
 
 export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload> {
@@ -523,9 +530,9 @@ export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload>
   let rf = tw ? 0.016 : 0.043;
 
   if (tw) {
-    const twse = await withTimeout(fetchTwse(ticker), 7000, null);
+    const twse = await withTimeout(fetchTwse(ticker), 8000, null);
     if (twse?.price) {
-      fundamentals = mergeFundamentals(blankFundamentals(ticker), twse);
+      fundamentals = mergeFundamentals(blankFundamentals(twse.ticker || ticker), twse);
     }
   } else {
     const [cnbc, rfLive] = await Promise.all([
@@ -535,6 +542,19 @@ export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload>
     if (rfLive) rf = rfLive;
     if (cnbc?.price) {
       fundamentals = mergeFundamentals(blankFundamentals(ticker), cnbc);
+    }
+  }
+
+  if (fundamentals?.price && !(fundamentals.sector || fundamentals.industry)) {
+    const metaKey = fundamentals.ticker || ticker;
+    const meta = await withTimeout(fetchSearchMeta(metaKey), 4000, null);
+    if (meta) {
+      fundamentals = mergeFundamentals(fundamentals, {
+        sector: meta.sector,
+        industry: meta.industry,
+        name: fundamentals.name || meta.name,
+        exchange: fundamentals.exchange || meta.exchange,
+      });
     }
   }
 
@@ -561,7 +581,12 @@ export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload>
   }
 
   if (!fundamentals?.price) {
-    throw new Error(`暫時連不到 ${ticker} 的行情，請再試一次`);
+    const code = twCode(ticker);
+    throw new Error(
+      code
+        ? `找不到股票：${code}（上市、上櫃、興櫃都沒有這檔）`
+        : `暫時連不到 ${ticker} 的行情，請再試一次`,
+    );
   }
 
   const baseAssumptions = suggestAssumptions(fundamentals, rf);

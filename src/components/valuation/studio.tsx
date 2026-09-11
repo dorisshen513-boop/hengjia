@@ -360,8 +360,9 @@ function Hero({
           </p>
           <h2 className="mt-1 font-display text-3xl tracking-tight">{f.name}</h2>
           <p className="mt-1 text-sm text-muted">
-            {f.sector || "產業未標示"}
-            {f.industry ? ` / ${f.industry}` : ""} · {f.source}
+            {[f.sector, f.industry].filter(Boolean).join(" / ") || "產業未提供"}
+            {" · "}
+            {f.source}
           </p>
           <p className="mt-2 text-sm text-fg">
             判定：{REGIME_META[a.regime]?.label ?? "未分類"}
