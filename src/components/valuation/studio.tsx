@@ -1,15 +1,13 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { Loader2, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MethodNote, NumberField, Stat } from "@/components/valuation/field";
-import { HistoryButton, HistoryStrip } from "@/components/valuation/history-pad";
 import { ZoneBar, ZoneBoard } from "@/components/valuation/zone-bar";
 import { fetchQuoteData } from "@/lib/valuation/fetch-quote";
 import { GUIDE } from "@/lib/valuation/guide";
 import { REGIME_META, ROE_PRICE_SHARE } from "@/lib/valuation/engine";
 import { useValuation } from "@/lib/valuation/store";
-import { type HistoryRow } from "@/lib/valuation/history";
 import { fmtMoney, fmtMult, fmtPct, fmtPctAbs, fmtPrice } from "@/lib/utils";
 import type { Assumptions } from "@/lib/valuation/types";
 
@@ -28,9 +26,6 @@ const TABS = [
   { id: "guide", label: "計算方法" },
 ];
 
-const SAMPLES = ["AAPL", "TSLA", "2330", "2317"] as const;
-const PUBLIC_BASE = "https://dorisshen513-boop.github.io/hengjia/";
-
 function queryTicker() {
   if (typeof window === "undefined") return "";
   return (new URLSearchParams(window.location.search).get("q") ?? "").trim();
@@ -43,11 +38,6 @@ function rememberTicker(ticker: string) {
   if (t) url.searchParams.set("q", t);
   else url.searchParams.delete("q");
   window.history.replaceState(null, "", `${url.pathname}${url.search}`);
-}
-
-function publicHref(ticker: string) {
-  const t = ticker.trim().toUpperCase();
-  return t ? `${PUBLIC_BASE}?q=${encodeURIComponent(t)}` : PUBLIC_BASE;
 }
 
 export function Studio() {
@@ -71,7 +61,6 @@ export function Studio() {
     startRun,
   } = useValuation();
   const runId = useRef(0);
-  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const s = useValuation.getState();
@@ -148,21 +137,6 @@ export function Studio() {
     setError("已取消");
   }
 
-  function restoreRow(row: HistoryRow) {
-    void run(row.ticker);
-  }
-
-  async function copyLink() {
-    const href = publicHref(tickerInput);
-    try {
-      await navigator.clipboard.writeText(href);
-    } catch {
-      window.prompt("複製這個公開連結", href);
-    }
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1600);
-  }
-
   return (
     <div className="min-h-dvh overflow-x-hidden bg-bg text-fg">
       <header className="border-b border-line">
@@ -176,14 +150,8 @@ export function Studio() {
                 衡價
               </h1>
               <p className="mt-2 max-w-xl text-sm text-muted">
-                輸入代號，每次都重新上網抓最新財報與公司／母公司／產業新聞。不會沿用上次測算。不是投資建議。
+                輸入代號，查詢公司財報與產業新聞。不是投資建議。
               </p>
-            </div>
-            <div className="flex flex-wrap items-center gap-2">
-              <Button type="button" variant="ghost" onClick={() => void copyLink()}>
-                {copied ? "已複製連結" : "複製公開連結"}
-              </Button>
-              <HistoryButton onRerun={(t) => void run(t)} onRestore={restoreRow} />
             </div>
           </div>
           <form
@@ -231,20 +199,7 @@ export function Studio() {
               ) : null}
             </div>
           </form>
-          <HistoryStrip current={tickerInput} onRestore={restoreRow} />
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs text-subtle">試算</span>
-            {SAMPLES.map((s) => (
-              <button
-                key={s}
-                type="button"
-                className="h-8 rounded-full border border-line px-3 text-xs text-muted hover:bg-raised hover:text-fg"
-                onClick={() => void run(s)}
-              >
-                {s}
-              </button>
-            ))}
-          </div>
+          <p className="text-xs text-muted">還沒有紀錄。</p>
           {loading ? (
             <div
               role="status"
@@ -312,10 +267,8 @@ export function Studio() {
         </main>
       )}
       <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-6 text-xs text-muted sm:px-6 lg:px-8">
-          <p>公開網頁，免登入、免安裝。把連結傳給別人即可用。</p>
-          <p className="break-all font-mono text-subtle">{publicHref(tickerInput)}</p>
-          <p>僅供研究與教學，不是投資建議，也不保證報價即時或估價正確。</p>
+        <div className="mx-auto max-w-6xl px-4 py-6 text-xs text-muted sm:px-6 lg:px-8">
+          <p>僅供研究與教學，不是投資建議。</p>
         </div>
       </footer>
     </div>
@@ -369,17 +322,13 @@ function LoadingState({
 
 function EmptyState() {
   return (
-    <section className="mx-auto grid max-w-6xl gap-4 px-4 py-12 sm:grid-cols-3 sm:px-6 lg:px-8">
-      {[
-        ["輸入代號", "美股直接填 AAPL；台股四碼會自動加上 .TW。"],
-        ["新聞進假設", "同步抓公司、母公司與產業新聞，改 g1、EBIT、特定風險與倍數，不另設新聞權重。"],
-        ["魚帶與歷史", "算出後看魚頭到魚尾五個價位帶；左側可重開最近算過的代號。"],
-      ].map(([t, b]) => (
-        <div key={t} className="rounded-xl border border-line bg-surface p-5">
-          <h2 className="font-display text-xl">{t}</h2>
-          <p className="mt-2 text-sm text-muted">{b}</p>
-        </div>
-      ))}
+    <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+      <div className="rounded-xl border border-line bg-surface p-5">
+        <h2 className="font-display text-xl">輸入代號</h2>
+        <p className="mt-2 text-sm text-muted">
+          美股直接填 AAPL；台股四碼會自動加上 .TW。會上網抓公司財報與產業新聞。
+        </p>
+      </div>
     </section>
   );
 }
