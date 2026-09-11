@@ -530,18 +530,43 @@ export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload>
   let rf = tw ? 0.016 : 0.043;
 
   if (tw) {
-    const twse = await withTimeout(fetchTwse(ticker), 8000, null);
+    const code = twCode(ticker);
+    const guess = /\.TWO$/i.test(ticker) ? `${code}.TWO` : `${code}.TW`;
+    const [twse, yahooGuess] = await Promise.all([
+      withTimeout(fetchTwse(ticker), 8000, null),
+      withTimeout(fetchYahooBundle(guess), onServer ? 10000 : 5500, null),
+    ]);
     if (twse?.price) {
       fundamentals = mergeFundamentals(blankFundamentals(twse.ticker || ticker), twse);
     }
+    const yahoo =
+      yahooGuess && (yahooGuess.price || yahooGuess.revenue)
+        ? yahooGuess
+        : twse?.ticker && twse.ticker !== guess
+          ? await withTimeout(fetchYahooBundle(twse.ticker), 4000, null)
+          : null;
+    if (yahoo && (yahoo.price || yahoo.revenue || yahoo.sharesOut)) {
+      const keepName =
+        fundamentals?.name && /[\u4e00-\u9fff]/.test(fundamentals.name)
+          ? { name: fundamentals.name, currency: "TWD" as const }
+          : {};
+      fundamentals = mergeFundamentals(fundamentals ?? blankFundamentals(twse?.ticker || ticker), {
+        ...yahoo,
+        ...keepName,
+      });
+    }
   } else {
-    const [cnbc, rfLive] = await Promise.all([
+    const [cnbc, rfLive, yahooUs] = await Promise.all([
       withTimeout(fetchCnbc(ticker), 7000, null),
       withTimeout(fetchCnbcRf(), 2500, null),
+      withTimeout(fetchYahooBundle(ticker), onServer ? 10000 : 5500, null),
     ]);
     if (rfLive) rf = rfLive;
     if (cnbc?.price) {
       fundamentals = mergeFundamentals(blankFundamentals(ticker), cnbc);
+    }
+    if (yahooUs && (yahooUs.price || yahooUs.revenue || yahooUs.sharesOut)) {
+      fundamentals = mergeFundamentals(fundamentals ?? blankFundamentals(ticker), yahooUs);
     }
   }
 
@@ -559,9 +584,7 @@ export async function loadQuotePayload(rawTicker: string): Promise<QuotePayload>
   }
 
   if (onServer) {
-    const extra: Array<Promise<Partial<Fundamentals> | null>> = [
-      withTimeout(fetchYahooBundle(ticker), 10000, null),
-    ];
+    const extra: Array<Promise<Partial<Fundamentals> | null>> = [];
     if (!tw && !fundamentals?.price) {
       extra.push(withTimeout(fetchNasdaq(ticker), 8000, null));
     }

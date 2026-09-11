@@ -189,8 +189,6 @@ export function rimDistorted(f: Fundamentals, roe: number | null): boolean {
 
 export function rimUsable(f: Fundamentals, regime: CompanyRegime, roe: number | null): boolean {
   if (regime === "optionality" || regime === "preProfit") return false;
-  // 只有本益比／淨值比、沒有資產負債表時，RIM 會把 ROE 五年收到 Ke，合理價被壓到淨值附近。
-  if (!(f.bookEquity > 0)) return false;
   if (bookPerShare(f) <= 0) return false;
   if (roe == null || !Number.isFinite(roe)) return false;
   if (rimDistorted(f, roe)) return false;
@@ -254,20 +252,31 @@ function runRim(
       ? clamp(f.dps / f.eps, 0, 0.9)
       : clamp(a.payoutStable || (f.dps > 0 ? 0.4 : 0.2), 0, 0.9);
   const retention = 1 - payout;
+  const regime = a.regime ?? "compounder";
+  const persist =
+    regime === "compounder" ? 0.75 : regime === "growthProfit" ? 0.55 : 0.3;
+  const fadeTarget = clamp(persist * roe0 + (1 - persist) * ke, ke, Math.min(roe0, 0.45));
+  const gTv = Math.min(a.g2, ke - 0.01);
   const years: RimYear[] = [];
   let book = bps;
   let explicitPv = 0;
   for (let t = 1; t <= n; t++) {
     const w = n <= 1 ? 1 : (t - 1) / (n - 1);
-    const roeT = roe0 + (ke - roe0) * w;
+    const roeT = roe0 + (fadeTarget - roe0) * w;
     const ri = (roeT - ke) * book;
     const df = 1 / Math.pow(1 + ke, t);
     const pv = ri * df;
     explicitPv += pv;
     years.push({ year: t, book, roe: roeT, ri, pv });
-    book = book * (1 + roeT * retention);
+    book = book * (1 + Math.min(roeT * retention, 0.18));
   }
-  const raw = bps + explicitPv;
+  let tvPv = 0;
+  if (fadeTarget > ke && ke > gTv && book > 0) {
+    const riN1 = (fadeTarget - ke) * book;
+    tvPv = riN1 / (ke - gTv) / Math.pow(1 + ke, n);
+    if (!finite(tvPv) || tvPv < 0) tvPv = 0;
+  }
+  const raw = bps + explicitPv + tvPv;
   if (!finite(raw)) return { ...blank, reason: "RIM 數值無解。" };
   const price = raw > 0 ? raw : Math.max(0.05, 0.2 * bps);
   const pct = (n: number) => `${(n * 100).toFixed(1)}%`;
@@ -282,10 +291,10 @@ function runRim(
       raw <= 0
         ? `剩餘收益大幅為負，推算價已低於 0，改用 20% 淨值當下限。`
         : roe0 > ke
-          ? `ROE ${pct(roe0)} 高於 Ke ${pct(ke)}，剩餘收益為正，合理價高於淨值。n 年內 ROE 收到 Ke。`
+          ? `ROE ${pct(roe0)} 高於 Ke ${pct(ke)}，剩餘收益為正。明確期收到長期 ROE ${pct(fadeTarget)}，之後資本化，不是五年歸零。`
           : `ROE ${pct(roe0)} 低於 Ke ${pct(ke)}，剩餘收益為負，合理價低於淨值。`,
     years,
-    explicitPv,
+    explicitPv: explicitPv + tvPv,
     payout,
   };
 }
@@ -727,9 +736,7 @@ export function valueStock(
     (f.price <= 0 || (rim.price >= f.price * 0.05 && rim.price <= f.price * 8));
   let rimReason = rim.reason;
   if (!rimOk) {
-    if (!(f.bookEquity > 0)) {
-      rimReason = "沒有財報淨值（證交所快照只有本益比／淨值比），剩餘收益不投票，避免把合理價壓到帳面附近。";
-    } else if (regime === "optionality" || regime === "preProfit") {
+    if (regime === "optionality" || regime === "preProfit") {
       rimReason = "高成長選擇權或尚未獲利：帳面解釋不了市價，剩餘收益不納入加權。";
     } else if (rim.price != null && f.price > 0 && rim.price > 0 && rim.price < f.price * 0.05) {
       rimReason = `RIM 只有市價的 ${((rim.price / f.price) * 100).toFixed(0)}%，目前 ROE 解釋不了溢價，權重已併入相對估值。`;
@@ -858,6 +865,11 @@ export function valueStock(
           `${m.label} ${m.price.toFixed(0)} 遠高於各模型中位數 ${mid.toFixed(0)}，權重已下修，避免單一模型主導。`,
         );
         m.weight *= 0.2;
+      } else if (m.weight > 0 && m.price != null && m.price < mid * 0.5) {
+        warnings.push(
+          `${m.label} ${m.price.toFixed(0)} 遠低於各模型中位數 ${mid.toFixed(0)}，權重已下修，避免把合理價壓到帳面。`,
+        );
+        m.weight *= 0.25;
       }
     }
   }
@@ -1131,11 +1143,9 @@ export function suggestAssumptions(
       regime === "dividend" ||
       regime === "lowMargin" ||
       regime === "growthProfit");
-  const pbBase = lite
-    ? clamp(pbOwn, 0.3, 30)
-    : useJustifiedPb
-      ? clamp(0.45 * pbOwn + 0.55 * pbJ, 0.5, 18)
-      : clamp(pbOwn, 0.8, 20);
+  const pbBase = useJustifiedPb
+    ? clamp(0.45 * pbOwn + 0.55 * pbJ, 0.5, 18)
+    : clamp(pbOwn, 0.8, 20);
 
   return {
     nYears: optionality ? 8 : 5,
@@ -1168,12 +1178,12 @@ export function suggestAssumptions(
     ddmYieldFloor: 0.01,
     ddmYieldFull: 0.025,
     regime,
-    peBase: lite ? clamp(peOwn, 4, 80) : clamp(peOwn, 8, peCap),
-    peLow: lite ? clamp(peOwn * 0.7, 3, 60) : clamp(peOwn * 0.7, 6, Math.min(25, peCap)),
-    peHigh: lite ? clamp(peOwn * 1.3, 6, 100) : clamp(peOwn * 1.3, 10, Math.min(55, peCap + 10)),
+    peBase: clamp(peOwn, 8, peCap),
+    peLow: clamp(peOwn * 0.7, 6, Math.min(25, peCap)),
+    peHigh: clamp(peOwn * 1.3, 10, Math.min(55, peCap + 10)),
     pbBase,
-    pbLow: clamp((lite || !useJustifiedPb ? pbOwn : pbBase) * 0.65, 0.5, 12),
-    pbHigh: clamp((lite || !useJustifiedPb ? pbOwn : pbBase) * 1.3, 1, 28),
+    pbLow: clamp((useJustifiedPb ? pbBase : pbOwn) * 0.65, 0.5, 12),
+    pbHigh: clamp((useJustifiedPb ? pbBase : pbOwn) * 1.3, 1, 28),
     psBase,
     psLow: optionality ? clamp(psBase * 0.7, 6, 30) : clamp(psOwn * 0.7, 0.03, 12),
     psHigh: optionality

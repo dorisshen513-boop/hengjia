@@ -261,9 +261,12 @@ describe("RIM / ROE", () => {
     assert.equal(gordon?.price, null);
     assert.equal(dcf?.used, false);
     assert.equal(rel?.used, true);
-    assert.equal(rim?.used, false);
-    assert.ok((rel?.weight ?? 0) > 0.8);
-    assert.ok(r.blended != null && Math.abs(r.blended / f.price - 1) < 0.12, `blended ${r.blended}`);
+    assert.equal(rim?.used, true);
+    assert.ok((rel?.weight ?? 0) > 0.15);
+    assert.ok((rim?.weight ?? 0) > 0.15);
+    assert.ok(r.blended != null);
+    assert.ok(r.blended !== f.price);
+    assert.ok(r.blended > f.price * 0.45 && r.blended < f.price * 1.6, `blended ${r.blended}`);
   });
 
   it("expensive low-ROE scale name is optionality; RIM does not vote", () => {

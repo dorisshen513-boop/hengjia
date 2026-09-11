@@ -1,6 +1,7 @@
 import type { Fundamentals } from "./types";
 import { abortAfter, netFetch } from "./http";
 import { twseIndustry } from "./twse-industry";
+import { twShares } from "./tw-shares";
 
 function twNum(raw: unknown): number | null {
   if (typeof raw === "number" && Number.isFinite(raw)) return raw;
@@ -93,6 +94,9 @@ function snapToPartial(ticker: string, snap: TwseSnap): Partial<Fundamentals> {
   const eps = pe && pe > 0 ? snap.price / pe : 0;
   const dps = yieldPct && yieldPct > 0 ? (snap.price * yieldPct) / 100 : 0;
   const industry = twseIndustry(codeOf(ticker) ?? ticker.replace(/\.(TW|TWO)$/i, ""));
+  const code = codeOf(ticker) ?? ticker.replace(/\.(TW|TWO)$/i, "");
+  const shares = twShares(code);
+  const book = shares > 0 && pb && pb > 0 ? (snap.price / pb) * shares : 0;
   return {
     ticker,
     name: snap.name || ticker,
@@ -101,16 +105,21 @@ function snapToPartial(ticker: string, snap: TwseSnap): Partial<Fundamentals> {
     sector: industry,
     industry,
     price: snap.price,
+    sharesOut: shares,
+    marketCap: shares > 0 ? shares * snap.price : 0,
     eps,
     dps,
-    bookEquity: 0,
+    bookEquity: book,
+    netIncome: shares > 0 && eps ? eps * shares : 0,
     dividendYield: yieldPct != null ? yieldPct / 100 : null,
     trailingPE: pe,
     priceToBook: pb,
     source: "臺灣證交所公開資訊",
     notes: [
       "台股行情取自證交所（不經 Yahoo 代理）。",
-      "證交所快照沒有營收與股數，DCF 可能空白；相對估值用本益比／淨值比，結果會靠近市價。",
+      shares
+        ? "股數與淨值由證交所公開資料與淨值比推算；營收若有補上才跑 DCF。"
+        : "證交所快照沒有營收與股數，DCF 可能空白；相對估值用本益比／淨值比。",
     ],
   };
 }
@@ -129,6 +138,7 @@ async function fetchMis(code: string): Promise<Partial<Fundamentals> | null> {
   const emerging = board === "esb";
   const ticker = `${code}.${otc ? "TWO" : "TW"}`;
   const industry = otc ? "" : twseIndustry(code);
+  const shares = twShares(code);
   return {
     ticker,
     name: (row.n || row.nf || code).trim(),
@@ -137,10 +147,12 @@ async function fetchMis(code: string): Promise<Partial<Fundamentals> | null> {
     sector: industry,
     industry,
     price,
+    sharesOut: shares,
+    marketCap: shares > 0 ? shares * price : 0,
     source: emerging ? "興櫃即時行情" : otc ? "櫃買中心即時行情" : "證交所即時行情",
     notes: [
       otc
-        ? "此檔是上櫃或興櫃，不是上市。已改查櫃買／興櫃行情，不是只查你以前問過的股票。"
+        ? "此檔是上櫃或興櫃，不是上市。已改查櫃買／興櫃行情。"
         : "台股行情取自證交所即時揭示。",
     ],
   };
