@@ -28,6 +28,28 @@ const TABS = [
   { id: "guide", label: "計算方法" },
 ];
 
+const SAMPLES = ["AAPL", "TSLA", "2330", "2317"] as const;
+const PUBLIC_BASE = "https://dorisshen513-boop.github.io/hengjia/";
+
+function queryTicker() {
+  if (typeof window === "undefined") return "";
+  return (new URLSearchParams(window.location.search).get("q") ?? "").trim();
+}
+
+function rememberTicker(ticker: string) {
+  if (typeof window === "undefined") return;
+  const url = new URL(window.location.href);
+  const t = ticker.trim().toUpperCase();
+  if (t) url.searchParams.set("q", t);
+  else url.searchParams.delete("q");
+  window.history.replaceState(null, "", `${url.pathname}${url.search}`);
+}
+
+function publicHref(ticker: string) {
+  const t = ticker.trim().toUpperCase();
+  return t ? `${PUBLIC_BASE}?q=${encodeURIComponent(t)}` : PUBLIC_BASE;
+}
+
 export function Studio() {
   const {
     tickerInput,
@@ -49,6 +71,7 @@ export function Studio() {
     startRun,
   } = useValuation();
   const runId = useRef(0);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const s = useValuation.getState();
@@ -56,6 +79,13 @@ export function Studio() {
       s.setLoading(false);
       s.setProgress(null);
     }
+    const q = queryTicker();
+    if (q) {
+      setTickerInput(q);
+      void run(q);
+    }
+    // 只在第一次打開時讀網址代號，之後由計算結果改寫。
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function run(ticker?: string) {
@@ -92,6 +122,7 @@ export function Studio() {
       ]);
       if (runId.current !== id) return;
       applyQuote(data);
+      rememberTicker(q);
     } catch (err) {
       if (runId.current !== id) return;
       const msg = friendlyError(err, q);
@@ -121,6 +152,17 @@ export function Studio() {
     void run(row.ticker);
   }
 
+  async function copyLink() {
+    const href = publicHref(tickerInput);
+    try {
+      await navigator.clipboard.writeText(href);
+    } catch {
+      window.prompt("複製這個公開連結", href);
+    }
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1600);
+  }
+
   return (
     <div className="min-h-dvh overflow-x-hidden bg-bg text-fg">
       <header className="border-b border-line">
@@ -138,6 +180,9 @@ export function Studio() {
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
+              <Button type="button" variant="ghost" onClick={() => void copyLink()}>
+                {copied ? "已複製連結" : "複製公開連結"}
+              </Button>
               <HistoryButton onRerun={(t) => void run(t)} onRestore={restoreRow} />
             </div>
           </div>
@@ -187,6 +232,19 @@ export function Studio() {
             </div>
           </form>
           <HistoryStrip current={tickerInput} onRestore={restoreRow} />
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs text-subtle">試算</span>
+            {SAMPLES.map((s) => (
+              <button
+                key={s}
+                type="button"
+                className="h-8 rounded-full border border-line px-3 text-xs text-muted hover:bg-raised hover:text-fg"
+                onClick={() => void run(s)}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
           {loading ? (
             <div
               role="status"
@@ -253,6 +311,13 @@ export function Studio() {
           </section>
         </main>
       )}
+      <footer className="border-t border-line">
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-6 text-xs text-muted sm:px-6 lg:px-8">
+          <p>公開網頁，免登入、免安裝。把連結傳給別人即可用。</p>
+          <p className="break-all font-mono text-subtle">{publicHref(tickerInput)}</p>
+          <p>僅供研究與教學，不是投資建議，也不保證報價即時或估價正確。</p>
+        </div>
+      </footer>
     </div>
   );
 }
