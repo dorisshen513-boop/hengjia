@@ -1,5 +1,6 @@
 import type { Fundamentals } from "./types";
 import { abortAfter, netFetch } from "./http";
+import { twseIndustry } from "./twse-industry";
 
 function twNum(raw: unknown): number | null {
   if (typeof raw === "number" && Number.isFinite(raw)) return raw;
@@ -91,11 +92,14 @@ function snapToPartial(ticker: string, snap: TwseSnap): Partial<Fundamentals> {
   const yieldPct = snap.yieldPct;
   const eps = pe && pe > 0 ? snap.price / pe : 0;
   const dps = yieldPct && yieldPct > 0 ? (snap.price * yieldPct) / 100 : 0;
+  const industry = twseIndustry(codeOf(ticker) ?? ticker.replace(/\.(TW|TWO)$/i, ""));
   return {
     ticker,
     name: snap.name || ticker,
     currency: "TWD",
     exchange: "TWSE",
+    sector: industry,
+    industry,
     price: snap.price,
     eps,
     dps,
